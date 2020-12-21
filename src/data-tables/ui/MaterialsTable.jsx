@@ -1,13 +1,15 @@
 import MaterialTable from 'material-table';
 import { useEffect, useState } from 'react';
+import {connect} from "react-redux"
 import './MaterialsTable.css'
 import { GetMaterials } from "../use-cases/getMaterials"
 
-const MaterialsTable = ({onGetMaterials}) => {
+const MaterialsTable = ({onGetMaterials, materials}) => {
 
   useEffect(() => {
     //fetchMaterialsList()
-  }, [])
+    onGetMaterials()
+  }, [materials])
 
   const columns = [
     { title: 'id', field: 'id', hidden: true },

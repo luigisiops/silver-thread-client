@@ -6,14 +6,16 @@ import {
 
 export const materials = createReducer(
     {
-        byId: {}
+        materialsList: []
     },
     {
         [onGetMaterials.type]: (state, {payload: material}) => {
             if (material === null){
                 return state
             }
-            state.byId[material.id] = material
+            state.materialsList = material
         },
     }
 )
+
+export default {materials}

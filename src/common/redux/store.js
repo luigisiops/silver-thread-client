@@ -1,11 +1,10 @@
 import { combineReducers, createStore } from "redux"
 import { configureStore } from '@reduxjs/toolkit'
+import materials from "../../data-tables/framework/reducers"
 
 const reducers = {
-//need to set it
+    ...materials
 }
-
-const rootReducer = combineReducers(reducers)
 
 const store = configureStore({
     reducer: reducers,

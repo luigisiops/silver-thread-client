@@ -6,7 +6,6 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from "react-redux"
 import store from "./common/redux/store"
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import { Provider } from 'react-redux'
 
 // Pages
 import MaterialsTable from './data-tables/ui/MaterialsTable'
