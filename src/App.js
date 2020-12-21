@@ -1,10 +1,10 @@
 import './App.css';
-import MaterialsTable from './ui/MaterialsTable'
+
 
 const App = () => {
   return (
     <div className="App">
-      <MaterialsTable />
+      <h1>App</h1>
     </div>
   );
 }
