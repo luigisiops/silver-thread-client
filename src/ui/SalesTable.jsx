@@ -13,16 +13,25 @@ import AddSales from './AddSales'
 const SalesTable = () => {
 
     //set date for date-pickers
-    let d = new Date()
-    let start_date = new Date().setDate(d.getDate()-30)
+    let end_date = new Date()
+    let start_date = new Date().setDate(end_date.getDate()-30)
 
 
-    const [selectedDate, setSelectedDate] = useState({start: start_date, end: new Date()});
+    const [selectedDate, setSelectedDate] = useState({start: start_date, end: end_date});
     const [open, setOpen] = useState(false)
+    const [data, setData] = useState([])
 
     useEffect(() => {
-        //fetchSalesList()
+        fetchSalesList()
     }, [])
+
+    const fetchSalesList = async () =>  {
+       let response = await fetch('http://localhost:8000/sales/getAllSales')
+       let result = await response.json()            
+
+       setData(result)
+       
+    }
 
     //onclick function from add icon - toggles Add Sales Popper to open
     const handleAddSales = () => {
@@ -54,11 +63,11 @@ const SalesTable = () => {
         { title: 'Purchased By', field: 'sold' },
     ]
 
-    const [data, setData] = useState([
-        { id: '1', name: 'Jump Ring', description: 'small jump ring', unit_price: '.23', category: 'fasteners' },
-        { id: '2', name: 'Blue Bead', description: 'small blue bead', unit_price: '.84', category: 'bead' },
-        { id: '3', name: 'Leather Chain', description: 'Leather', unit_price: '.3.68', category: 'chain' },
-    ])
+    // const [data, setData] = useState([
+    //     { id: '1', name: 'Jump Ring', description: 'small jump ring', unit_price: '.23', category: 'fasteners' },
+    //     { id: '2', name: 'Blue Bead', description: 'small blue bead', unit_price: '.84', category: 'bead' },
+    //     { id: '3', name: 'Leather Chain', description: 'Leather', unit_price: '.3.68', category: 'chain' },
+    // ])
 
     return (
         <div className='salesContainer'>
