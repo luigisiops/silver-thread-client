@@ -1,10 +1,15 @@
 import MaterialTable from 'material-table';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import './MaterialsTable.css'
 
 const MaterialsTable = () => {
+
+    useEffect(() => {
+      //fetchMaterialsList()
+    }, [])
  
     const columns = [
-      { title: 'id', field: 'id', hidden: true, export: false, },
+      { title: 'id', field: 'id', hidden: true},
       { title: 'Name', field: 'name' },
       { title: 'Description', field: 'description' },
       { title: 'Price per Unit', field: 'unit_price' },
@@ -19,14 +24,24 @@ const MaterialsTable = () => {
 
       
     return (
+      <div className='materialsContainer'>
+        <h1>Silverthread Materials </h1>
       <MaterialTable      
         title="Silverthread Materials"
         columns={columns}
         data={data}   
         options={{
+          search: false,
+          showTitle: false,
           filtering: true,
           addRowPosition: 'first',          
-          exportButton: true,        
+          exportButton: true,
+          //export csv is a function we can use to override the generic export and export to excel
+          // exportCsv
+          headerStyle: {
+            backgroundColor: '#78bfb5',
+            color: '#FFFFFF'
+          }       
         }}
         editable={{          
           onRowAdd: newData =>
@@ -43,23 +58,23 @@ const MaterialsTable = () => {
                 const index = oldData.tableData.id;
                 dataUpdate[index] = newData;
                 setData([...dataUpdate]);
-  
                 resolve();
               }, 1000)
             }),
           onRowDelete: oldData =>
             new Promise((resolve, reject) => {
-              // setTimeout(() => {
+              setTimeout(() => {
                 const dataDelete = [...data];
                 const index = oldData.tableData.id;
                 dataDelete.splice(index, 1);
                 setData([...dataDelete]);
                 
                 resolve()
-              // }, 1000)
+              }, 1000)
             }),
         }}
       />
+      </div>
     )
   }
  
