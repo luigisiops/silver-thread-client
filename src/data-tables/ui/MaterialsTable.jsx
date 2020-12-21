@@ -1,53 +1,54 @@
 import MaterialTable from 'material-table';
 import { useEffect, useState } from 'react';
 import './MaterialsTable.css'
+import { GetMaterials } from "../use-cases/getMaterials"
 
-const MaterialsTable = () => {
+const MaterialsTable = ({onGetMaterials}) => {
 
-    useEffect(() => {
-      //fetchMaterialsList()
-    }, [])
- 
-    const columns = [
-      { title: 'id', field: 'id', hidden: true},
-      { title: 'Name', field: 'name' },
-      { title: 'Description', field: 'description' },
-      { title: 'Price per Unit', field: 'unit_price' },
-      { title: 'Category', field: 'category'},
-    ]
-    
-    const [data, setData] = useState([
-        { id: '1', name: 'Jump Ring', description: 'small jump ring', unit_price: '.23', category: 'fasteners' },
-        { id: '2', name: 'Blue Bead', description: 'small blue bead', unit_price: '.84', category: 'bead' },
-        { id: '3', name: 'Leather Chain', description: 'Leather', unit_price: '.3.68', category: 'chain' },
-    ]) 
+  useEffect(() => {
+    //fetchMaterialsList()
+  }, [])
 
-      
-    return (
-      <div className='materialsContainer'>
-        <h1>Silverthread Materials </h1>
-      <MaterialTable      
+  const columns = [
+    { title: 'id', field: 'id', hidden: true },
+    { title: 'Name', field: 'name' },
+    { title: 'Description', field: 'description' },
+    { title: 'Price per Unit', field: 'unit_price' },
+    { title: 'Category', field: 'category' },
+  ]
+
+  const [data, setData] = useState([
+    { id: '1', name: 'Jump Ring', description: 'small jump ring', unit_price: '.23', category: 'fasteners' },
+    { id: '2', name: 'Blue Bead', description: 'small blue bead', unit_price: '.84', category: 'bead' },
+    { id: '3', name: 'Leather Chain', description: 'Leather', unit_price: '.3.68', category: 'chain' },
+  ])
+
+
+  return (
+    <div className='materialsContainer'>
+      <h1>Silverthread Materials </h1>
+      <MaterialTable
         title="Silverthread Materials"
         columns={columns}
-        data={data}   
+        data={data}
         options={{
           search: false,
           showTitle: false,
           filtering: true,
-          addRowPosition: 'first',          
+          addRowPosition: 'first',
           exportButton: true,
           //export csv is a function we can use to override the generic export and export to excel
           // exportCsv
           headerStyle: {
             backgroundColor: '#78bfb5',
             color: '#FFFFFF'
-          }       
+          }
         }}
-        editable={{          
+        editable={{
           onRowAdd: newData =>
             new Promise((resolve, reject) => {
               setTimeout(() => {
-                setData([...data, newData]);                
+                setData([...data, newData]);
                 resolve();
               }, 1000)
             }),
@@ -68,14 +69,22 @@ const MaterialsTable = () => {
                 const index = oldData.tableData.id;
                 dataDelete.splice(index, 1);
                 setData([...dataDelete]);
-                
+
                 resolve()
               }, 1000)
             }),
         }}
       />
-      </div>
-    )
-  }
- 
-export default MaterialsTable
+    </div>
+  )
+}
+
+const mapStateToProps = (state, { }) => ({
+  materials: state.materials
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  onGetMaterials: GetMaterials(dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(MaterialsTable)

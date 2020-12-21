@@ -9,7 +9,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 
 // Pages
-import MaterialsTable from './ui/MaterialsTable'
+import MaterialsTable from './data-tables/ui/MaterialsTable'
 
 ReactDOM.render(
   <React.StrictMode>
