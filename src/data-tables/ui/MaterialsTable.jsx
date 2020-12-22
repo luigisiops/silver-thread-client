@@ -81,7 +81,7 @@ const MaterialsTable = ({onGetMaterials, materials}) => {
   )
 }
 
-const mapStateToProps = (state, { }) => ({
+const mapStateToProps = (state, {materials}) => ({
   materials: state.materials
 })
 

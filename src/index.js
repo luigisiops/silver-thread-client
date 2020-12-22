@@ -8,12 +8,9 @@ import store from "./common/redux/store"
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 // Pages
-<<<<<<< HEAD
 import MaterialsTable from './data-tables/ui/MaterialsTable'
-=======
-import MaterialsTable from './ui/MaterialsTable'
-import SalesTable from './ui/SalesTable'
->>>>>>> sales-table
+import SalesTable from './data-tables/ui/SalesTable'
+import Login from './login/ui/login'
 
 ReactDOM.render(
   <React.StrictMode>
@@ -23,6 +20,7 @@ ReactDOM.render(
         <Route component={App} path='/' exact />
         <Route component={MaterialsTable} path='/materials' />
         <Route component={SalesTable} path='/sales'/>
+        <Route component={Login} pathe='/login'/>
       </Switch>
     </BrowserRouter>
     </Provider>
