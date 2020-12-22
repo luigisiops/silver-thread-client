@@ -10,6 +10,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 // Pages
 import MaterialsTable from './data-tables/ui/MaterialsTable'
 import SalesTable from './data-tables/ui/SalesTable'
+import ProductsTable from './data-tables/ui/ProductsTable'
 
 ReactDOM.render(
   <React.StrictMode>
@@ -18,6 +19,7 @@ ReactDOM.render(
       <Switch>
         <Route component={App} path='/' exact />
         <Route component={MaterialsTable} path='/materials' />
+        <Route component={ProductsTable} path='/products'/>
         <Route component={SalesTable} path='/sales'/>
       </Switch>
     </BrowserRouter>
