@@ -20,6 +20,7 @@ const SalesTable = () => {
     const [selectedDate, setSelectedDate] = useState({start: start_date, end: end_date});
     const [open, setOpen] = useState(false)
     const [data, setData] = useState([])
+    console.log(data)
 
     useEffect(() => {
         fetchSalesList()
@@ -30,7 +31,6 @@ const SalesTable = () => {
        let result = await response.json()            
 
        setData(result)
-       
     }
 
     //onclick function from add icon - toggles Add Sales Popper to open

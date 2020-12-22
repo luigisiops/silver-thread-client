@@ -13,7 +13,7 @@
     align-items: center;
 
     font-family: "Spartan";
-    font-size: 20px;
+    font-size: 16px;
     background: #78BFB5;
     width: 50%;
     color: white;
@@ -34,14 +34,14 @@
     color: #5f5f5f;
 }
 
+.login-blurb {
+    font-size: 30px;
+    font-weight: 700;
+}
+
 .login-box{
     display: inherit;
     flex-direction: column;
-    border: 1px solid #5f5f5f ;
-    padding: 90px;
-    padding-top: 140px;
-    padding-bottom: 140px ;
-    border-radius: 8px;
 }
 
 #outlined-basic{
@@ -54,4 +54,14 @@
     justify-content: center;
     align-items: center;
     padding-bottom: 15px ;
+}
+.button-container{
+    display: flex;
+    width:100%;
+    justify-content: center;
+}
+.login-button{
+    text-align: center;
+    justify-content: center;
+    width:50%
 }
