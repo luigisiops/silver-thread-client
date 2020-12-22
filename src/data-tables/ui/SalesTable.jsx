@@ -12,7 +12,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import './SalesTable.css'
 import AddSales from './AddSales'
-import EditSale from './EditSale'
+import EditSales from './EditSales'
 import { GetSales } from '../use-cases/getSales';
 import { DeleteSale } from '../use-cases/deleteSale';
 
@@ -195,7 +195,7 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale }) => {
                     horizontal: 'center',
                 }}
             >
-                <EditSale saleData={rowData} />
+                <EditSales saleData={rowData} />
             </Popover>
         </div >
     )
