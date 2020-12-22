@@ -8,12 +8,8 @@ import store from "./common/redux/store"
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 // Pages
-<<<<<<< HEAD
 import MaterialsTable from './data-tables/ui/MaterialsTable'
-=======
-import MaterialsTable from './ui/MaterialsTable'
-import SalesTable from './ui/SalesTable'
->>>>>>> sales-table
+import SalesTable from './data-tables/ui/SalesTable'
 
 ReactDOM.render(
   <React.StrictMode>
