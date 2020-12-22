@@ -7,37 +7,45 @@ import DateFnsUtils from '@date-io/date-fns';
 import Popover from '@material-ui/core/Popover';
 import { MuiPickersUtilsProvider, KeyboardDatePicker, } from '@material-ui/pickers';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
 
+import './SalesTable.css'
 import AddSales from './AddSales'
 import { GetSales } from '../use-cases/getSales';
+import { DeleteSale } from '../use-cases/deleteSale';
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+        '& > *': {
+            margin: theme.spacing(1),
+        },
+    },
+}));
 
-const SalesTable = ({onGetSales, sales}) => {
+const SalesTable = ({ onGetSales, sales, onDeleteSale }) => {
+    const classes = useStyles();
 
-   //set date for date-pickers
+    //set date for date-pickers
     let end_date = new Date()
     let start_date = new Date().setDate(end_date.getDate() - 30)
- 
+
     const [selectedDate, setSelectedDate] = useState({ start: start_date, end: end_date });
     const [open, setOpen] = useState(false)
-    const [data, setData] = useState([])
-      
+    const [data, setData] = useState(sales)
+
     //get sales from db
     useEffect(() => {
         onGetSales()
+        // onGetSalesList()
     }, [])
 
     console.log(sales)
 
-    // const onGetSalesList = async () => {
-    //     let response = await fetch('http://localhost:8000/sales/getAllSales')
-    //     let result = await response.json()
-    //     setData(result)
-    // }
-
-    //onclick function from add icon - toggles Add Sales popper to open
-    const handleAddSales = () => {
-        setOpen(true)
+    const onGetSalesList = async () => {
+        let response = await fetch('http://localhost:8000/sales/getAllSales')
+        let result = await response.json()
+        setData(result)
     }
 
     //changes the start date of the reports
@@ -56,17 +64,19 @@ const SalesTable = ({onGetSales, sales}) => {
         });
     };
 
-    //sets column headers
+    
+        //sets column headers
     const columns = [
         { title: 'id', field: 'id', hidden: true },
         { title: 'Product ID', field: 'product_id', hidden: true },
+        { title: 'Date', field: 'createdAt' },
         { title: 'Product Number', field: 'product_number' },
         { title: 'Product Name', field: 'product_name' },
         { title: 'Quantity', field: 'quantity' },
         { title: 'Price per Unit', field: 'price_per_unit' },
         { title: 'Total Sales Price', field: 'total_price' },
         { title: 'Category', field: 'product_category' },
-        { title: 'Purchased By', field: 'sold_to' },
+        { title: 'Purchased By', field: 'sold_to' },     
     ]
 
     return (
@@ -102,6 +112,11 @@ const SalesTable = ({onGetSales, sales}) => {
                         />
                     </Grid>
                 </MuiPickersUtilsProvider>
+                <div className={classes.root}>
+                    <Button variant="contained" color="secondary">
+                        Submit
+                </Button>
+                </div>
             </div>
 
             <Popover
@@ -122,7 +137,8 @@ const SalesTable = ({onGetSales, sales}) => {
                 <MaterialTable
                     title="Silverthread Sales"
                     columns={columns}
-                    data={data}                   
+                    data={data}
+                    
                     options={{
                         search: false,
                         showTitle: false,
@@ -141,28 +157,22 @@ const SalesTable = ({onGetSales, sales}) => {
                             icon: 'add',
                             tooltip: 'Add Sale',
                             isFreeAction: true,
-                            onClick: (event) => handleAddSales()
+                            onClick: (event) => setOpen(true)
+                        },
+                        {
+                            icon: 'edit',
+                            tooltip: 'Edit Row',
+                            onClick: (event, rowData) => {
+                                console.log(rowData)                                
+                            }
                         }
                     ]}
                     editable={{
-                        onRowUpdate: (newData, oldData) =>
-                            new Promise((resolve, reject) => {
-                                setTimeout(() => {
-                                    const dataUpdate = [...data];
-                                    const index = oldData.tableData.id;
-                                    dataUpdate[index] = newData;
-                                    setData([...dataUpdate]);
-                                    resolve();
-                                }, 1000)
-                            }),
                         onRowDelete: oldData =>
                             new Promise((resolve, reject) => {
                                 setTimeout(() => {
-                                    const dataDelete = [...data];
-                                    const index = oldData.tableData.id;
-                                    dataDelete.splice(index, 1);
-                                    setData([...dataDelete]);
-
+                                    const id = oldData.id;                            
+                                    onDeleteSale(id)
                                     resolve()
                                 }, 1000)
                             }),
@@ -173,14 +183,15 @@ const SalesTable = ({onGetSales, sales}) => {
     )
 }
 
-const mapStateToProps = (state, {}) => ({
-        sales: state.sales.salesList
-    
+const mapStateToProps = (state, { }) => ({
+    sales: state.sales.salesList
+
 })
 
 const mapDispatchToProps = (dispatch) => ({
-        onGetSales: GetSales(dispatch)
-    
+    onGetSales: GetSales(dispatch),
+    onDeleteSale: DeleteSale(dispatch)
+
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SalesTable)
