@@ -40,13 +40,12 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale }) => {
     useEffect(() => {
         onGetSales()
         // onGetSalesList()
-       
-        console.log(tableData)
     }, [])
+    
     tableData = sales.map(data => ({
         ...data
     }))
-    console.log(tableData)
+
     const fetchSalesList = async () =>  {
        let response = await fetch('http://localhost:8000/sales/getAllSales')
        let result = await response.json()            

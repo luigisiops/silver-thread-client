@@ -9,10 +9,11 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial }) => {
 
   useEffect(() => {
     onGetMaterials()
-  }, [])
+  }, [materials])
 
-
-
+  let tableData = materials.map(data => ({
+    ...data
+}))
   const columns = [
     { title: 'id', field: 'id', hidden: true },
     { title: 'Name', field: 'name' },
@@ -34,7 +35,7 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial }) => {
       <MaterialTable
         title="Silverthread Materials"
         columns={columns}
-        data={data}
+        data={tableData}
         options={{
           search: false,
           showTitle: false,
@@ -82,7 +83,7 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial }) => {
 }
 
 const mapStateToProps = (state, {materials}) => ({
-  materials: state.materials
+  materials: state.materials.materialsList
 })
 
 const mapDispatchToProps = (dispatch) => ({
