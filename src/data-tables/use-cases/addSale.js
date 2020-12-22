@@ -4,6 +4,8 @@ import { Popover } from '@material-ui/core';
 //This is a usecase for getting the list of sales
 export const AddSale = (dispatch) => async (fields) => {
    const newSale = {
+     /*  product_id: product_id 
+     ^ gets product id from a fetch call to the products table route*/
       product_number: fields.product_number,
       product_name: fields.product_name,
       product_category: fields.product_category,
