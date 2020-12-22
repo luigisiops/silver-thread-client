@@ -1,6 +1,7 @@
 import MaterialTable from 'material-table';
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux'
+import { setAutoFreeze } from 'immer'
 
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
@@ -25,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SalesTable = ({ onGetSales, sales, onDeleteSale }) => {
     const classes = useStyles();
+    console.log(sales.salesList)
 
     //set date for date-pickers
     let end_date = new Date()
@@ -33,13 +35,23 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale }) => {
     const [selectedDate, setSelectedDate] = useState({ start: start_date, end: end_date });
     const [open, setOpen] = useState(false)
     const [data, setData] = useState(sales)
-
+    var tableData
     //get sales from db
     useEffect(() => {
         onGetSales()
         // onGetSalesList()
     }, [])
+    
+    tableData = sales.map(data => ({
+        ...data
+    }))
 
+    const fetchSalesList = async () =>  {
+       let response = await fetch('http://localhost:8000/sales/getAllSales')
+       let result = await response.json()            
+
+       setData(result)
+    }
     console.log(sales)
 
     const onGetSalesList = async () => {
@@ -132,12 +144,15 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale }) => {
             >
                 <AddSales />
             </Popover>
-
+            
+            {sales === [] ? 
+            <div>Loading Data....</div> 
+            :
             <div className='salesMaterialTable'>
                 <MaterialTable
                     title="Silverthread Sales"
                     columns={columns}
-                    data={data}
+                    data={tableData}
                     
                     options={{
                         search: false,
@@ -178,14 +193,13 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale }) => {
                             }),
                     }}
                 />
-            </div>
+            </div>}
         </div >
     )
 }
 
 const mapStateToProps = (state, { }) => ({
     sales: state.sales.salesList
-
 })
 
 const mapDispatchToProps = (dispatch) => ({

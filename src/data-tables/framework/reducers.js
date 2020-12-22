@@ -9,7 +9,8 @@ import {
 
 export const materials = createReducer(
     {
-        materialsList: []
+        materialsList: [],
+        materialID: ''
     },
     {
         [onGetMaterials.type]: (state, {payload: material}) => {
@@ -18,6 +19,13 @@ export const materials = createReducer(
             }
             state.materialsList = material
         },
+        [onDeleteSale.type]:(state, {payload: materialid}) => {
+            if (materialid === null) {
+                return state
+            }
+            console.log(materialid)
+            state.materialID = materialid
+        }
     }
 )
 
@@ -27,11 +35,14 @@ export const sales = createReducer(
        saleID: '' 
     }, 
     {
-        [onGetSales.type]: (state, {payload: sales}) => {
+        [onGetSales.type]: (state, {payload: salesList}) => {
             if (sales === null) {
                 return state
             } 
-            state.salesList = sales
+            /*    sales.forEach((sale) => {
+                state.byId[sale.id] = sale
+            })*/
+            return {...state.salesList, salesList}
         },
         [onDeleteSale.type]: (state, {payload: saleid}) => {            
             if (saleid === null) {
