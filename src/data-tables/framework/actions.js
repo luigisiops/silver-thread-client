@@ -5,3 +5,4 @@ export const onDeleteMaterial = createAction("delete.material")
 
 export const onGetSales = createAction("get.sales")
 export const onDeleteSale = createAction("delete.sale")
+export const onAddSale = createAction("add.sale")
