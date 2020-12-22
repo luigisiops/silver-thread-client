@@ -9,7 +9,9 @@ const MaterialsTable = ({onGetMaterials, materials}) => {
   useEffect(() => {
     //fetchMaterialsList()
     onGetMaterials()
-  }, [materials])
+  }, [])
+
+ 
 
   const columns = [
     { title: 'id', field: 'id', hidden: true },
