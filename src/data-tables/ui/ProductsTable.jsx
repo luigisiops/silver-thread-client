@@ -70,7 +70,7 @@ const ProductsTable = ({  }) => {
                     actions={[
                         {
                             icon: 'add',
-                            tooltip: 'Add Sale',
+                            tooltip: 'Add Product',
                             isFreeAction: true,
                             onClick: (event) => setOpen(true)
                         },
@@ -87,7 +87,7 @@ const ProductsTable = ({  }) => {
                             new Promise((resolve, reject) => {
                                 setTimeout(() => {
                                     const id = oldData.id;                            
-                                    // onDeleteProduct(id)
+                                    // put delete fuction here
                                     resolve()
                                 }, 1000)
                             }),
