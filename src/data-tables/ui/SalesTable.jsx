@@ -12,6 +12,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import './SalesTable.css'
 import AddSales from './AddSales'
+import EditSale from './EditSale'
 import { GetSales } from '../use-cases/getSales';
 import { DeleteSale } from '../use-cases/deleteSale';
 
@@ -33,11 +34,13 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale }) => {
     const [selectedDate, setSelectedDate] = useState({ start: start_date, end: end_date });
     const [open, setOpen] = useState(false)
     const [data, setData] = useState(sales)
+    const [openEdit, setOpenEdit] = useState(false)
+    const [rowData, setRowData] = useState()
 
     //get sales from db
     useEffect(() => {
-        onGetSales()
-        // onGetSalesList()
+        //onGetSales()
+        onGetSalesList()
     }, [])
 
     console.log(sales)
@@ -132,7 +135,7 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale }) => {
             >
                 <AddSales />
             </Popover>
-
+            
             <div className='salesMaterialTable'>
                 <MaterialTable
                     title="Silverthread Sales"
@@ -163,6 +166,8 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale }) => {
                             icon: 'edit',
                             tooltip: 'Edit Row',
                             onClick: (event, rowData) => {
+                                setRowData(rowData)
+                                setOpenEdit(true)
                                 console.log(rowData)                                
                             }
                         }
@@ -179,6 +184,19 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale }) => {
                     }}
                 />
             </div>
+            <Popover
+                open={openEdit}
+                anchorOrigin={{
+                    vertical: 'center',
+                    horizontal: 'center',
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                }}
+            >
+                <EditSale saleData={rowData} />
+            </Popover>
         </div >
     )
 }
