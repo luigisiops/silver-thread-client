@@ -8,7 +8,8 @@ import {
 
 export const materials = createReducer(
     {
-        materialsList: []
+        materialsList: [],
+        materialID: ''
     },
     {
         [onGetMaterials.type]: (state, {payload: material}) => {
@@ -17,6 +18,13 @@ export const materials = createReducer(
             }
             state.materialsList = material
         },
+        [onDeleteSale.type]:(state, {payload: materialid}) => {
+            if (materialid === null) {
+                return state
+            }
+            console.log(materialid)
+            state.materialID = materialid
+        }
     }
 )
 
