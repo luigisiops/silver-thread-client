@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const EditSales = (props, onEditSale) => {
+const EditSales = (props, {onEditSale}) => {
     const classes = useStyles();
 
     const [updatedSalesData, setUpdatedSalesData] = useState(props.saleData)
@@ -90,8 +90,9 @@ const EditSales = (props, onEditSale) => {
     )
 }
 
-const mapDispatchToProps = (dispatch) => ({
-    onEditSale: EditSale(dispatch)
-})
 
+const mapDispatchToProps = (dispatch) => ({
+    onEditSale: EditSale(dispatch),
+    
+  })
 export default connect(null, mapDispatchToProps)(EditSales)
