@@ -13,6 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import './SalesTable.css'
 import AddSales from './AddSales'
+import EditSales from './EditSales'
 import { GetSales } from '../use-cases/getSales';
 import { DeleteSale } from '../use-cases/deleteSale';
 
@@ -35,30 +36,19 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale }) => {
     const [selectedDate, setSelectedDate] = useState({ start: start_date, end: end_date });
     const [open, setOpen] = useState(false)
     const [data, setData] = useState(sales)
+    const [openEdit, setOpenEdit] = useState(false)
+    const [rowData, setRowData] = useState()
+
     var tableData
+
     //get sales from db
     useEffect(() => {
-        onGetSales()
-        // onGetSalesList()
+        onGetSales()       
     }, [])
-    
+
     tableData = sales.map(data => ({
         ...data
     }))
-
-    const fetchSalesList = async () =>  {
-       let response = await fetch('http://localhost:8000/sales/getAllSales')
-       let result = await response.json()            
-
-       setData(result)
-    }
-    console.log(sales)
-
-    const onGetSalesList = async () => {
-        let response = await fetch('http://localhost:8000/sales/getAllSales')
-        let result = await response.json()
-        setData(result)
-    }
 
     //changes the start date of the reports
     const handleStartDateChange = (date) => {
@@ -76,8 +66,8 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale }) => {
         });
     };
 
-    
-        //sets column headers
+
+    //sets column headers
     const columns = [
         { title: 'id', field: 'id', hidden: true },
         { title: 'Product ID', field: 'product_id', hidden: true },
@@ -88,7 +78,7 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale }) => {
         { title: 'Price per Unit', field: 'price_per_unit' },
         { title: 'Total Sales Price', field: 'total_price' },
         { title: 'Category', field: 'product_category' },
-        { title: 'Purchased By', field: 'sold_to' },     
+        { title: 'Purchased By', field: 'sold_to' },
     ]
 
     return (
@@ -144,56 +134,72 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale }) => {
             >
                 <AddSales />
             </Popover>
-            
-            {sales === [] ? 
-            <div>Loading Data....</div> 
-            :
-            <div className='salesMaterialTable'>
-                <MaterialTable
-                    title="Silverthread Sales"
-                    columns={columns}
-                    data={tableData}
-                    
-                    options={{
-                        search: false,
-                        showTitle: false,
-                        filtering: true,
-                        addRowPosition: 'first',
-                        exportButton: true,
-                        //export csv is a function we can use to override the generic export and export to excel
-                        // exportCsv
-                        headerStyle: {
-                            backgroundColor: '#78bfb5',
-                            color: '#FFFFFF'
-                        },
-                    }}
-                    actions={[
-                        {
-                            icon: 'add',
-                            tooltip: 'Add Sale',
-                            isFreeAction: true,
-                            onClick: (event) => setOpen(true)
-                        },
-                        {
-                            icon: 'edit',
-                            tooltip: 'Edit Row',
-                            onClick: (event, rowData) => {
-                                console.log(rowData)                                
+
+            {sales === [] ?
+                <div>Loading Data....</div>
+                :
+                <div className='salesMaterialTable'>
+                    <MaterialTable
+                        title="Silverthread Sales"
+                        columns={columns}
+                        data={tableData}
+
+                        options={{
+                            search: false,
+                            showTitle: false,
+                            filtering: true,
+                            addRowPosition: 'first',
+                            exportButton: true,
+                            //export csv is a function we can use to override the generic export and export to excel
+                            // exportCsv
+                            headerStyle: {
+                                backgroundColor: '#78bfb5',
+                                color: '#FFFFFF'
+                            },
+                        }}
+                        actions={[
+                            {
+                                icon: 'add',
+                                tooltip: 'Add Sale',
+                                isFreeAction: true,
+                                onClick: (event) => setOpen(true)
+                            },
+                            {
+                                icon: 'edit',
+                                tooltip: 'Edit Row',
+                                onClick: (event, rowData) => {
+                                    setRowData(rowData)
+                                    setOpenEdit(true)
+                                    console.log(rowData)
+                                }
                             }
-                        }
-                    ]}
-                    editable={{
-                        onRowDelete: oldData =>
-                            new Promise((resolve, reject) => {
-                                setTimeout(() => {
-                                    const id = oldData.id;                            
-                                    onDeleteSale(id)
-                                    resolve()
-                                }, 1000)
-                            }),
-                    }}
-                />
-            </div>}
+                        ]}
+                        editable={{
+                            onRowDelete: oldData =>
+                                new Promise((resolve, reject) => {
+                                    setTimeout(() => {
+                                        const id = oldData.id;
+                                        onDeleteSale(id)
+                                        resolve()
+                                    }, 1000)
+                                }),
+                        }}
+                    />
+                </div>}
+        {/* </div> */}
+        <Popover
+            open={openEdit}
+            anchorOrigin={{
+                vertical: 'center',
+                horizontal: 'center',
+            }}
+            transformOrigin={{
+                vertical: 'top',
+                horizontal: 'center',
+            }}
+        >
+            <EditSales saleData={rowData} />
+        </Popover>
         </div >
     )
 }
