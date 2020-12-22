@@ -1,17 +1,17 @@
 import MaterialTable from 'material-table';
 import { useEffect, useState } from 'react';
-import {connect} from "react-redux"
+import { connect } from "react-redux"
 import './MaterialsTable.css'
 import { GetMaterials } from "../use-cases/getMaterials"
+import { DeleteMaterial } from "../use-cases/deleteMaterial"
 
-const MaterialsTable = ({onGetMaterials, materials}) => {
+const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial }) => {
 
   useEffect(() => {
-    //fetchMaterialsList()
     onGetMaterials()
   }, [])
 
- 
+
 
   const columns = [
     { title: 'id', field: 'id', hidden: true },
@@ -69,15 +69,13 @@ const MaterialsTable = ({onGetMaterials, materials}) => {
           onRowDelete: oldData =>
             new Promise((resolve, reject) => {
               setTimeout(() => {
-                const dataDelete = [...data];
-                const index = oldData.tableData.id;
-                dataDelete.splice(index, 1);
-                setData([...dataDelete]);
-
+                const id = oldData.id;
+                onDeleteMaterial(id)
                 resolve()
               }, 1000)
             }),
         }}
+
       />
     </div>
   )
@@ -88,7 +86,8 @@ const mapStateToProps = (state, {materials}) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  onGetMaterials: GetMaterials(dispatch)
+  onGetMaterials: GetMaterials(dispatch),
+  onDeleteMaterial: DeleteMaterial(dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MaterialsTable)
