@@ -50,6 +50,7 @@ const ProductsTable = ({  }) => {
 
             <div className='productsMaterialTable'>
                 <MaterialTable
+                style={{backgroundColor:'#FFFFFF'}}
                     title="Silverthread Products"
                     columns={columns}
                     data={data}
@@ -63,7 +64,7 @@ const ProductsTable = ({  }) => {
                         //export csv is a function we can use to override the generic export and export to excel
                         // exportCsv
                         headerStyle: {
-                            backgroundColor: '#78bfb5',
+                            backgroundColor: '#f06292',
                             color: '#FFFFFF'
                         },
                     }}

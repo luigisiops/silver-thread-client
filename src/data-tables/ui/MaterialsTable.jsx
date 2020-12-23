@@ -35,6 +35,7 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial }) => {
     <div className='materialsContainer'>
       <h1>Silverthread Materials </h1>
       <MaterialTable
+        style={{backgroundColor:'#FFFFFF'}}
         title="Silverthread Materials"
         columns={columns}
         data={tableData}
@@ -47,7 +48,8 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial }) => {
           //export csv is a function we can use to override the generic export and export to excel
           // exportCsv
           headerStyle: {
-            backgroundColor: '#78bfb5',
+            backgroundColor: '#01579b',
+            // backgroundColor: '#78bfb5',
             color: '#FFFFFF'
           }
         }}

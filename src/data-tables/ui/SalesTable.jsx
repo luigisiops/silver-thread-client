@@ -86,8 +86,9 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale }) => {
             <h1>Silverthread Sales </h1>
             <div className='datePickerContainer'>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <Grid container justify="space-around">
+                    <Grid container justify="space-around" style={{backgroundColor:'#FFFFFF'}}>
                         <KeyboardDatePicker
+                            style={{backgroundColor:'#FFFFFF'}}
                             margin="normal"
                             name="start"
                             id="date-picker-dialog"
@@ -114,7 +115,7 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale }) => {
                         />
                     </Grid>
                 </MuiPickersUtilsProvider>
-                <div className={classes.root}>
+                <div className={classes.root} style={{backgroundColor:'#FFFFFF'}}>
                     <Button variant="contained" color="secondary">
                         Submit
                 </Button>
@@ -140,6 +141,7 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale }) => {
                 :
                 <div className='salesMaterialTable'>
                     <MaterialTable
+                        style={{backgroundColor:'#FFFFFF'}}
                         title="Silverthread Sales"
                         columns={columns}
                         data={tableData}
@@ -153,7 +155,7 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale }) => {
                             //export csv is a function we can use to override the generic export and export to excel
                             // exportCsv
                             headerStyle: {
-                                backgroundColor: '#78bfb5',
+                                backgroundColor: '#b71c1c',
                                 color: '#FFFFFF'
                             },
                         }}
