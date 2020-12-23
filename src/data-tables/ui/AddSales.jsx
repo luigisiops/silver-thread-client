@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { AddSale } from "../use-cases/addSale"
 import { Link } from "react-router-dom"
+import './AddSales.css'
 
 const AddSales = ({ addSale }) => {
     // putting empty fields object into local state

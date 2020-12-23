@@ -1,8 +1,14 @@
 #container {
-   position: relative;
-   display: flex;
+   /* position: relative; */
+   display: flex;  
+   flex-direction: column;
    width: 60%;
    height: 500px;
    justify-self: center;
    align-self: center;
+}
+
+#inputs {
+   display: flex;
+   flex-direction: column;
 }
