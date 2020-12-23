@@ -12,8 +12,12 @@ const data = [
 
 const Dashboard = () => {
     return (
-        <svg width={500} height={400} style={{ border: "1px solid #ccc" }}>
+      <div>
+        <h1>Silverthread Products Sold</h1>
+        <svg color={"white"} width={500} height={400} style={{ border: "1px solid #ccc", backgroundColor: "white" }}>
         {/* <h1>Silverthread Prodcuts Sold</h1> */}
+        {/* <div> */}
+        {/* <p>Silverthread Prodcuts Sold</p> */}
           <VictoryLegend
             standalone={false}
             colorScale={["#78bfb5", "#f06292", "#b71c1c"]}
@@ -41,7 +45,9 @@ const Dashboard = () => {
             data={data}
             labels={() => null}
           />
+          {/* </div> */}
         </svg>
+        </div>
       );
 //     return (
 //         <div>
