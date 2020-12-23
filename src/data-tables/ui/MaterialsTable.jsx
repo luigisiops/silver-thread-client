@@ -4,8 +4,14 @@ import { connect } from "react-redux"
 import './MaterialsTable.css'
 import { GetMaterials } from "../use-cases/getMaterials"
 import { DeleteMaterial } from "../use-cases/deleteMaterial"
+import { AddMaterial } from "../use-cases/addMaterial"
 
-const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial }) => {
+import Popover from '@material-ui/core/Popover';
+import AddMaterialModal from './AddMaterialModal'
+
+
+const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, onAddMaterial }) => {
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     onGetMaterials()
@@ -13,7 +19,7 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial }) => {
 
   let tableData = materials.map(data => ({
     ...data
-}))
+  }))
   const columns = [
     { title: 'id', field: 'id', hidden: true },
     { title: 'Name', field: 'name' },
@@ -32,6 +38,19 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial }) => {
   return (
     <div className='materialsContainer'>
       <h1>Silverthread Materials </h1>
+      <Popover
+        open={open}
+        anchorOrigin={{
+          vertical: 'center',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+      >
+        <AddMaterialModal />
+      </Popover>
       <MaterialTable
         title="Silverthread Materials"
         columns={columns}
@@ -49,6 +68,23 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial }) => {
             color: '#FFFFFF'
           }
         }}
+
+        actions={[
+          {
+            icon: 'add',
+            tooltip: 'Add Material',
+            isFreeAction: true,
+            onClick: (event) => setOpen(true)
+          },
+          {
+            icon: 'edit',
+            tooltip: 'Edit Row',
+            onClick: (event, rowData) => {
+              console.log(rowData)
+            }
+          }
+        ]}
+
         editable={{
           onRowAdd: newData =>
             new Promise((resolve, reject) => {
@@ -82,12 +118,13 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial }) => {
   )
 }
 
-const mapStateToProps = (state, {materials}) => ({
+const mapStateToProps = (state, { materials }) => ({
   materials: state.materials.materialsList
 })
 
 const mapDispatchToProps = (dispatch) => ({
   onGetMaterials: GetMaterials(dispatch),
+  onAddMaterial: AddMaterial(dispatch),
   onDeleteMaterial: DeleteMaterial(dispatch)
 })
 

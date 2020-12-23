@@ -1,0 +1,9 @@
+add-material-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+    height: 500px;
+    padding: 20px;
+}

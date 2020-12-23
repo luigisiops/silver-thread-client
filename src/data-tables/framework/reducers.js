@@ -2,6 +2,8 @@ import { createReducer } from "@reduxjs/toolkit"
 
 import {
     onGetMaterials,
+    onAddMaterial,
+    onDeleteMaterial,
     onGetSales,
     onDeleteSale,
 }from "./actions"
@@ -18,7 +20,15 @@ export const materials = createReducer(
             }
             state.materialsList = material
         },
-        [onDeleteSale.type]:(state, {payload: materialid}) => {
+
+        [onAddMaterial.type]: (state,{payload: material}) => {
+            if (material === null){
+                return state
+            } 
+            state.materialsList = [...state.materialsList, material]
+        }, 
+
+        [onDeleteMaterial.type]:(state, {payload: materialid}) => {
             if (materialid === null) {
                 return state
             }
