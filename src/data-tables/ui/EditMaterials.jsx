@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import 'date-fns';
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import SaveIcon from "@material-ui/icons/Save"
+// import SaveIcon from "@material-ui/icons/Save"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -58,7 +58,7 @@ const EditMaterials = (props, {onEditMaterial}) => {
                 </form>
             </div>
             <div>        
-                <Button onClick={() => handleOnClick(updatedMaterialData)} fullWidth startIcon={<SaveIcon />} variant="contained" color="secondary">
+                <Button onClick={() => handleOnClick(updatedMaterialData)} /*fullWidth startIcon={<SaveIcon />}*/ variant="contained" color="secondary">
                     Save
                 </Button>                
             </div>

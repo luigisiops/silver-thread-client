@@ -9,7 +9,7 @@ import React from 'react';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import Button from '@material-ui/core/Button';
-import SaveIcon from "@material-ui/icons/Save"
+// import SaveIcon from "@material-ui/icons/Save"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -86,7 +86,7 @@ const EditSales = (props, {onEditSale}) => {
                 </MuiPickersUtilsProvider>
             </div>
             <div>        
-                <Button onClick={() => handleOnClick(updatedSalesData)} fullWidth startIcon={<SaveIcon />} variant="contained" color="secondary">
+                <Button onClick={() => handleOnClick(updatedSalesData)} /*fullWidth startIcon={<SaveIcon />}*/ variant="contained" color="secondary">
                     Save
                 </Button>
                 
