@@ -1,15 +1,15 @@
 import TextField from "@material-ui/core/TextField"
 import SaveIcon from "@material-ui/icons/Save"
 import Button from "@material-ui/core/Button"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { connect } from "react-redux"
 import { AddMaterial } from "../use-cases/addMaterial"
-import { Link } from "react-router-dom"
 import './AddSales.css'
 
 const AddMaterials = ({ onAddMaterial }) => {
     // putting empty fields object into local state
    const [fields, setFields] = useState({})
+
    const setField = (evt) =>
       setFields({
          ...fields,
@@ -17,10 +17,10 @@ const AddMaterials = ({ onAddMaterial }) => {
       })
 
    // refreshes the page when save button is clicked
-   let onClosePopup = () => {
-      // console.log("onClosePopop")
-      window.location.reload()
-   }
+   // let onClosePopup = () => {
+   //    // console.log("onClosePopop")
+   //    window.location.reload()
+   // }
 
    return (
       <div id="container">

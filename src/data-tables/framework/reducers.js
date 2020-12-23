@@ -3,11 +3,13 @@ import { createReducer } from "@reduxjs/toolkit"
 import {
     onGetMaterials,
     onAddMaterial,
+    onDeleteMaterial,
+    onEditMaterial,
     onGetSales,
     onDeleteSale,
     onAddSale,
     onEditSale,
-    onDeleteMaterial,
+   
 }from "./actions"
 
 export const materials = createReducer(
@@ -15,6 +17,7 @@ export const materials = createReducer(
         materialsList: [],
         materialID: '',
         materialAdd: '',
+        materialEdit: '',
     },
     {
         [onGetMaterials.type]: (state, {payload: material}) => {
@@ -36,6 +39,12 @@ export const materials = createReducer(
                 return state
             }
             state.materialAdd = materialDetails
+        },
+        [onEditMaterial.type]: (state, {payload: materialEdits}) => {
+            if (materialEdits ===  null) {
+                return state
+            }
+            state.materialEdit = materialEdits
         }
     }
 )

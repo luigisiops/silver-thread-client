@@ -3,21 +3,21 @@ import { useEffect, useState } from 'react';
 import { connect } from "react-redux"
 import './MaterialsTable.css'
 import AddMaterials from './AddMaterials'
+import EditMaterials from './EditMaterials'
 import { GetMaterials } from "../use-cases/getMaterials"
 import { DeleteMaterial } from "../use-cases/deleteMaterial"
 import Popover from '@material-ui/core/Popover';
-import { onAddMaterial } from '../framework/actions';
-import AddMaterial from '../use-cases/addMaterial';
 
-const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial,  materialsDelete, materialsAdd }) => {
+const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial,  materialsDelete, materialsAdd, materialsEdit }) => {
 
   const [openAdd, setOpenAdd] = useState(false)
   const [openEdit, setOpenEdit] = useState(false)
+  const [rowData, setRowData] = useState()
+  
 
-  useEffect(() => {
-    console.log('fired')
+  useEffect(() => {  
     onGetMaterials()
-  }, [materialsDelete, materialsAdd])
+  }, [materialsDelete, materialsAdd, materialsEdit])
 
   let tableData = materials.map(data => ({
     ...data
@@ -31,13 +31,6 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial,  material
     { title: 'Vendor', field: 'vendor' },
     { title: 'Product Number', field: 'vendor_material_id' },
   ]
-
-  // const [data, setData] = useState([
-  //   { id: '1', name: 'Jump Ring', description: 'small jump ring', unit_price: '.23', category: 'fasteners' },
-  //   { id: '2', name: 'Blue Bead', description: 'small blue bead', unit_price: '.84', category: 'bead' },
-  //   { id: '3', name: 'Leather Chain', description: 'Leather', unit_price: '.3.68', category: 'chain' },
-  // ])
-
 
   return (
     <div className='materialsContainer'>
@@ -55,6 +48,20 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial,  material
             >
                 <AddMaterials />
             </Popover>
+
+            <Popover
+            open={openEdit}
+            anchorOrigin={{
+                vertical: 'center',
+                horizontal: 'center',
+            }}
+            transformOrigin={{
+                vertical: 'top',
+                horizontal: 'center',
+            }}
+        >
+            <EditMaterials materialData={rowData} />
+        </Popover>
 
       <MaterialTable
         title="Silverthread Materials"
@@ -84,9 +91,8 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial,  material
               icon: 'edit',
               tooltip: 'Edit Row',
               onClick: (event, rowData) => {
-                  // setRowData(rowData)
-                  // setOpenEdit(true)
-                  // console.log(rowData)
+                  setRowData(rowData)
+                  setOpenEdit(true)
               }
           },
       ]}
@@ -109,14 +115,13 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial,  material
 const mapStateToProps = (state, {materials}) => ({
   materials: state.materials.materialsList,
   materialsDelete: state.materials.materialID,
-  materialsAdd: state.materials.materialAdd
-   
+  materialsAdd: state.materials.materialAdd,
+  materialsEdit: state.materials.materialEdit
 })
 
 const mapDispatchToProps = (dispatch) => ({
   onGetMaterials: GetMaterials(dispatch),
   onDeleteMaterial: DeleteMaterial(dispatch),
- 
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MaterialsTable)
