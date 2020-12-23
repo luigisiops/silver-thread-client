@@ -2,14 +2,22 @@ import MaterialTable from 'material-table';
 import { useEffect, useState } from 'react';
 import { connect } from "react-redux"
 import './MaterialsTable.css'
+import AddMaterials from './AddMaterials'
+import EditMaterials from './EditMaterials'
 import { GetMaterials } from "../use-cases/getMaterials"
 import { DeleteMaterial } from "../use-cases/deleteMaterial"
+import Popover from '@material-ui/core/Popover';
 
-const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial }) => {
+const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial,  materialsDelete, materialsAdd, materialsEdit }) => {
 
-  useEffect(() => {
+  const [openAdd, setOpenAdd] = useState(false)
+  const [openEdit, setOpenEdit] = useState(false)
+  const [rowData, setRowData] = useState()
+  
+
+  useEffect(() => {  
     onGetMaterials()
-  }, [materials])
+  }, [materialsDelete, materialsAdd, materialsEdit])
 
   let tableData = materials.map(data => ({
     ...data
@@ -24,16 +32,37 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial }) => {
     { title: 'Product Number', field: 'vendor_material_id' },
   ]
 
-  const [data, setData] = useState([
-    { id: '1', name: 'Jump Ring', description: 'small jump ring', unit_price: '.23', category: 'fasteners' },
-    { id: '2', name: 'Blue Bead', description: 'small blue bead', unit_price: '.84', category: 'bead' },
-    { id: '3', name: 'Leather Chain', description: 'Leather', unit_price: '.3.68', category: 'chain' },
-  ])
-
-
   return (
     <div className='materialsContainer'>
       <h1>Silverthread Materials </h1>
+      <Popover
+                open={openAdd}
+                anchorOrigin={{
+                    vertical: 'center',
+                    horizontal: 'center',
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                }}
+            >
+                <AddMaterials />
+            </Popover>
+
+            <Popover
+            open={openEdit}
+            anchorOrigin={{
+                vertical: 'center',
+                horizontal: 'center',
+            }}
+            transformOrigin={{
+                vertical: 'top',
+                horizontal: 'center',
+            }}
+        >
+            <EditMaterials materialData={rowData} />
+        </Popover>
+
       <MaterialTable
         style={{backgroundColor:'#FFFFFF'}}
         title="Silverthread Materials"
@@ -53,24 +82,23 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial }) => {
             color: '#FFFFFF'
           }
         }}
-        editable={{
-          onRowAdd: newData =>
-            new Promise((resolve, reject) => {
-              setTimeout(() => {
-                setData([...data, newData]);
-                resolve();
-              }, 1000)
-            }),
-          onRowUpdate: (newData, oldData) =>
-            new Promise((resolve, reject) => {
-              setTimeout(() => {
-                const dataUpdate = [...data];
-                const index = oldData.tableData.id;
-                dataUpdate[index] = newData;
-                setData([...dataUpdate]);
-                resolve();
-              }, 1000)
-            }),
+        actions={[
+          {
+              icon: 'add',
+              tooltip: 'Add Sale',
+              isFreeAction: true,
+              onClick: (event) => setOpenAdd(true)
+          },
+          {
+              icon: 'edit',
+              tooltip: 'Edit Row',
+              onClick: (event, rowData) => {
+                  setRowData(rowData)
+                  setOpenEdit(true)
+              }
+          },
+      ]}
+        editable={{        
           onRowDelete: oldData =>
             new Promise((resolve, reject) => {
               setTimeout(() => {
@@ -87,12 +115,15 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial }) => {
 }
 
 const mapStateToProps = (state, {materials}) => ({
-  materials: state.materials.materialsList
+  materials: state.materials.materialsList,
+  materialsDelete: state.materials.materialID,
+  materialsAdd: state.materials.materialAdd,
+  materialsEdit: state.materials.materialEdit
 })
 
 const mapDispatchToProps = (dispatch) => ({
   onGetMaterials: GetMaterials(dispatch),
-  onDeleteMaterial: DeleteMaterial(dispatch)
+  onDeleteMaterial: DeleteMaterial(dispatch),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MaterialsTable)

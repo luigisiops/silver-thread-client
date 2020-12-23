@@ -2,16 +2,22 @@ import { createReducer } from "@reduxjs/toolkit"
 
 import {
     onGetMaterials,
+    onAddMaterial,
+    onDeleteMaterial,
+    onEditMaterial,
     onGetSales,
     onDeleteSale,
     onAddSale,
     onEditSale,
+   
 }from "./actions"
 
 export const materials = createReducer(
     {
         materialsList: [],
-        materialID: ''
+        materialID: '',
+        materialAdd: '',
+        materialEdit: '',
     },
     {
         [onGetMaterials.type]: (state, {payload: material}) => {
@@ -20,12 +26,25 @@ export const materials = createReducer(
             }
             state.materialsList = material
         },
-        [onDeleteSale.type]:(state, {payload: materialid}) => {
+        [onDeleteMaterial.type]: (state, {payload: materialid}) => {
             if (materialid === null) {
+                console.log('null')
                 return state
             }
             console.log(materialid)
             state.materialID = materialid
+        },
+        [onAddMaterial.type]: (state, {payload: materialDetails }) => {
+            if (materialDetails === null) {
+                return state
+            }
+            state.materialAdd = materialDetails
+        },
+        [onEditMaterial.type]: (state, {payload: materialEdits}) => {
+            if (materialEdits ===  null) {
+                return state
+            }
+            state.materialEdit = materialEdits
         }
     }
 )
@@ -33,7 +52,7 @@ export const materials = createReducer(
 export const sales = createReducer(
     {
        salesList: [],
-       saleID: '',
+       saleID: '',      
        saleEdits: {} 
     }, 
     {
@@ -48,8 +67,10 @@ export const sales = createReducer(
         },
         [onDeleteSale.type]: (state, {payload: saleid}) => {            
             if (saleid === null) {
+                console.log(null)
                 return state
             }
+            console.log(saleid)
             state.saleID = saleid   
         },
         [onAddSale.type]: (state, {payload:newSaleId}) => {
