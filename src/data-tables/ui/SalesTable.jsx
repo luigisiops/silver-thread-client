@@ -25,10 +25,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const SalesTable = ({ onGetSales, sales, onDeleteSale }) => {
+const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, salesDelete, }) => {
     const classes = useStyles();
-    console.log(sales.salesList)
-
+ 
     //set date for date-pickers
     let end_date = new Date()
     let start_date = new Date().setDate(end_date.getDate() - 30)
@@ -43,8 +42,9 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale }) => {
 
     //get sales from db
     useEffect(() => {
+        console.log('fired')
         onGetSales()       
-    }, [])
+    }, [salesAdd, salesEdit, salesDelete])
 
     tableData = sales.map(data => ({
         ...data
@@ -172,7 +172,7 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale }) => {
                                     setOpenEdit(true)
                                     console.log(rowData)
                                 }
-                            }
+                            },
                         ]}
                         editable={{
                             onRowDelete: oldData =>
@@ -205,7 +205,10 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale }) => {
 }
 
 const mapStateToProps = (state, { }) => ({
-    sales: state.sales.salesList
+    sales: state.sales.salesList,
+    salesAdd: state.sales.newSaleId,
+    salesEdit: state.sales.saleEdits,
+    salesDelete: state.sales.saleID,
 })
 
 const mapDispatchToProps = (dispatch) => ({
