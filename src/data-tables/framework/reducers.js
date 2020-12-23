@@ -33,7 +33,7 @@ export const materials = createReducer(
 export const sales = createReducer(
     {
        salesList: [],
-       saleID: '',
+       saleID: '',      
        saleEdits: {} 
     }, 
     {
@@ -48,8 +48,10 @@ export const sales = createReducer(
         },
         [onDeleteSale.type]: (state, {payload: saleid}) => {            
             if (saleid === null) {
+                console.log(null)
                 return state
             }
+            console.log(saleid)
             state.saleID = saleid   
         },
         [onAddSale.type]: (state, {payload:newSaleId}) => {

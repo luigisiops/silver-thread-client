@@ -9,7 +9,7 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial }) => {
 
   useEffect(() => {
     onGetMaterials()
-  }, [materials])
+  }, [])
 
   let tableData = materials.map(data => ({
     ...data
