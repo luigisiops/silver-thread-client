@@ -4,10 +4,43 @@ import { connect } from "react-redux"
 import './MaterialsTable.css'
 import { GetMaterials } from "../use-cases/getMaterials"
 import { DeleteMaterial } from "../use-cases/deleteMaterial"
-import { AddMaterial } from "../use-cases/addMaterial"
 
 import Popover from '@material-ui/core/Popover';
-import AddMaterialModal from './AddMaterialModal'
+//import AddMaterialModal from './AddMaterialModal'
+
+import "./AddMaterialModal.css"
+
+import {AddMaterial} from "../use-cases/addMaterial";
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+
+
+const AddMaterialModal = ({materials, onAddMaterial, closeModal }) => {
+    const [fields, setFields] = useState({})
+
+    const setField = (evt) => {
+        setFields({
+            ...fields,
+            [evt.target.name]: evt.target.value
+        })
+    }
+    console.log(fields)
+
+    return(
+        <div className = "add-material-container">
+        <Button variant = "contained" onClick = {() => closeModal()}>Close</Button>
+            <div>Add Material</div>
+                <div className="material-input"><TextField id="outlined-basic" label="Name" variant="outlined" name = "materialName" onChange = {setField}/></div> 
+                <div className="material-input"><TextField id="outlined-basic" label="Vendor" variant="outlined" name = "vendor" onChange = {setField}/></div> 
+                <div className="material-input"><TextField id="outlined-basic" label="Vendor Material Id" variant="outlined" name = "vendorMaterialId" onChange = {setField}/></div> 
+                <div className="material-input"><TextField id="outlined-basic" label="Unit" variant="outlined" name = "unit" onChange = {setField}/></div> 
+                <div className="material-input"><TextField id="outlined-basic" label="Unit Price" variant="outlined" name = "unitPrice" onChange = {setField}/></div> 
+                <div className="material-input"><TextField id="outlined-basic" label="Category" variant="outlined" name = "category" onChange = {setField}/></div> 
+            <Button variant = "contained" onClick = {()=> onAddMaterial(fields)}>Add</Button>
+        </div>
+     
+    )
+}
 
 
 const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, onAddMaterial }) => {
@@ -34,6 +67,9 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, onAddMate
     { id: '3', name: 'Leather Chain', description: 'Leather', unit_price: '.3.68', category: 'chain' },
   ])
 
+  const closeModal = () => {
+    setOpen(false)
+  }
 
   return (
     <div className='materialsContainer'>
@@ -49,7 +85,7 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, onAddMate
           horizontal: 'center',
         }}
       >
-        <AddMaterialModal />
+        <AddMaterialModal className = "modal" closeModal = {closeModal}/>
       </Popover>
       <MaterialTable
         title="Silverthread Materials"

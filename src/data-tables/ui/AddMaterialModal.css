@@ -1,9 +1,12 @@
-add-material-container{
+.add-material-container{
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     width: 400px;
     height: 500px;
-    padding: 20px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.material-input{
+    width: 50%;
+    margin-bottom: 5px;
 }
