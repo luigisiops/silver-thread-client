@@ -13,6 +13,10 @@ import Box from '@material-ui/core/Box';
 import MaterialsTable from './data-tables/ui/MaterialsTable'
 import SalesTable from './data-tables/ui/SalesTable'
 import ProductsTable from './data-tables/ui/ProductsTable'
+import Dashboard from './data-tables/ui/Dashboard'
+// import Login from './login/ui/login';
+import Logout from './login/ui/logout';
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -83,68 +87,28 @@ export default function NavTabs() {
           onChange={handleChange}
           aria-label="nav tabs example"
         >
-          <LinkTab label="Materials" href="/materials" {...a11yProps(0)} />
-          <LinkTab label="Products" href="/products" {...a11yProps(1)} />
-          <LinkTab label="Sales" href="/sales" {...a11yProps(2)} />
+          <LinkTab label="Dashboard" href="/dashboard" {...a11yProps(0)} />
+          <LinkTab label="Materials" href="/materials" {...a11yProps(1)} />
+          <LinkTab label="Products" href="/products" {...a11yProps(2)} />
+          <LinkTab label="Sales" href="/sales" {...a11yProps(3)} />
+          <LinkTab label="Logout" href="/logout" {...a11yProps(4)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <MaterialsTable />
+        <Dashboard />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <ProductsTable />
+        <MaterialsTable />
       </TabPanel>
       <TabPanel value={value} index={2}>
-      <SalesTable />
+        <ProductsTable />
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        <SalesTable />
+      </TabPanel>
+      <TabPanel value={value} index={4}>
+        <Logout />
       </TabPanel>
     </div>
   );
 }
-
-
-
-
-// import React from 'react';
-// import './App.css';
-// import { Tabs, Tab, AppBar, Box } from '@material-ui/core';
-// import { BrowserRouter, Route, Switch } from 'react-router-dom';
-
-// // Pages
-// import MaterialsTable from './data-tables/ui/MaterialsTable'
-// import SalesTable from './data-tables/ui/SalesTable'
-// import ProductsTable from './data-tables/ui/ProductsTable'
-
-
-  // const routes = ["/materials", "/products", "/sales"]
-
-  // return(
-  //   <div className="App">
-  //     <BrowserRouter>
-  //     <Route path="/">
-  //     <AppBar>
-  //       <Tabs>
-  //         <Tab label="Materials" value={routes[0]}/>
-  //         <Tab label="Products" value={routes[1]}/>
-  //         <Tab label="Sales" value={routes[2]}/>
-  //       </Tabs>
-  //     </AppBar>
-  //     </Route>
-
-  //     <Switch>
-  //       <Route component={MaterialsTable} path='/materials' />
-  //       <Route component={ProductsTable} path='/products'/>
-  //       <Route component={SalesTable} path='/sales'/>
-  //     </Switch>
-  //     </BrowserRouter>
-  //   </div>
-  // )
-// }
-// const App = () => {
-//   return (
-//     <div className="App">
-//       <h1>App</h1>
-//     </div>
-//   );
-// }
-
-// export default App;
