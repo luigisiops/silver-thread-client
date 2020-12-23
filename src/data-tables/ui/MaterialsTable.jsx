@@ -15,19 +15,17 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, onAddMate
 
   useEffect(() => {
     onGetMaterials()
-  }, [materials])
+  }, [])
 
   let tableData = materials.map(data => ({
     ...data
   }))
   const columns = [
     { title: 'id', field: 'id', hidden: true },
-    { title: 'Name', field: 'material_name' },
-    { title: 'Unit', field: 'unit' },
+    { title: 'Name', field: 'name' },
+    { title: 'Description', field: 'description' },
     { title: 'Price per Unit', field: 'unit_price' },
     { title: 'Category', field: 'category' },
-    { title: 'Vendor', field: 'vendor' },
-    { title: 'Product Number', field: 'vendor_material_id' },
   ]
 
   const [data, setData] = useState([
