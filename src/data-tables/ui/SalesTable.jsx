@@ -42,7 +42,6 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, sale
 
     //get sales from db
     useEffect(() => {
-        console.log('fired')
         onGetSales()       
     }, [salesAdd, salesEdit, salesDelete])
 

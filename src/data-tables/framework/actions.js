@@ -9,3 +9,5 @@ export const onGetSales = createAction("get.sales")
 export const onDeleteSale = createAction("delete.sale")
 export const onAddSale = createAction("add.sale")
 export const onEditSale = createAction("edit.sale")
+
+export const onGetProducts = createAction("get.products")

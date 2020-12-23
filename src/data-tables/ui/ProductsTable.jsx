@@ -3,21 +3,28 @@ import { useEffect, useState } from 'react';
 import { connect } from 'react-redux'
 
 import Popover from '@material-ui/core/Popover';
+
 import AddProducts from './AddProducts'
+import {GetProducts} from '../use-cases/getProducts'
 
 
-
-const ProductsTable = ({  }) => {
+const ProductsTable = ({ onGetProducts, products }) => {
       
     const [open, setOpen] = useState(false)
-    const [data, setData] = useState([])
+    // const [data, setData] = useState([])
+    var tableData
 
     //get products from db
     useEffect(() => {
- 
+        onGetProducts()
     }, [])
 
+    tableData = products.map(data => ({
+        ...data
+    }))
     
+    console.log(products)
+
         //sets column headers
     const columns = [
         { title: 'id', field: 'id', hidden: true },
@@ -53,7 +60,7 @@ const ProductsTable = ({  }) => {
                 style={{backgroundColor:'#FFFFFF'}}
                     title="Silverthread Products"
                     columns={columns}
-                    data={data}
+                    data={tableData}
                     
                     options={{
                         search: false,
@@ -100,12 +107,12 @@ const ProductsTable = ({  }) => {
 }
 
 const mapStateToProps = (state, { }) => ({
-
+    products: state.products.productsList
 
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  
+  onGetProducts: GetProducts(dispatch)
 
 })
 
