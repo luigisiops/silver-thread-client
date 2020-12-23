@@ -3,21 +3,29 @@ import { useEffect, useState } from 'react';
 import { connect } from 'react-redux'
 
 import Popover from '@material-ui/core/Popover';
+
 import AddProducts from './AddProducts'
+import {GetProducts} from '../use-cases/getProducts'
+import {DeleteProduct} from '../use-cases/deleteProduct'
+import { onDeleteProduct } from '../framework/actions';
 
 
-
-const ProductsTable = ({  }) => {
+const ProductsTable = ({ onGetProducts, products, onDeleteProduct, productDelete }) => {
       
     const [open, setOpen] = useState(false)
-    const [data, setData] = useState([])
+    // const [data, setData] = useState([])
+    var tableData
 
     //get products from db
     useEffect(() => {
- 
-    }, [])
+        onGetProducts()
+    }, [productDelete])
 
+    tableData = products.map(data => ({
+        ...data
+    }))
     
+
         //sets column headers
     const columns = [
         { title: 'id', field: 'id', hidden: true },
@@ -53,7 +61,7 @@ const ProductsTable = ({  }) => {
                 style={{backgroundColor:'#FFFFFF'}}
                     title="Silverthread Products"
                     columns={columns}
-                    data={data}
+                    data={tableData}
                     
                     options={{
                         search: false,
@@ -88,7 +96,7 @@ const ProductsTable = ({  }) => {
                             new Promise((resolve, reject) => {
                                 setTimeout(() => {
                                     const id = oldData.id;                            
-                                    // put delete fuction here
+                                    onDeleteProduct(id)
                                     resolve()
                                 }, 1000)
                             }),
@@ -100,13 +108,15 @@ const ProductsTable = ({  }) => {
 }
 
 const mapStateToProps = (state, { }) => ({
-
+    products: state.products.productsList,
+    productDelete: state.products.productsDelete
 
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  onGetProducts: GetProducts(dispatch),
+  onDeleteProduct: DeleteProduct(dispatch)
   
-
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductsTable)
