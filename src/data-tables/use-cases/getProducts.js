@@ -15,7 +15,6 @@ export const GetProducts = (dispatch) => async(
     })
     //need to await on parsing response to javascript objects from json
     const productsList = await response.json()
-    console.log(productsList)
 
     //pass into our action as a payload and we dispatch it
     return dispatch(onGetProducts(productsList))

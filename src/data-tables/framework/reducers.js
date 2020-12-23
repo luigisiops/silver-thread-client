@@ -10,6 +10,7 @@ import {
     onAddSale,
     onEditSale,
     onGetProducts,
+    onDeleteProduct,
    
 }from "./actions"
 
@@ -90,7 +91,7 @@ export const sales = createReducer(
 export const products = createReducer(
     {
         productsList: [],
-        propductsDelete: '',
+        productsDelete: '',
         productsAdd: '',
         productsEdit: '',
      }, 
@@ -98,12 +99,16 @@ export const products = createReducer(
         [onGetProducts.type]: (state, {payload: products}) => {
             if (products === null){
                 return state
-            }
-            console.log(products)
+            }            
             state.productsList = products
-        }
-
-
+        },
+        [onDeleteProduct.type]: (state, {payload: productid}) => {
+            if (productid === null){
+                return state
+            }
+            console.log(productid)
+            state.productsDelete = productid
+        },
 
      }
 )    

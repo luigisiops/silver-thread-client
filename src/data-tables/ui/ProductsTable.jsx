@@ -6,9 +6,11 @@ import Popover from '@material-ui/core/Popover';
 
 import AddProducts from './AddProducts'
 import {GetProducts} from '../use-cases/getProducts'
+import {DeleteProduct} from '../use-cases/deleteProduct'
+import { onDeleteProduct } from '../framework/actions';
 
 
-const ProductsTable = ({ onGetProducts, products }) => {
+const ProductsTable = ({ onGetProducts, products, onDeleteProduct, productDelete }) => {
       
     const [open, setOpen] = useState(false)
     // const [data, setData] = useState([])
@@ -17,13 +19,12 @@ const ProductsTable = ({ onGetProducts, products }) => {
     //get products from db
     useEffect(() => {
         onGetProducts()
-    }, [])
+    }, [productDelete])
 
     tableData = products.map(data => ({
         ...data
     }))
     
-    console.log(products)
 
         //sets column headers
     const columns = [
@@ -95,7 +96,7 @@ const ProductsTable = ({ onGetProducts, products }) => {
                             new Promise((resolve, reject) => {
                                 setTimeout(() => {
                                     const id = oldData.id;                            
-                                    // put delete fuction here
+                                    onDeleteProduct(id)
                                     resolve()
                                 }, 1000)
                             }),
@@ -107,13 +108,15 @@ const ProductsTable = ({ onGetProducts, products }) => {
 }
 
 const mapStateToProps = (state, { }) => ({
-    products: state.products.productsList
+    products: state.products.productsList,
+    productDelete: state.products.productsDelete
 
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  onGetProducts: GetProducts(dispatch)
-
+  onGetProducts: GetProducts(dispatch),
+  onDeleteProduct: DeleteProduct(dispatch)
+  
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductsTable)
