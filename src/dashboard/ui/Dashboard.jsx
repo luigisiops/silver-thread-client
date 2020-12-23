@@ -1,88 +1,113 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { VictoryPie, VictoryChart, VictoryLegend, VictoryLabel } from 'victory';
+import React from 'react'
+import './Dashboard.css';
+// import Dashboard from './dashboard/ui/Dashboard'
 
-const data = [
-    { x: 1, y: 2 },
-    { x: 2, y: 2 },
-    { x: 3, y: 3 }
-  ];
-  const legendData = [{ name: "Necklaces" }, { name: "Bracelets" }, { name: "Rings" }];
+
+
+//Pages
+import PieChart from './PieChart'
+import BarChart from './BarChart'
+
 
 
 const Dashboard = () => {
-    return (
-      <div>
-        <h1>Silverthread Products Sold</h1>
-        <svg color={"white"} width={500} height={400} style={{ border: "1px solid #ccc", backgroundColor: "white" }}>
-        {/* <h1>Silverthread Prodcuts Sold</h1> */}
-        {/* <div> */}
-        {/* <p>Silverthread Prodcuts Sold</p> */}
-          <VictoryLegend
-            standalone={false}
-            colorScale={["#78bfb5", "#f06292", "#b71c1c"]}
-            x={20}
-            y={40}
-            gutter={20}
-            title="Legend"
-            centerTitle
-            style={{ border: { stroke: "black" } }}
-            data={legendData}
-          />
-          <VictoryPie
-        //   titleComponent={"Silverthread Prodcuts Sold"}
-            // title="Silverthread Prodcuts Sold"
-            // name="Silverthread Prodcuts Sold"
-            standalone={false}
-            width={400}
-            height={300}
-            padding={{
-              left: 200,
-              bottom: 20,
-              top: 100
-            }}
-            colorScale={["#78bfb5", "#f06292", "#b71c1c"]}
-            data={data}
-            labels={() => null}
-          />
-          {/* </div> */}
-        </svg>
-        </div>
-      );
-//     return (
-//         <div>
-// <VictoryChart>
-// <VictoryPie
-//   data={[
-//     { x: "Necklaces", y: 35, yourAttribute: "#78bfb5" },
-//     { x: "Bracelets", y: 40, yourAttribute: "#f06292" },
-//     { x: "Earrings", y: 55, yourAttribute: "#b71c1c" }
-//   ]}
-//   style={{
-//     data: {
-//       fill: (d) => d.slice.data.yourAttribute
-//     }
-//   }}
-// />
-// </VictoryChart>
-            {/* <VictoryPie
-  colorScale={["#78bfb5", "#f06292", "#01579b", "#b71c1c", "navy" ]}
-  data={[
-    { x: "Earrings", y: 20 },
-    { x: "Necklaces", y: 22 },
-    { x: "Bracelets", y: 15 },
-    { x: "Rings", y: 10 },
-    { x: "Other", y: 20 },
-    { x: "Mezuzzahs", y: 2 },
-    { x: "Brooches", y: 1 },
-    { x: "Chains", y: 10 }
-  ]}
-/> */}
-    //     </div>
-    // )
+  return (
+    <div className="Dashboard">
+      <PieChart />
+      <BarChart />
+    </div>
+  )
 }
 
 export default Dashboard
+
+
+
+// import React from 'react';
+// import ReactDOM from 'react-dom';
+// import { VictoryPie, VictoryChart, VictoryLegend, VictoryLabel } from 'victory';
+
+// const data = [
+//     { x: 1, y: 2 },
+//     { x: 2, y: 2 },
+//     { x: 3, y: 3 }
+//   ];
+//   const legendData = [{ name: "Necklaces" }, { name: "Bracelets" }, { name: "Rings" }];
+
+
+// const Dashboard = () => {
+//     return (
+//       <div>
+//         <h1>Silverthread Products Sold</h1>
+//         <svg color={"white"} width={500} height={400} style={{ border: "1px solid #ccc", backgroundColor: "white" }}>
+//         {/* <h1>Silverthread Prodcuts Sold</h1> */}
+//         {/* <div> */}
+//         {/* <p>Silverthread Prodcuts Sold</p> */}
+//           <VictoryLegend
+//             standalone={false}
+//             colorScale={["#78bfb5", "#f06292", "#b71c1c"]}
+//             x={20}
+//             y={40}
+//             gutter={20}
+//             title="Legend"
+//             centerTitle
+//             style={{ border: { stroke: "black" } }}
+//             data={legendData}
+//           />
+//           <VictoryPie
+//         //   titleComponent={"Silverthread Prodcuts Sold"}
+//             // title="Silverthread Prodcuts Sold"
+//             // name="Silverthread Prodcuts Sold"
+//             standalone={false}
+//             width={400}
+//             height={300}
+//             padding={{
+//               left: 200,
+//               bottom: 20,
+//               top: 100
+//             }}
+//             colorScale={["#78bfb5", "#f06292", "#b71c1c"]}
+//             data={data}
+//             labels={() => null}
+//           />
+//           {/* </div> */}
+//         </svg>
+//         </div>
+//       );
+// //     return (
+// //         <div>
+// // <VictoryChart>
+// // <VictoryPie
+// //   data={[
+// //     { x: "Necklaces", y: 35, yourAttribute: "#78bfb5" },
+// //     { x: "Bracelets", y: 40, yourAttribute: "#f06292" },
+// //     { x: "Earrings", y: 55, yourAttribute: "#b71c1c" }
+// //   ]}
+// //   style={{
+// //     data: {
+// //       fill: (d) => d.slice.data.yourAttribute
+// //     }
+// //   }}
+// // />
+// // </VictoryChart>
+//             {/* <VictoryPie
+//   colorScale={["#78bfb5", "#f06292", "#01579b", "#b71c1c", "navy" ]}
+//   data={[
+//     { x: "Earrings", y: 20 },
+//     { x: "Necklaces", y: 22 },
+//     { x: "Bracelets", y: 15 },
+//     { x: "Rings", y: 10 },
+//     { x: "Other", y: 20 },
+//     { x: "Mezuzzahs", y: 2 },
+//     { x: "Brooches", y: 1 },
+//     { x: "Chains", y: 10 }
+//   ]}
+// /> */}
+//     //     </div>
+//     // )
+// }
+
+// export default Dashboard
 
 
 // import * as React from 'react';

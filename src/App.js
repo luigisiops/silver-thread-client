@@ -13,7 +13,8 @@ import Box from '@material-ui/core/Box';
 import MaterialsTable from './data-tables/ui/MaterialsTable'
 import SalesTable from './data-tables/ui/SalesTable'
 import ProductsTable from './data-tables/ui/ProductsTable'
-import Dashboard from './data-tables/ui/Dashboard'
+import Dashboard from './dashboard/ui/Dashboard'
+// import Dashboard from './data-tables/ui/Dashboard'
 // import Login from './login/ui/login';
 import Logout from './login/ui/logout';
 
