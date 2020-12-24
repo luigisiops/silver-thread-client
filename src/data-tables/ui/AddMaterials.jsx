@@ -1,29 +1,26 @@
 import TextField from "@material-ui/core/TextField"
 // import SaveIcon from "@material-ui/icons/Save"
 import Button from "@material-ui/core/Button"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { connect } from "react-redux"
-import { AddSale } from "../use-cases/addSale"
-import { Link } from "react-router-dom"
+import { AddMaterial } from "../use-cases/addMaterial"
 import './AddSales.css'
 
-const AddSales = ({ addSale }) => {
+const AddMaterials = ({ onAddMaterial }) => {
     // putting empty fields object into local state
    const [fields, setFields] = useState({})
+
    const setField = (evt) =>
       setFields({
          ...fields,
          [evt.target.name]: evt.target.value,
       })
 
-      // not sure if we need this but putting it in here anyway
-   useEffect(() => {}, [])
-
    // refreshes the page when save button is clicked
-   let onClosePopup = () => {
-      // console.log("onClosePopop")
-      window.location.reload()
-   }
+   // let onClosePopup = () => {
+   //    // console.log("onClosePopop")
+   //    window.location.reload()
+   // }
 
    return (
       <div id="container">
@@ -32,28 +29,18 @@ const AddSales = ({ addSale }) => {
          <div id="inputs">
             <TextField
                className="outlined"
-               label="Product ID"
-               name="product_number"
+               label="Material Name"
+               name="material_name"
                onChange={setField}
                InputLabelProps={{
                   shrink: true,
                }}
                variant="outlined"
             />
-            <TextField
+             <TextField
                className="outlined"
-               label="Product Name"
-               name="product_name"
-               onChange={setField}
-               InputLabelProps={{
-                  shrink: true,
-               }}
-               variant="outlined"
-            />
-            <TextField
-               className="outlined"
-               label="Product Category"
-               name="product_category"
+               label="Unit"
+               name="unit"
                onChange={setField}
                InputLabelProps={{
                   shrink: true,
@@ -63,7 +50,7 @@ const AddSales = ({ addSale }) => {
             <TextField
                className="outlined"
                label="Price Per Unit"
-               name="price_per_unit"
+               name="unit_price"
                onChange={setField}
                InputLabelProps={{
                   shrink: true,
@@ -72,8 +59,8 @@ const AddSales = ({ addSale }) => {
             />
             <TextField
                className="outlined"
-               label="Quantity"
-               name="quantity"
+               label="Material Category"
+               name="category"
                onChange={setField}
                InputLabelProps={{
                   shrink: true,
@@ -82,39 +69,39 @@ const AddSales = ({ addSale }) => {
             />
             <TextField
                className="outlined"
-               label="Total Price"
-               name="total_price"
+               label="Vendor"
+               name="vendor"
                onChange={setField}
                InputLabelProps={{
                   shrink: true,
                }}
                variant="outlined"
-            />
+                />
             <TextField
                className="outlined"
-               label="Sold To"
-               name="sold_to"
+               label="Product ID"
+               name="vendor_material_id"
                onChange={setField}
                InputLabelProps={{
                   shrink: true,
                }}
                variant="outlined"
-            />
-            <Link to="/sales">
-               <Button
+                />
+
+                <Button
                   onClick={() => {
-                     addSale(fields)
-                     onClosePopup()
+                    onAddMaterial(fields)
+           
                   }}
                   variant="contained"
-                  color="primary"
+                  color="secondary"
                   size="large"
                   className="addSalesBtn"
                   // startIcon={<SaveIcon />}
                >
                   Save
                </Button>
-            </Link>
+         
          </div>
       </div>
    )
@@ -122,7 +109,7 @@ const AddSales = ({ addSale }) => {
 
 // CRUD operation 
 const mapDispatchToProps = (dispatch) => ({
-   addSale: AddSale(dispatch),
+    onAddMaterial: AddMaterial(dispatch)
 })
 
-export default connect(null, mapDispatchToProps)(AddSales)
+export default connect(null, mapDispatchToProps)(AddMaterials)

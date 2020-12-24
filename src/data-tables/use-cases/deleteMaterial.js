@@ -14,6 +14,7 @@ export const DeleteMaterial= (dispatch) => async(
     })
     //need to await on parsing response to javascript objects from json
     const success = await response.json()
+    console.log(success)
    
     //pass into our action as a payload and we dispatch it
      return dispatch(onDeleteMaterial(success))
