@@ -1,3 +1,13 @@
 .addProductsContainer {
     margin: 25px;
 }
+
+.materialDetails {
+    display: flex;
+    flex-direction: column;
+}
+
+.pricingContainer {
+    display: flex;
+    flex-direction: column;
+}
