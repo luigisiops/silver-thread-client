@@ -17,6 +17,7 @@ import {
 export const materials = createReducer(
     {
         materialsList: [],
+        byId: {},
         materialID: '',
         materialAdd: '',
         materialEdit: '',
@@ -27,6 +28,9 @@ export const materials = createReducer(
                 return state
             }
             state.materialsList = material
+            material.forEach((item) => {
+                state.byId[item.id] = item
+            })
         },
 
         [onAddMaterial.type]: (state,{payload: material}) => {
@@ -34,6 +38,8 @@ export const materials = createReducer(
                 return state
             } 
             state.materialsList = [...state.materialsList, material]
+            state.byId[material.id] = material
+            
         }, 
 
         [onDeleteMaterial.type]:(state, {payload: materialid}) => {
@@ -41,6 +47,8 @@ export const materials = createReducer(
                 return state
             }
             state.materialID = materialid
+            delete state.byId[materialid.deletedMaterial]
+
         },
         [onAddMaterial.type]: (state, {payload: materialDetails }) => {
             if (materialDetails === null) {

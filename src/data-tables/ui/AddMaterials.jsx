@@ -5,6 +5,8 @@ import { useState } from "react"
 import { connect } from "react-redux"
 import { AddMaterial } from "../use-cases/addMaterial"
 import './AddSales.css'
+import './EditSales.css'
+
 
 const AddMaterials = ({ onAddMaterial }) => {
     // putting empty fields object into local state
@@ -23,7 +25,7 @@ const AddMaterials = ({ onAddMaterial }) => {
    // }
 
    return (
-      <div id="container">
+      <div className='editSalesContainer'>
          <h1>Add Sales</h1>
 
          <div id="inputs">
