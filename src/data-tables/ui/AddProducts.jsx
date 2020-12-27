@@ -9,9 +9,10 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import './AddProducts.css'
 import { GetMaterials } from "../use-cases/getMaterials"
-import { DeleteMaterial } from "../use-cases/deleteMaterial"
 import Autocomplete from '@material-ui/lab/Autocomplete';
-
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+import SaveIcon from "@material-ui/icons/Save"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -26,13 +27,13 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const AddProducts = ({ onGetMaterials, materials, onDeleteMaterial, materialsDelete }) => {
+const AddProducts = ({ onGetMaterials, materials }) => {
 
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
-    const [newProduct, setNewProduct] = useState({})
+    const [newProduct, setNewProduct] = useState({ 'product_name': '', 'product_number': '', 'category': '', 'labor': '' })
     const [returnedProduct, setReturnedProduct] = useState({})
-    const [materialToAdd, setMaterialToAdd] = useState({})
+    const [materialToAdd, setMaterialToAdd] = useState({ 'material_unit_amount': '' })
     const [addedMaterialsList, setAddedMaterialsList] = useState([])
 
     const steps = getSteps();
@@ -44,6 +45,7 @@ const AddProducts = ({ onGetMaterials, materials, onDeleteMaterial, materialsDel
 
     //handles adding newProduct and materials to db from on click
     const addProductToDB = async (product, listMaterials) => {
+
         const addProduct = {
             product_name: product.product_name,
             product_id: product.product_id,
@@ -63,7 +65,7 @@ const AddProducts = ({ onGetMaterials, materials, onDeleteMaterial, materialsDel
         const returnedProduct = await response.json()
 
         if (returnedProduct) {
-            setNewProduct({})
+            setNewProduct({ 'product_name': '', 'product_number': '', 'category': '', 'labor': '' })
             setReturnedProduct(returnedProduct.savedProduct)
             setActiveStep((prevActiveStep) => prevActiveStep + 1);
         } else {
@@ -74,21 +76,39 @@ const AddProducts = ({ onGetMaterials, materials, onDeleteMaterial, materialsDel
 
     //from onclick in last step add retail price and inventory to the db
     const addRetailPriceToDB = async (finalProduct) => {
-        const response = await fetch('http://localhost:8000/edit-product', {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(finalProduct)
-        })
+             
+        //check to make sure retail price is currency
+        var regex  = /^\d+(?:\.\d{0,2})$/;
+        let retail = finalProduct.retail_price
+        
+        //check to make sure inventory is a number
+        let quantity = +finalProduct.quantity
 
-        const result = await response.json()
 
-        if (result) {
-            setReturnedProduct({})
-            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        
+        if (!finalProduct.retail_price || (!regex.test(retail)) ) {
+            alert('add retail price')
+
+        } else if (!finalProduct.quantity || isNaN(quantity) ) {
+            alert('Please add inventory number')
+
         } else {
-            console.log('there was an error updating your pricing')
+            const response = await fetch('http://localhost:8000/edit-product', {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(finalProduct)
+            })
+
+            const result = await response.json()
+
+            if (result) {
+                setReturnedProduct({})
+                setActiveStep((prevActiveStep) => prevActiveStep + 1);
+            } else {
+                console.log('there was an error updating your pricing')
+            }
         }
     }
 
@@ -114,21 +134,27 @@ const AddProducts = ({ onGetMaterials, materials, onDeleteMaterial, materialsDel
                 }
 
                 return (
-                    <div>
-                        <h4>Add Product Details</h4>
-                        <TextField name="product_name" onChange={handleProductInput} id="outlined-basic" label="Product Name" variant="outlined" />
-                        <TextField name="product_number" onChange={handleProductInput} id="outlined-basic" label="Product Number" variant="outlined" />
-                        <div style={{ width: 300 }}>
+                    <div className="productDetailContainer">
+                        <h4>Enter Product Details</h4>
+                        <div className="textField">
+                            <TextField name="product_name" onChange={handleProductInput} value={newProduct.product_name} id="outlined-basic" label="Product Name" variant="outlined" fullWidth />
+                        </div>
+                        <div className="textField">
+                            <TextField name="product_number" onChange={handleProductInput} value={newProduct.product_number} id="outlined-basic" label="Product Number" variant="outlined" fullWidth />
+                        </div>
+                        <div className="textField">
                             <Autocomplete
                                 id="free-solo-demo"
                                 freeSolo
                                 options={category.map((option) => option.title)}
                                 renderInput={(params) => (
-                                    <TextField {...params} name='category' onSelect={handleProductInput} label="Category" margin="normal" variant="outlined" />
+                                    <TextField {...params} name='category' onSelect={handleProductInput} value={newProduct.category} label="Category" margin="normal" variant="outlined" fullWidth />
                                 )} handleProductInput
                             />
                         </div>
-                        <TextField name="labor" onChange={handleProductInput} id="outlined-basic" label="Labor" variant="outlined" />
+                        <div className="textField">
+                            <TextField name="labor" onChange={handleProductInput} value={newProduct.labor} id="outlined-basic" label="Labor" variant="outlined" fullWidth />
+                        </div>
                     </div>
                 );
 
@@ -140,15 +166,15 @@ const AddProducts = ({ onGetMaterials, materials, onDeleteMaterial, materialsDel
 
                     let material = materials.find(item => {
                         return item.material_name == materialItem
-
                     })
 
+                    //sets into material to add
                     setMaterialToAdd({
                         ...materialToAdd,
                         material
                     })
-
                 }
+
 
                 //inputs quantity of materials
                 const handleQuantityInput = (e) => {
@@ -159,45 +185,69 @@ const AddProducts = ({ onGetMaterials, materials, onDeleteMaterial, materialsDel
                 }
 
                 //adds material in materialToAdd into the MaterialsArry
-                const addToMaterialArray = (addMaterial) => {
+                const addToMaterialList = (addMaterial) => {
+                   
+                    let quantity = +addMaterial.material_unit_amount
 
-                    setAddedMaterialsList([...addedMaterialsList,
-                    {
-                        id: addMaterial.material.id,
-                        material_name: addMaterial.material.material_name,
-                        unit_price: addMaterial.material.unit_price,
-                        material_unit_amount: addMaterial.material_unit_amount
+                    if (!addMaterial.material) {
+                        alert('Please select a material')
+                    } else if (isNaN(quantity) || quantity === '') {
+                        alert('Please enter a quantity')
+                    } else {
+                        setAddedMaterialsList([...addedMaterialsList,
+                        {
+                            material_id: addMaterial.material.id,
+                            material_name: addMaterial.material.material_name,
+                            unit_price: addMaterial.material.unit_price,
+                            material_unit_amount: addMaterial.material_unit_amount
+                        }
+                        ])
 
+                        setMaterialToAdd({
+                            material_unit_amount: ''
+                        })
                     }
-                    ])
-
                 }
 
+                //allows user to delete added materials before saving to db
+                const deleteMaterial = (id) => {
+                    let updatedMaterialList = addedMaterialsList.filter(item => item.material_id != id)
+                    setAddedMaterialsList(updatedMaterialList)
+                }
+
+                //map through materials in MaterialsList to show what has been added
                 const displayMaterialList = addedMaterialsList.map(item => {
-                    return <li key={item.id}>{item.material_name}: {item.material_unit_amount} @ ${item.unit_price} </li>
+                    return <div key={item.material_id}>{item.material_name}: {item.material_unit_amount} @ ${item.unit_price} <IconButton onClick={() => deleteMaterial(item.material_id)} aria-label="delete"><DeleteIcon /></IconButton></div>
                 })
 
 
                 return (
                     <div>
-                        <h4>Add Materials</h4>
-                        <div style={{ width: 300 }}>
+                        <div className='textField'>
+                            <b>Select Materials:</b>
+                        </div>
+                        <div className='textField'>
                             <Autocomplete
                                 id="free-solo-demo"
                                 freeSolo
                                 options={materials.map((option) => option.material_name)}
                                 renderInput={(params) => (
-                                    <TextField {...params} name='material' onSelect={handleMaterialInput} label="Select Material" margin="normal" variant="outlined" />
+                                    <TextField {...params} name='material' onSelect={handleMaterialInput} label="Select Material" margin="normal" variant="outlined" fullWidth />
                                 )}
                             />
-                            <TextField name="material_unit_amount" onChange={handleQuantityInput} id="outlined-basic" label="Quantity" variant="outlined" />
                         </div>
-                        <Button onClick={() => addToMaterialArray(materialToAdd)} variant="contained" color="primary" className={classes.button} >
-                            Add Material
+                        <div className='textField'>
+                            <TextField name="material_unit_amount" value={materialToAdd.material_unit_amount} onChange={handleQuantityInput} id="outlined-basic" label="Quantity" variant="outlined" fullWidth />
+                        </div>
+                        <div className='textField'>
+                            <Button onClick={() => addToMaterialList(materialToAdd)} variant="contained" color="primary" className={classes.button} >
+                                Add Material
                             </Button>
-                        <div>
-                            {displayMaterialList}
                         </div>
+                        {addedMaterialsList.length >= 1 ? <div className="addedMaterials">
+                            <b>Added Materials: </b>
+                            {displayMaterialList}
+                        </div> : null}
 
                     </div>
                 );
@@ -205,23 +255,25 @@ const AddProducts = ({ onGetMaterials, materials, onDeleteMaterial, materialsDel
 
             case 2:
                 //bring product details - list all product details and add retail price and inventory
-
                 const handleSetPricing = (e) => {
                     setReturnedProduct({
                         ...returnedProduct,
                         [e.target.name]: e.target.value
                     })
-
                 }
 
                 return <div className="pricingContainer">
-                    <h4>Set Pricing</h4>
-                    <label>Name: {returnedProduct.product_name}</label>
-                    <label>Product number here</label>
-                    <label>Category: {returnedProduct.category}</label>
-                    <label>Wholesale Price: <TextField name="wholelsale" value={returnedProduct.wholesale} onChange={handleSetPricing} id="outlined-basic" label="Wholesale" variant="outlined" /></label>
-                    <label>Retail Price: <TextField name="retail_price" onChange={handleSetPricing} id="outlined-basic" label="Retail" variant="outlined" /></label>
-                    <label>Inventory: <TextField name="quantity" onChange={handleSetPricing} id="outlined-basic" label="Inventory" variant="outlined" /></label>
+                    <h4>Set Pricing and Inventory</h4>
+                    <label><b>Name:</b> {returnedProduct.product_name}</label>
+                    <label><b>Product number:</b> here</label>
+                    <label><b>Category:</b> {returnedProduct.category}</label>
+                    <label><b>Wholesale Price:</b> ${returnedProduct.wholesale}</label>
+                    <div className='pricingInputs'>
+                        <b>Retail Price:</b> $<TextField name="retail_price" onChange={handleSetPricing} id="standard-basic" label="" />
+                    </div>
+                    <div className='pricingInputs'>
+                        <b>Inventory:</b> <TextField name="quantity" onChange={handleSetPricing} id="standard-basic" label="" />
+                    </div>
                 </div>
             default:
                 return 'Unknown step';
@@ -235,7 +287,20 @@ const AddProducts = ({ onGetMaterials, materials, onDeleteMaterial, materialsDel
     };
 
     const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        //check to make sure labor is a number
+        let labor = +newProduct.labor
+
+        if (newProduct.product_name == '') {
+            alert('Please enter a product name')
+        } else if (newProduct.product_number == '') {
+            alert('Please enter a product number')
+        } else if (newProduct.category == '') {
+            alert('Please enter a category')
+        } else if (isNaN(labor) || labor === '') {
+            alert('Please enter the number of minutes required')
+        } else {
+            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        }
     };
 
     const handleClose = () => {
@@ -245,7 +310,7 @@ const AddProducts = ({ onGetMaterials, materials, onDeleteMaterial, materialsDel
 
     return (
         <div className="addProductsContainer">
-            <h1>Add Products</h1>
+            <h2>Add New Product</h2>
             <div className={classes.root}>
                 <Stepper activeStep={activeStep}>
                     {steps.map((label, index) => {
@@ -275,7 +340,7 @@ const AddProducts = ({ onGetMaterials, materials, onDeleteMaterial, materialsDel
                             <div>
                                 <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
                                 <div>
-                                    <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
+                                    <Button disabled={activeStep === 0 || activeStep === 2} onClick={handleBack} className={classes.button}>
                                         Back
                                 </Button>
 
@@ -312,8 +377,9 @@ const AddProducts = ({ onGetMaterials, materials, onDeleteMaterial, materialsDel
                                             color="primary"
                                             onClick={() => addRetailPriceToDB(returnedProduct)}
                                             className={classes.button}
+                                            startIcon={<SaveIcon />}
                                         >
-                                            {activeStep === steps.length - 1 ? 'Save Product' : 'Next'}
+                                            {activeStep === steps.length - 1 ? 'Save' : 'Next'}
                                         </Button>
                                         : null}
                                 </div>
@@ -328,14 +394,12 @@ const AddProducts = ({ onGetMaterials, materials, onDeleteMaterial, materialsDel
 
 const mapStateToProps = (state, { materials }) => ({
     materials: state.materials.materialsList,
-    materialsDelete: state.materials.materialID,
-    // materialsAdd: state.materials.materialAdd,
-    // materialsEdit: state.materials.materialEdit
+
 })
 
 const mapDispatchToProps = (dispatch) => ({
     onGetMaterials: GetMaterials(dispatch),
-    onDeleteMaterial: DeleteMaterial(dispatch),
+
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddProducts)
