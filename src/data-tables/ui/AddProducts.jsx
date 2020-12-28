@@ -8,11 +8,15 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import './AddProducts.css'
-import { GetMaterials } from "../use-cases/getMaterials"
+
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from "@material-ui/icons/Save"
+import { onAddProduct, onGetProducts, onEditProduct } from '../framework/actions';
+import { GetMaterials } from "../use-cases/getMaterials"
+import { AddProduct } from "../use-cases/addProduct"
+import { EditProduct } from "../use-cases/editProduct"
 
 //for material ui components
 const useStyles = makeStyles((theme) => ({
@@ -28,22 +32,33 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const AddProducts = ({ onGetMaterials, materials }) => {
+const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProduct, onEditProduct, }) => {
 
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
-    const [newProduct, setNewProduct] = useState({ 'product_name': '', 'product_number': '', 'category': '', 'labor': '' })
+    const [newProduct, setNewProduct] = useState({ 'product_name': '', 'product_num': '', 'category': '', 'labor': '' })
     const [returnedProduct, setReturnedProduct] = useState({})
     const [materialToAdd, setMaterialToAdd] = useState({ 'material_unit_amount': '' })
     const [addedMaterialsList, setAddedMaterialsList] = useState([])
 
     const steps = getSteps();
 
-    //gets materials for selector in add materials step
+    //gets materials for selector in add materials step on load
     useEffect(() => {
         onGetMaterials()
     }, [])
 
+    //updates returned product, resets new product, and moves stepper forward when returned product is received
+    useEffect(() => {    
+        setReturnedProduct(newReturnedProduct)              
+        if (activeStep > 0) {            
+            setNewProduct({ 'product_name': '', 'product_num': '', 'category': '', 'labor': '' })
+            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        }
+    }, [newReturnedProduct])
+
+    //resets returned Product to empty object and 
+   
     //these are the steps shown at the top of the stepper
     function getSteps() {
         return ['Enter Product', 'Add Materials', 'Set Pricing'];
@@ -73,13 +88,12 @@ const AddProducts = ({ onGetMaterials, materials }) => {
                             <TextField name="product_name" onChange={handleProductInput} value={newProduct.product_name} id="outlined-basic" label="Product Name" variant="outlined" fullWidth />
                         </div>
                         <div className="textField">
-                            <TextField name="product_number" onChange={handleProductInput} value={newProduct.product_number} id="outlined-basic" label="Product Number" variant="outlined" fullWidth />
+                            <TextField name="product_num" onChange={handleProductInput} value={newProduct.product_num} id="outlined-basic" label="Product Number" variant="outlined" fullWidth />
                         </div>
                         <div className="textField">
                             <Autocomplete
                                 id="free-solo-demo"
-                                freeSolo
-                                
+                                freeSolo                                
                                 options={category.map((option) => option.title)}
                                 renderInput={(params) => (
                                     <TextField {...params} name='category' onSelect={handleProductInput} value={newProduct.category} label="Category" margin="normal" variant="outlined" fullWidth />
@@ -200,7 +214,7 @@ const AddProducts = ({ onGetMaterials, materials }) => {
                 return <div className="pricingContainer">
                     <h4>Set Pricing and Inventory</h4>
                     <label><b>Name:</b> {returnedProduct.product_name}</label>
-                    <label><b>Product number:</b> here</label>
+                    <label><b>Product number:</b> {returnedProduct.product_num}</label>
                     <label><b>Category:</b> {returnedProduct.category}</label>
                     <label><b>Wholesale Price:</b> ${returnedProduct.wholesale}</label>
                     <div className='pricingInputs'>
@@ -228,23 +242,9 @@ const AddProducts = ({ onGetMaterials, materials }) => {
             materials: listMaterials
         }
 
-        const response = await fetch(`http://localhost:8000/products`, {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(addProduct)
-        })
-
-        const returnedProduct = await response.json()
-
-        if (returnedProduct) {
-            setNewProduct({ 'product_name': '', 'product_number': '', 'category': '', 'labor': '' })
-            setReturnedProduct(returnedProduct.savedProduct)
-            setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        } else {
-            console.log("There was an error adding your product")
-        }
+        //call function here pass in addProduct
+        onAddProduct(addProduct)
+        // setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
 
     //from onclick in last step add retail price and inventory to the db
@@ -264,22 +264,9 @@ const AddProducts = ({ onGetMaterials, materials }) => {
             alert('Inventory must be entered as a whole number')
 
         } else {
-            const response = await fetch('http://localhost:8000/edit-product', {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(finalProduct)
-            })
-
-            const result = await response.json()
-
-            if (result) {
-                setReturnedProduct({})
-                setActiveStep((prevActiveStep) => prevActiveStep + 1);
-            } else {
-                console.log('there was an error updating your pricing')
-            }
+            onEditProduct(finalProduct) 
+            setReturnedProduct({})
+            setActiveStep((prevActiveStep) => prevActiveStep + 1);          
         }
     }
 
@@ -295,7 +282,7 @@ const AddProducts = ({ onGetMaterials, materials }) => {
 
         if (newProduct.product_name == '') {
             alert('Please enter a product name')
-        } else if (newProduct.product_number == '') {
+        } else if (newProduct.product_num == '') {
             alert('Please enter a product number')
         } else if (newProduct.category == '') {
             alert('Please enter a category')
@@ -397,11 +384,14 @@ const AddProducts = ({ onGetMaterials, materials }) => {
 
 const mapStateToProps = (state, { materials }) => ({
     materials: state.materials.materialsList,
+    newReturnedProduct: state.products.newProduct,   
 
 })
 
 const mapDispatchToProps = (dispatch) => ({
     onGetMaterials: GetMaterials(dispatch),
+    onAddProduct: AddProduct(dispatch),
+    onEditProduct: EditProduct(dispatch)
 
 })
 
