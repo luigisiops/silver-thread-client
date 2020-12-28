@@ -1,3 +1,15 @@
 .materialsContainer {
+<<<<<<< HEAD
   margin: 25px;
 }
+=======
+    margin: 25px;
+}
+.modal{
+    display: flex;
+    width: 500px;
+    height: 700px;
+    flex-direction: column;
+    align-items: center;
+}
+>>>>>>> 7ac17c0e3258a410dce2693aadbbd142bca3a3a5

@@ -1,6 +1,7 @@
 import { createAction } from "@reduxjs/toolkit"
 
 export const onGetMaterials = createAction("get.materials")
+export const onAddMaterial = createAction("add.material")
 export const onDeleteMaterial = createAction("delete.material")
 export const onAddMaterial = createAction("add.material")
 export const onEditMaterial = createAction("edit.material")
