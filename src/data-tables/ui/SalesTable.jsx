@@ -65,6 +65,10 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, sale
         });
     };
 
+    const closeModal = () => {
+        setOpen(false)
+      }
+
 
     //sets column headers
     const columns = [
@@ -132,7 +136,7 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, sale
                     horizontal: 'center',
                 }}
             >
-                <AddSales />
+                <AddSales closeModal = {closeModal}/>
             </Popover>
 
             {sales === [] ?

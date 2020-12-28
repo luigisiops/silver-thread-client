@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const EditMaterials = (props, {onEditMaterial}) => {
+const EditMaterials = (props, {closeModal, onEditMaterial}) => {
     const classes = useStyles();
 
     const [updatedMaterialData, setUpdatedMaterialData] = useState(props.materialData)
@@ -37,6 +37,7 @@ const EditMaterials = (props, {onEditMaterial}) => {
     return (
         <div className='editSalesContainer'>
             <h1>Edit Materials</h1>
+            <Button onClick = {closeModal}>Close</Button>
             <div>                
                 <form className={classes.root} noValidate autoComplete="off">
                     <TextField name='material_name' value={updatedMaterialData.material_name} onChange={handleOnChange} id="outlined-basic" label="Material Name" variant="outlined" />

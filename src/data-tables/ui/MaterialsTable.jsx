@@ -17,7 +17,6 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
 const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial,  materialsDelete, materialsAdd, materialsEdit, onAddMaterial }) => {
-  const [open, setOpen] = useState(false)
 
   const [openAdd, setOpenAdd] = useState(false)
   const [openEdit, setOpenEdit] = useState(false)
@@ -46,7 +45,8 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial,  material
   ])
 
   const closeModal = () => {
-    setOpen(false)
+    setOpenAdd(false)
+    setOpenEdit(false)
   }
 
   return (
@@ -63,7 +63,7 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial,  material
           horizontal: 'center',
         }}
       >
-        <AddMaterials  closeModal = {closeModal}/>
+        <AddMaterials closeModal = {closeModal}/>
       </Popover>
 
             <Popover
@@ -77,7 +77,7 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial,  material
                 horizontal: 'center',
             }}
         >
-            <EditMaterials materialData={rowData} />
+            <EditMaterials materialData={rowData} closeModal = {closeModal} />
         </Popover>
 
       <MaterialTable

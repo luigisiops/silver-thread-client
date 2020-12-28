@@ -8,7 +8,7 @@ import './AddSales.css'
 import './EditSales.css'
 
 
-const AddMaterials = ({ onAddMaterial }) => {
+const AddMaterials = ({ closeModal, onAddMaterial }) => {
     // putting empty fields object into local state
    const [fields, setFields] = useState({})
 
@@ -27,7 +27,7 @@ const AddMaterials = ({ onAddMaterial }) => {
    return (
       <div className='editSalesContainer'>
          <h1>Add Sales</h1>
-
+         <Button onClick = {closeModal}>Close</Button>
          <div id="inputs">
             <TextField
                className="outlined"
