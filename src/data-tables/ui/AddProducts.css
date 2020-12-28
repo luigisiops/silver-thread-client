@@ -1,9 +1,16 @@
-/* container for AdProduct Component */
+/* container for AddProduct Component */
 .addProductsContainer {
     margin: 25px;
+   
 }
 
-/* container for first step of stepper - Enter Product Detials */
+h2 { 
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+/* container for first step of stepper - Enter Product Details */
 .productDetailContainer {
     display: flex;
     flex-direction: column;

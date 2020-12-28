@@ -1,6 +1,6 @@
 import { onEditProduct } from "../framework/actions"
 
-export const EditProduct = (dispatch) => async (
+export const AddRetail = (dispatch) => async (
     editedProduct
 ) => {
     const response = await fetch('http://localhost:8000/edit-product', {
@@ -25,4 +25,4 @@ export const EditProduct = (dispatch) => async (
 
 }
 
-export default EditProduct
+export default AddRetail

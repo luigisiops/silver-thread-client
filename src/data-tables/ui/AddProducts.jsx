@@ -13,10 +13,10 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from "@material-ui/icons/Save"
-import { onAddProduct, onGetProducts, onEditProduct } from '../framework/actions';
+// import { onAddProduct, onGetProducts, onEditProduct } from '../framework/actions';
 import { GetMaterials } from "../use-cases/getMaterials"
 import { AddProduct } from "../use-cases/addProduct"
-import { EditProduct } from "../use-cases/editProduct"
+import { AddRetail } from "../use-cases/addRetail"
 
 //for material ui components
 const useStyles = makeStyles((theme) => ({
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProduct, onEditProduct, }) => {
+const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProduct, onAddRetail, }) => {
 
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
@@ -57,8 +57,7 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
         }
     }, [newReturnedProduct])
 
-    //resets returned Product to empty object and 
-   
+    
     //these are the steps shown at the top of the stepper
     function getSteps() {
         return ['Enter Product', 'Add Materials', 'Set Pricing'];
@@ -122,7 +121,6 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
                         material
                     })
                 }
-
 
                 //inputs quantity of materials
                 const handleQuantityInput = (e) => {
@@ -241,10 +239,9 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
             labor: product.labor,
             materials: listMaterials
         }
-
         //call function here pass in addProduct
         onAddProduct(addProduct)
-        // setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      
     }
 
     //from onclick in last step add retail price and inventory to the db
@@ -264,7 +261,7 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
             alert('Inventory must be entered as a whole number')
 
         } else {
-            onEditProduct(finalProduct) 
+            onAddRetail(finalProduct) 
             setReturnedProduct({})
             setActiveStep((prevActiveStep) => prevActiveStep + 1);          
         }
@@ -276,6 +273,7 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
+    //takes user from entering details to enterin materials - check to make sure all fields are filled in
     const handleNext = () => {
         //check to make sure labor is a number
         let labor = +newProduct.labor
@@ -293,11 +291,7 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
         }
     };
 
-    const handleClose = () => {
-        setActiveStep(0);
-    };
-
-
+   
     return (
         <div className="addProductsContainer">
             <h2>Add New Product</h2>
@@ -320,11 +314,8 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
                     {activeStep === steps.length ? (
                         <div>
                             <Typography className={classes.instructions}>
-                                All steps completed - your product is now live
+                                All steps completed. Your product is now live.
                             </Typography>
-                            <Button onClick={handleClose} className={classes.button}>
-                                Close
-                            </Button>
                         </div>
                     ) : (
                             <div>
@@ -384,14 +375,15 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
 
 const mapStateToProps = (state, { materials }) => ({
     materials: state.materials.materialsList,
-    newReturnedProduct: state.products.newProduct,   
+    newReturnedProduct: state.products.newProduct,
+       
 
 })
 
 const mapDispatchToProps = (dispatch) => ({
     onGetMaterials: GetMaterials(dispatch),
     onAddProduct: AddProduct(dispatch),
-    onEditProduct: EditProduct(dispatch)
+    onAddRetail: AddRetail(dispatch)
 
 })
 

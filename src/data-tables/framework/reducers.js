@@ -12,7 +12,7 @@ import {
     onGetProducts,
     onDeleteProduct,
     onAddProduct,
-    onEditProduct,
+    onAddRetail,
    
 }from "./actions"
 
@@ -126,7 +126,7 @@ export const products = createReducer(
             }
 
         },
-        [onEditProduct.type]: (state, {payload: editedProduct}) => {
+        [onAddRetail.type]: (state, {payload: editedProduct}) => {
             if (editedProduct === null) {
                 return state
             } else {
