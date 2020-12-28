@@ -14,6 +14,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from "@material-ui/icons/Save"
 
+//for material ui components
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
@@ -38,83 +39,13 @@ const AddProducts = ({ onGetMaterials, materials }) => {
 
     const steps = getSteps();
 
+    //gets materials for selector in add materials step
     useEffect(() => {
-        //gets materials for selector in add materials step
         onGetMaterials()
     }, [])
 
-    //handles adding newProduct and materials to db from on click
-    const addProductToDB = async (product, listMaterials) => {
-
-        const addProduct = {
-            product_name: product.product_name,
-            product_id: product.product_id,
-            category: product.category,
-            labor: product.labor,
-            materials: listMaterials
-        }
-
-        const response = await fetch(`http://localhost:8000/products`, {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(addProduct)
-        })
-
-        const returnedProduct = await response.json()
-
-        if (returnedProduct) {
-            setNewProduct({ 'product_name': '', 'product_number': '', 'category': '', 'labor': '' })
-            setReturnedProduct(returnedProduct.savedProduct)
-            setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        } else {
-            console.log("There was an error adding your product")
-        }
-
-    }
-
-    //from onclick in last step add retail price and inventory to the db
-    const addRetailPriceToDB = async (finalProduct) => {
-             
-        //check to make sure retail price is currency
-        var regex  = /^\d+(?:\.\d{0,2})$/;
-        let retail = finalProduct.retail_price
-        
-        //check to make sure inventory is a number
-        let quantity = +finalProduct.quantity
-
-
-        
-        if (!finalProduct.retail_price || (!regex.test(retail)) ) {
-            alert('add retail price')
-
-        } else if (!finalProduct.quantity || isNaN(quantity) ) {
-            alert('Please add inventory number')
-
-        } else {
-            const response = await fetch('http://localhost:8000/edit-product', {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(finalProduct)
-            })
-
-            const result = await response.json()
-
-            if (result) {
-                setReturnedProduct({})
-                setActiveStep((prevActiveStep) => prevActiveStep + 1);
-            } else {
-                console.log('there was an error updating your pricing')
-            }
-        }
-    }
-
-
+    //these are the steps shown at the top of the stepper
     function getSteps() {
-        //these are the steps shown at the top of the stepper
         return ['Enter Product', 'Add Materials', 'Set Pricing'];
     }
 
@@ -123,6 +54,7 @@ const AddProducts = ({ onGetMaterials, materials }) => {
         switch (step) {
             //Input product name, product number, categorgy, labor time
             case 0:
+                //list of jewelry categories to choose from
                 const category = [{ title: 'Earrings' }, { title: 'Necklaces' }, { title: 'Bracelets' }, { title: 'Rings' }, { title: 'Mezuzzahs' }, { title: 'Brooches' }, { title: 'Chains' }, { title: 'Other' }]
 
                 //handles the input of the product name and number
@@ -135,6 +67,7 @@ const AddProducts = ({ onGetMaterials, materials }) => {
 
                 return (
                     <div className="productDetailContainer">
+
                         <h4>Enter Product Details</h4>
                         <div className="textField">
                             <TextField name="product_name" onChange={handleProductInput} value={newProduct.product_name} id="outlined-basic" label="Product Name" variant="outlined" fullWidth />
@@ -158,7 +91,7 @@ const AddProducts = ({ onGetMaterials, materials }) => {
                     </div>
                 );
 
-            //Input materials and quantity into Materials Array    
+            //Input materials and quantity into MaterialsList   
             case 1:
                 //STEP 2 -handles selection on material from selection picker
                 const handleMaterialInput = (e) => {
@@ -168,7 +101,7 @@ const AddProducts = ({ onGetMaterials, materials }) => {
                         return item.material_name == materialItem
                     })
 
-                    //sets into material to add
+                    //sets into material to add array
                     setMaterialToAdd({
                         ...materialToAdd,
                         material
@@ -186,7 +119,7 @@ const AddProducts = ({ onGetMaterials, materials }) => {
 
                 //adds material in materialToAdd into the MaterialsArry
                 const addToMaterialList = (addMaterial) => {
-                   
+
                     let quantity = +addMaterial.material_unit_amount
 
                     if (!addMaterial.material) {
@@ -253,8 +186,8 @@ const AddProducts = ({ onGetMaterials, materials }) => {
                 );
 
 
+            // list all product details and add retail price and inventory    
             case 2:
-                //bring product details - list all product details and add retail price and inventory
                 const handleSetPricing = (e) => {
                     setReturnedProduct({
                         ...returnedProduct,
@@ -277,6 +210,74 @@ const AddProducts = ({ onGetMaterials, materials }) => {
                 </div>
             default:
                 return 'Unknown step';
+        }
+    }
+
+    // OnClick Functions For Stepper:
+
+    //handles adding newProduct and materials to db from on click
+    const addProductToDB = async (product, listMaterials) => {
+
+        const addProduct = {
+            product_name: product.product_name,
+            product_id: product.product_id,
+            category: product.category,
+            labor: product.labor,
+            materials: listMaterials
+        }
+
+        const response = await fetch(`http://localhost:8000/products`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(addProduct)
+        })
+
+        const returnedProduct = await response.json()
+
+        if (returnedProduct) {
+            setNewProduct({ 'product_name': '', 'product_number': '', 'category': '', 'labor': '' })
+            setReturnedProduct(returnedProduct.savedProduct)
+            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        } else {
+            console.log("There was an error adding your product")
+        }
+    }
+
+    //from onclick in last step add retail price and inventory to the db
+    const addRetailPriceToDB = async (finalProduct) => {
+
+        //check to make sure retail price is currency
+        var regex = /^\d+(?:\.\d{0,2})$/;
+        let retail = finalProduct.retail_price
+
+        //check to make sure inventory is a number
+        let quantity = +finalProduct.quantity
+
+        if (!finalProduct.retail_price || (!regex.test(retail))) {
+            alert('The retail price must be entered in the format X.XX')
+
+        } else if (!finalProduct.quantity || isNaN(quantity)) {
+            alert('Inventory must be entered as a whole number')
+
+        } else {
+            const response = await fetch('http://localhost:8000/edit-product', {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(finalProduct)
+            })
+
+            const result = await response.json()
+
+            if (result) {
+                setReturnedProduct({})
+                setActiveStep((prevActiveStep) => prevActiveStep + 1);
+            } else {
+                console.log('there was an error updating your pricing')
+            }
         }
     }
 
@@ -344,7 +345,7 @@ const AddProducts = ({ onGetMaterials, materials }) => {
                                         Back
                                 </Button>
 
-                                    {/* this button shows on the first step and handles sending the name and number to the db */}
+                                    {/* this button shows on the first step and takes the input for the product details */}
                                     {activeStep === 0 ?
                                         <Button
                                             variant="contained"
@@ -357,7 +358,7 @@ const AddProducts = ({ onGetMaterials, materials }) => {
                                         : null}
 
 
-                                    {/* This button shows on the second step and handles sending the materials to the materials by product table in db */}
+                                    {/* This button shows on the second step and sends all product info to the db */}
                                     {activeStep === 1 ?
                                         <Button
                                             variant="contained"
@@ -370,7 +371,7 @@ const AddProducts = ({ onGetMaterials, materials }) => {
                                         </Button>
                                         : null}
 
-                                    {/* This button shows on the final step and handles sending retail pricing and inventory to the db */}
+                                    {/* This button shows on the final step and handles taking the input for retail pricing and inventory and sends to the db */}
                                     {activeStep === 2 ?
                                         <Button
                                             variant="contained"
