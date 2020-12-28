@@ -27,14 +27,14 @@ const useStyles = makeStyles((theme) => ({
 
 const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, salesDelete, }) => {
     const classes = useStyles();
- 
+
     //set date for date-pickers
     let end_date = new Date()
     let start_date = new Date().setDate(end_date.getDate() - 30)
 
     const [selectedDate, setSelectedDate] = useState({ start: start_date, end: end_date });
     const [open, setOpen] = useState(false)
-    const [data, setData] = useState(sales)
+    // const [data, setData] = useState(sales)
     const [openEdit, setOpenEdit] = useState(false)
     const [rowData, setRowData] = useState()
 
@@ -42,7 +42,7 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, sale
 
     //get sales from db
     useEffect(() => {
-        onGetSales()       
+        onGetSales()
     }, [salesAdd, salesEdit, salesDelete])
 
     tableData = sales.map(data => ({
@@ -85,9 +85,10 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, sale
             <h1>Silverthread Sales </h1>
             <div className='datePickerContainer'>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <Grid container justify="space-around" style={{backgroundColor:'#FFFFFF'}}>
+                    {/* <Grid container justify="space-around" style={{backgroundColor:'#FFFFFF'}}> */}
+                    <Grid container justify="space-evenly" alignItems="center" style={{ backgroundColor: '#FFFFFF' }}>
                         <KeyboardDatePicker
-                            style={{backgroundColor:'#FFFFFF'}}
+                            style={{ backgroundColor: '#FFFFFF' }}
                             margin="normal"
                             name="start"
                             id="date-picker-dialog"
@@ -112,13 +113,15 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, sale
                                 'aria-label': 'change date',
                             }}
                         />
+
+                        <div className={classes.root} style={{ backgroundColor: '#FFFFFF' }}>
+                            <Button variant="contained" color="secondary">
+                                Run Report
+                            </Button>
+                        </div>
                     </Grid>
                 </MuiPickersUtilsProvider>
-                <div className={classes.root} style={{backgroundColor:'#FFFFFF'}}>
-                    <Button variant="contained" color="secondary">
-                        Submit
-                </Button>
-                </div>
+
             </div>
 
             <Popover
@@ -140,7 +143,7 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, sale
                 :
                 <div className='salesMaterialTable'>
                     <MaterialTable
-                        style={{backgroundColor:'#FFFFFF'}}
+                        style={{ backgroundColor: '#FFFFFF' }}
                         title="Silverthread Sales"
                         columns={columns}
                         data={tableData}
@@ -187,20 +190,20 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, sale
                         }}
                     />
                 </div>}
-        {/* </div> */}
-        <Popover
-            open={openEdit}
-            anchorOrigin={{
-                vertical: 'center',
-                horizontal: 'center',
-            }}
-            transformOrigin={{
-                vertical: 'top',
-                horizontal: 'center',
-            }}
-        >
-            <EditSales saleData={rowData} />
-        </Popover>
+            {/* </div> */}
+            <Popover
+                open={openEdit}
+                anchorOrigin={{
+                    vertical: 'center',
+                    horizontal: 'center',
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                }}
+            >
+                <EditSales saleData={rowData} />
+            </Popover>
         </div >
     )
 }

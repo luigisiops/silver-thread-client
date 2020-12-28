@@ -1,0 +1,44 @@
+/* container for AdProduct Component */
+.addProductsContainer {
+    margin: 25px;
+}
+
+/* container for first step of stepper - Enter Product Detials */
+.productDetailContainer {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.textField {
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+}
+
+.textField button {
+    margin-top: 5px;
+    margin-bottom: 5px
+}
+
+.materialDetails {
+    display: flex;
+    flex-direction: column;
+}
+
+.pricingContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.addedMaterials {
+    margin-top: 5px;
+    margin-bottom: 5px
+}
+
+/* div around pricing and inventory input - final step */
+.pricingInputs {
+    display: flex;
+    align-items: baseline;
+}
