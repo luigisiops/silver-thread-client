@@ -79,6 +79,7 @@ const AddProducts = ({ onGetMaterials, materials }) => {
                             <Autocomplete
                                 id="free-solo-demo"
                                 freeSolo
+                                
                                 options={category.map((option) => option.title)}
                                 renderInput={(params) => (
                                     <TextField {...params} name='category' onSelect={handleProductInput} value={newProduct.category} label="Category" margin="normal" variant="outlined" fullWidth />
@@ -86,7 +87,7 @@ const AddProducts = ({ onGetMaterials, materials }) => {
                             />
                         </div>
                         <div className="textField">
-                            <TextField name="labor" onChange={handleProductInput} value={newProduct.labor} id="outlined-basic" label="Labor" variant="outlined" fullWidth />
+                            <TextField name="labor" onChange={handleProductInput} value={newProduct.labor} id="outlined-basic" label="Labor (minutes)" variant="outlined" fullWidth />
                         </div>
                     </div>
                 );
@@ -124,7 +125,7 @@ const AddProducts = ({ onGetMaterials, materials }) => {
 
                     if (!addMaterial.material) {
                         alert('Please select a material')
-                    } else if (isNaN(quantity) || quantity === '') {
+                    } else if (isNaN(quantity) || quantity == '') {
                         alert('Please enter a quantity')
                     } else {
                         setAddedMaterialsList([...addedMaterialsList,
@@ -137,6 +138,7 @@ const AddProducts = ({ onGetMaterials, materials }) => {
                         ])
 
                         setMaterialToAdd({
+                            material: {},
                             material_unit_amount: ''
                         })
                     }

@@ -9,7 +9,7 @@ import React from 'react';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import Button from '@material-ui/core/Button';
-// import SaveIcon from "@material-ui/icons/Save"
+import SaveIcon from "@material-ui/icons/Save"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -40,8 +40,32 @@ const EditSales = (props, {onEditSale}) => {
         })
     };
 
-    const handleOnClick = (data) => {
-        props.onEditSale(data)       
+    const handleOnClick = (data) => {        
+        //check to make sure quantity is a number
+        const quantity = +data.quantity
+
+        //check to make sure price_per_unit and total_price are x.xx
+        var regex = /^\d+(?:\.\d{0,2})$/;
+        const price_per_unit = data.price_per_unit
+        const total_price = data.total_price
+
+        if (data.product_name == '') {
+            alert('Please enter the name of the product you sold')
+        } else if (data.product_number == '') {
+            alert('Please enter the number of the product you sold')
+        } else if (data.product_category == '') {
+            alert('Please enter the category of the product you sold')
+        } else if (quantity == '' || isNaN(quantity)) {
+            alert('Please enter the quantity sole')
+        } else if (price_per_unit == '' || (!regex.test(price_per_unit)) ) {
+            alert('Please enter the price per unit in the format X.XX')
+        } else if (total_price == '' || (!regex.test(total_price)) ) {
+            alert('Please enter the total price in the format X.XX')
+        } else if (data.sold_to == '') {
+            alert('Please enter the name of the buyer')
+        } else {
+            props.onEditSale(data)
+        }       
     }
  
     return (
@@ -86,7 +110,7 @@ const EditSales = (props, {onEditSale}) => {
                 </MuiPickersUtilsProvider>
             </div>
             <div>        
-                <Button onClick={() => handleOnClick(updatedSalesData)} /*fullWidth startIcon={<SaveIcon />}*/ variant="contained" color="secondary">
+                    <Button onClick={() => handleOnClick(updatedSalesData)} fullWidth startIcon={<SaveIcon />} variant="contained" color="secondary">
                     Save
                 </Button>
                 

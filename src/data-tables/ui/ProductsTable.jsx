@@ -13,7 +13,7 @@ import { onDeleteProduct } from '../framework/actions';
 const ProductsTable = ({ onGetProducts, products, onDeleteProduct, productDelete }) => {
       
     const [open, setOpen] = useState(false)
-    // const [data, setData] = useState([])
+    
     var tableData
 
     //get products from db
@@ -35,7 +35,7 @@ const ProductsTable = ({ onGetProducts, products, onDeleteProduct, productDelete
         { title: 'Materials', field: '' },       
         { title: 'Wholesale Price', field: 'wholesale' },
         { title: 'Retail Price', field: 'retail_price' },
-        { title: 'Category', field: '' },
+        { title: 'Category', field: 'category' },
         { title: 'Inventory', field: 'quantity' },    
     ]
 
@@ -90,7 +90,7 @@ const ProductsTable = ({ onGetProducts, products, onDeleteProduct, productDelete
                                 console.log(rowData)                                
                             }
                         }
-                    ]}
+                    ]}                    
                     editable={{
                         onRowDelete: oldData =>
                             new Promise((resolve, reject) => {
