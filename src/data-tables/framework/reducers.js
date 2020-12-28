@@ -9,6 +9,7 @@ import {
     onDeleteSale,
     onAddSale,
     onEditSale,
+    onAddProduct,
     onGetProducts,
     onDeleteProduct,
    
@@ -50,12 +51,13 @@ export const materials = createReducer(
             delete state.byId[materialid.deletedMaterial]
 
         },
+        /*
         [onAddMaterial.type]: (state, {payload: materialDetails }) => {
             if (materialDetails === null) {
                 return state
             }
             state.materialAdd = materialDetails
-        },
+        },*/
         [onEditMaterial.type]: (state, {payload: materialEdits}) => {
             if (materialEdits ===  null) {
                 return state
@@ -68,10 +70,20 @@ export const materials = createReducer(
 export const sales = createReducer(
     {
        salesList: [],
+       byId: {},
        saleID: '',      
        saleEdits: {} 
     }, 
     {
+        [onAddSale.type]: (state,{payload: sale}) => {
+            if (sale === null){
+                return state
+            } 
+            state.salesList = [...state.salesList, sale]
+            state.byId[sale.id] = sale
+            
+        }, 
+
         [onGetSales.type]: (state, {payload: salesList}) => {
             if (sales === null) {
                 return state
@@ -107,11 +119,21 @@ export const sales = createReducer(
 export const products = createReducer(
     {
         productsList: [],
+        byId: {},
         productsDelete: '',
         productsAdd: '',
         productsEdit: '',
      }, 
      {
+        [onAddProduct.type]: (state,{payload: product}) => {
+            if (product === null){
+                return state
+            } 
+            state.productsList = [...state.productsList, product]
+            state.byId[product.id] = product
+            
+        }, 
+
         [onGetProducts.type]: (state, {payload: products}) => {
             if (products === null){
                 return state
