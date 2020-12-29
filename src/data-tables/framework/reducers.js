@@ -4,10 +4,7 @@ import {
     onGetMaterials,
     onAddMaterial,
     onDeleteMaterial,
-<<<<<<< HEAD
     onEditMaterial,
-=======
->>>>>>> 7ac17c0e3258a410dce2693aadbbd142bca3a3a5
     onGetSales,
     onDeleteSale,
     onAddSale,
@@ -31,10 +28,6 @@ export const materials = createReducer(
             }
             state.materialsList = material
         },
-<<<<<<< HEAD
-        [onDeleteMaterial.type]: (state, {payload: materialid}) => {
-            if (materialid === null) {               
-=======
 
         [onAddMaterial.type]: (state,{payload: material}) => {
             if (material === null){
@@ -45,7 +38,6 @@ export const materials = createReducer(
 
         [onDeleteMaterial.type]:(state, {payload: materialid}) => {
             if (materialid === null) {
->>>>>>> 7ac17c0e3258a410dce2693aadbbd142bca3a3a5
                 return state
             }
             state.materialID = materialid
