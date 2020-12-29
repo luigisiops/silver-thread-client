@@ -1,6 +1,7 @@
 import MaterialTable from 'material-table';
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux'
+import './ProductsTable.css'
 
 import Popover from '@material-ui/core/Popover';
 
@@ -8,12 +9,26 @@ import AddProducts from './AddProducts'
 import {GetProducts} from '../use-cases/getProducts'
 import {DeleteProduct} from '../use-cases/deleteProduct'
 import { onDeleteProduct } from '../framework/actions';
+import Button from '@material-ui/core/Button';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import IconButton from '@material-ui/core/IconButton';
+
+const AddProductModal = ({ closeModal }) => {
+    return(
+        <div className="addProductModal">
+            <div className='closeIconButton'>
+             <IconButton variant = "contained" onClick = {() => closeModal()}><HighlightOffIcon/></IconButton>
+             </div>                       
+            <AddProducts />
+        </div>
+    )
+}    
 
 
 const ProductsTable = ({ onGetProducts, products, onDeleteProduct, productDelete }) => {
       
     const [open, setOpen] = useState(false)
-    // const [data, setData] = useState([])
+    
     var tableData
 
     //get products from db
@@ -35,9 +50,13 @@ const ProductsTable = ({ onGetProducts, products, onDeleteProduct, productDelete
         { title: 'Materials', field: '' },       
         { title: 'Wholesale Price', field: 'wholesale' },
         { title: 'Retail Price', field: 'retail_price' },
-        { title: 'Category', field: '' },
+        { title: 'Category', field: 'category' },
         { title: 'Inventory', field: 'quantity' },    
     ]
+
+    const closeModal = () => {
+        setOpen(false)
+      }
 
     return (
         <div className='productsContainer'>
@@ -53,7 +72,7 @@ const ProductsTable = ({ onGetProducts, products, onDeleteProduct, productDelete
                     horizontal: 'center',
                 }}
             >
-                <AddProducts />
+                <AddProductModal className = "modal" closeModal = {closeModal}/>
             </Popover>
 
             <div className='productsMaterialTable'>
@@ -90,7 +109,7 @@ const ProductsTable = ({ onGetProducts, products, onDeleteProduct, productDelete
                                 console.log(rowData)                                
                             }
                         }
-                    ]}
+                    ]}                    
                     editable={{
                         onRowDelete: oldData =>
                             new Promise((resolve, reject) => {
