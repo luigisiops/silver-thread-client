@@ -11,6 +11,8 @@ import {
     onEditSale,
     onGetProducts,
     onDeleteProduct,
+    onAddProduct,
+    onAddRetail,
    
 }from "./actions"
 
@@ -28,8 +30,16 @@ export const materials = createReducer(
             }
             state.materialsList = material
         },
-        [onDeleteMaterial.type]: (state, {payload: materialid}) => {
-            if (materialid === null) {               
+
+        [onAddMaterial.type]: (state,{payload: material}) => {
+            if (material === null){
+                return state
+            } 
+            state.materialsList = [...state.materialsList, material]
+        }, 
+
+        [onDeleteMaterial.type]:(state, {payload: materialid}) => {
+            if (materialid === null) {
                 return state
             }
             state.materialID = materialid
@@ -92,8 +102,8 @@ export const products = createReducer(
     {
         productsList: [],
         productsDelete: '',
-        productsAdd: '',
-        productsEdit: '',
+        newProduct: {},
+        editedProduct: {},
      }, 
      {
         [onGetProducts.type]: (state, {payload: products}) => {
@@ -105,10 +115,24 @@ export const products = createReducer(
         [onDeleteProduct.type]: (state, {payload: productid}) => {
             if (productid === null){
                 return state
-            }
-            console.log(productid)
+            }          
             state.productsDelete = productid
         },
+        [onAddProduct.type]:(state, {payload: newProduct}) => {
+            if (newProduct === null) {
+                return state
+            } else {
+                state.newProduct = newProduct
+            }
+
+        },
+        [onAddRetail.type]: (state, {payload: editedProduct}) => {
+            if (editedProduct === null) {
+                return state
+            } else {
+                state.editedProduct = editedProduct
+            }
+        }
 
      }
 )    
