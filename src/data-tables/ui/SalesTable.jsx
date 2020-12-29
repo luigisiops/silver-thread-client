@@ -71,8 +71,13 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, sale
 
     //onclick function that runs new sales report based on input dates
     const handleRunSalesReport = (dates) => {
-        //validate dates here
-        onGetSales(dates)
+        if (dates.start === null || dates.end === null) {
+            alert('Please enter a start and end date for your report')
+        } else if (dates.start > dates.end) {
+            alert("The start date must be before the end date")
+        } else {
+            onGetSales(dates)
+        }      
     }
 
     //sets column headers
@@ -182,8 +187,7 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, sale
                                 tooltip: 'Edit Row',
                                 onClick: (event, rowData) => {
                                     setRowData(rowData)
-                                    setOpenEdit(true)
-                                    console.log(rowData)
+                                    setOpenEdit(true)                                    
                                 }
                             },
                         ]}

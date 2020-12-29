@@ -70,7 +70,7 @@ const EditSales = (props, {onEditSale}) => {
  
     return (
         <div className='editSalesContainer'>
-            <h1>Edit Sale</h1>
+            <h2>Edit Sale</h2>
             <div>
                 <form className={classes.root} noValidate autoComplete="off">
                     <TextField name='product_number' value={updatedSalesData.product_number} onChange={handleOnChange} id="outlined-basic" label="Product Number" variant="outlined" />
