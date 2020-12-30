@@ -8,7 +8,6 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
 
-
 // Pages
 import MaterialsTable from './data-tables/ui/MaterialsTable'
 import SalesTable from './data-tables/ui/SalesTable'
