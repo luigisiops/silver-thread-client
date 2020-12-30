@@ -1,15 +1,15 @@
-import { onAddProduct } from "../framework/actions"
+import { onAddRetail } from "../framework/actions"
 
-export const AddProduct = (dispatch) => async (
-    newProduct
+export const AddRetail = (dispatch) => async (
+    editedProduct
 ) => {
-    const response = await fetch(`http://localhost:8000/products`, {
-        method: 'POST',
+    const response = await fetch('http://localhost:8000/edit-product', {
+        method: "PATCH",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(newProduct)
-    })   
+        body: JSON.stringify(editedProduct)
+    }) 
 
     //need to await on parsing response to javascript objects from json
     const result = await response.json()
@@ -19,13 +19,10 @@ export const AddProduct = (dispatch) => async (
         alert("There was an error creating your product")
     } else {
         //pass into our action as a payload and we dispatch it
-        return dispatch(onAddProduct(result.savedProduct))
+        return dispatch(onAddRetail(result.updatedProduct))
 
-    }
-    
-
-    
+    }        
 
 }
 
-export default AddProduct
+export default AddRetail

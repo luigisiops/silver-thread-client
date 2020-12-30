@@ -13,6 +13,7 @@ export const AddSale = (dispatch) => async (fields) => {
       quantity: fields.quantity,
       total_price: fields.total_price,
       sold_to: fields.sold_to,
+      date_sold: fields.date_sold
    }
    console.log("NEW SALE UNDER THIS")
    console.log(newSale)

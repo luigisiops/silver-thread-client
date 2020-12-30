@@ -8,6 +8,7 @@ import { GetMaterials } from "../use-cases/getMaterials"
 import { DeleteMaterial } from "../use-cases/deleteMaterial"
 import Popover from '@material-ui/core/Popover';
 
+// import Popover from '@material-ui/core/Popover';
 //import AddMaterialModal from './AddMaterialModal'
 
 import "./AddMaterialModal.css"
@@ -16,7 +17,37 @@ import {AddMaterial} from "../use-cases/addMaterial";
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
-const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial,  materialsDelete, materialsAdd, materialsEdit, onAddMaterial }) => {
+
+const AddMaterialModal = ({materials, onAddMaterial, closeModal }) => {
+    const [fields, setFields] = useState({})
+
+    const setField = (evt) => {
+        setFields({
+            ...fields,
+            [evt.target.name]: evt.target.value
+        })
+    }
+    console.log(fields)
+
+    return(
+        <div className = "add-material-container">
+        <Button variant = "contained" onClick = {() => closeModal()}>Close</Button>
+            <div>Add Material</div>
+                <div className="material-input"><TextField id="outlined-basic" label="Name" variant="outlined" name = "materialName" onChange = {setField}/></div> 
+                <div className="material-input"><TextField id="outlined-basic" label="Vendor" variant="outlined" name = "vendor" onChange = {setField}/></div> 
+                <div className="material-input"><TextField id="outlined-basic" label="Vendor Material Id" variant="outlined" name = "vendorMaterialId" onChange = {setField}/></div> 
+                <div className="material-input"><TextField id="outlined-basic" label="Unit" variant="outlined" name = "unit" onChange = {setField}/></div> 
+                <div className="material-input"><TextField id="outlined-basic" label="Unit Price" variant="outlined" name = "unitPrice" onChange = {setField}/></div> 
+                <div className="material-input"><TextField id="outlined-basic" label="Category" variant="outlined" name = "category" onChange = {setField}/></div> 
+            <Button variant = "contained" onClick = {()=> onAddMaterial(fields)}>Add</Button>
+        </div>
+     
+    )
+}
+
+
+const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, onAddMaterial }) => {
+  const [open, setOpen] = useState(false)
 
   const [openAdd, setOpenAdd] = useState(false)
   const [openEdit, setOpenEdit] = useState(false)
@@ -25,7 +56,7 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial,  material
 
   useEffect(() => {  
     onGetMaterials()
-  }, [materialsDelete, materialsAdd, materialsEdit])
+  }, [])
 
   let tableData = materials.map(data => ({
     ...data
@@ -53,7 +84,7 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial,  material
     <div className='materialsContainer'>
       <h1>Silverthread Materials </h1>
       <Popover
-      open={openAdd}
+        open={open}
         anchorOrigin={{
           vertical: 'center',
           horizontal: 'center',
@@ -63,10 +94,10 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial,  material
           horizontal: 'center',
         }}
       >
-        <AddMaterials closeModal = {closeModal}/>
+        <AddMaterialModal className = "modal" closeModal = {closeModal}/>
       </Popover>
 
-            <Popover
+      <Popover
             open={openEdit}
             anchorOrigin={{
                 vertical: 'center',
@@ -77,9 +108,9 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial,  material
                 horizontal: 'center',
             }}
         >
-            <EditMaterials materialData={rowData} closeModal = {closeModal} />
+            <EditMaterials materialData={rowData} />
         </Popover>
-
+        
       <MaterialTable
         style={{backgroundColor:'#FFFFFF'}}
         title="Silverthread Materials"
@@ -99,23 +130,41 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial,  material
             color: '#FFFFFF'
           }
         }}
+
         actions={[
           {
-              icon: 'add',
-              tooltip: 'Add Sale',
-              isFreeAction: true,
-              onClick: (event) => setOpenAdd(true)
+            icon: 'add',
+            tooltip: 'Add Material',
+            isFreeAction: true,
+            onClick: (event) => setOpen(true)
           },
           {
-              icon: 'edit',
-              tooltip: 'Edit Row',
-              onClick: (event, rowData) => {
-                  setRowData(rowData)
-                  setOpenEdit(true)
-              }
-          },
-      ]}
-        editable={{        
+            icon: 'edit',
+            tooltip: 'Edit Row',
+            onClick: (event, rowData) => {
+              console.log(rowData)
+            }
+          }
+        ]}
+
+        editable={{
+          onRowAdd: newData =>
+            new Promise((resolve, reject) => {
+              setTimeout(() => {
+                setData([...data, newData]);
+                resolve();
+              }, 1000)
+            }),
+          onRowUpdate: (newData, oldData) =>
+            new Promise((resolve, reject) => {
+              setTimeout(() => {
+                const dataUpdate = [...data];
+                const index = oldData.tableData.id;
+                dataUpdate[index] = newData;
+                setData([...dataUpdate]);
+                resolve();
+              }, 1000)
+            }),
           onRowDelete: oldData =>
             new Promise((resolve, reject) => {
               setTimeout(() => {

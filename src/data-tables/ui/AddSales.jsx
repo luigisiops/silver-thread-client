@@ -5,6 +5,10 @@ import { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { AddSale } from "../use-cases/addSale"
 import { Link } from "react-router-dom"
+import 'date-fns';
+import React from 'react';
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import './AddSales.css'
 
 const AddSales = ({ addSale }) => {
@@ -24,6 +28,12 @@ const AddSales = ({ addSale }) => {
       // console.log("onClosePopop")
       window.location.reload()
    }
+   const handleSaleDate = (date) => {
+      setFields({
+          ...fields,
+          date_sold: date
+      })
+  };
 
    return (
       <div id="container">
@@ -100,6 +110,21 @@ const AddSales = ({ addSale }) => {
                }}
                variant="outlined"
             />
+             <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <KeyboardDatePicker
+                        margin="normal"
+                        name="date_sold"
+                        id="date-picker-dialog"
+                        label="Date of Sale"
+                        format="MM/dd/yyyy"
+                        value={fields.date_sold}
+                        onChange={handleSaleDate}
+                        KeyboardButtonProps={{
+                            'aria-label': 'change date',
+                        }}
+                        fullWidth
+                    />
+                </MuiPickersUtilsProvider>
             <Link to="/sales">
                <Button
                   onClick={() => {

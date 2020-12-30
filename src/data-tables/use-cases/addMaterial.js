@@ -19,7 +19,6 @@ export const AddMaterial = (dispatch) => async(
 
       //pass into our action as a payload and we dispatch it
       return dispatch(onAddMaterial(success))
-
 }
 
 export default AddMaterial
