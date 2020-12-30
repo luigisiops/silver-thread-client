@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import Login from './login/ui/login';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from "react-redux"
 import store from "./common/redux/store"
@@ -41,7 +42,7 @@ ReactDOM.render(
   <Provider store = {store}>
     <BrowserRouter>
       <ThemeProvider theme={theme}>
-        {/* <Login /> */}
+        <Login />
         <App className="App" />
       </ThemeProvider>
     </BrowserRouter>
