@@ -48,8 +48,6 @@ const EditSales = (props, {onEditSale}) => {
 
         if (data.product_name == '') {
             alert('Please enter the name of the product you sold')
-        } else if (data.product_number == '') {
-            alert('Please enter the number of the product you sold')
         } else if (data.product_category == '') {
             alert('Please enter the category of the product you sold')
         } else if (quantity == '' || isNaN(quantity)) {

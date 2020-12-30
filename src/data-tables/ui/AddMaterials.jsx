@@ -4,10 +4,10 @@ import Button from "@material-ui/core/Button"
 import { useState } from "react"
 import { connect } from "react-redux"
 import { AddMaterial } from "../use-cases/addMaterial"
-import './AddSales.css'
+import './AddMaterialModal.css'
 
 const AddMaterials = ({ onAddMaterial, closeModal }) => {
-    // putting empty fields object into local state
+   // putting empty fields object into local state
    const [fields, setFields] = useState({})
 
    const setField = (evt) =>
@@ -16,11 +16,11 @@ const AddMaterials = ({ onAddMaterial, closeModal }) => {
          [evt.target.name]: evt.target.value,
       })
 
-     return (
-      <div id="container">
+   return (
+      <div className="addMaterialTBContainer">
          <h2>Add Material</h2>
 
-         <div id="inputs">
+         <div className="inputContainer">
             <TextField
                className="outlined"
                label="Material Name"
@@ -30,8 +30,12 @@ const AddMaterials = ({ onAddMaterial, closeModal }) => {
                   shrink: true,
                }}
                variant="outlined"
+               fullWidth
             />
-             <TextField
+         </div>
+
+         <div className="inputContainer">
+            <TextField
                className="outlined"
                label="Unit"
                name="unit"
@@ -40,7 +44,11 @@ const AddMaterials = ({ onAddMaterial, closeModal }) => {
                   shrink: true,
                }}
                variant="outlined"
+               fullWidth
             />
+         </div>
+
+         <div className="inputContainer">
             <TextField
                className="outlined"
                label="Price Per Unit"
@@ -50,7 +58,11 @@ const AddMaterials = ({ onAddMaterial, closeModal }) => {
                   shrink: true,
                }}
                variant="outlined"
+               fullWidth
             />
+         </div>
+
+         <div className="inputContainer">
             <TextField
                className="outlined"
                label="Material Category"
@@ -60,7 +72,11 @@ const AddMaterials = ({ onAddMaterial, closeModal }) => {
                   shrink: true,
                }}
                variant="outlined"
+               fullWidth
             />
+         </div>
+
+         <div className="inputContainer">
             <TextField
                className="outlined"
                label="Vendor"
@@ -70,7 +86,10 @@ const AddMaterials = ({ onAddMaterial, closeModal }) => {
                   shrink: true,
                }}
                variant="outlined"
-                />
+            />
+         </div>
+
+         <div className="inputContainer">
             <TextField
                className="outlined"
                label="Product ID"
@@ -80,30 +99,33 @@ const AddMaterials = ({ onAddMaterial, closeModal }) => {
                   shrink: true,
                }}
                variant="outlined"
-                />
-
-                <Button
-                  onClick={() => {
-                    onAddMaterial(fields); closeModal()
-           
-                  }}
-                  variant="contained"
-                  color="secondary"
-                  size="large"
-                  className="addSalesBtn"
-                  startIcon={<SaveIcon />}
-               >
-                  Save
-               </Button>
-         
+               fullWidth
+            />
          </div>
-      </div>
+         <div>
+            <Button
+               onClick={() => {
+                  onAddMaterial(fields); closeModal()
+
+               }}
+               variant="contained"
+               color="secondary"
+               size="large"
+               className="addSalesBtn"
+               startIcon={<SaveIcon />}
+               fullWidth
+            >
+               Save
+               </Button>
+
+         </div>
+      </div >
    )
 }
 
-// CRUD operation 
+// CRUD operation
 const mapDispatchToProps = (dispatch) => ({
-    onAddMaterial: AddMaterial(dispatch)
+   onAddMaterial: AddMaterial(dispatch)
 })
 
 export default connect(null, mapDispatchToProps)(AddMaterials)

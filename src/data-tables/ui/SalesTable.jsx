@@ -105,12 +105,15 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, sale
         { title: 'id', field: 'id', hidden: true },
         { title: 'Product ID', field: 'product_id', hidden: true },
         { title: 'Date', field: 'date_sold', defaultSort: 'desc', align: 'left'},
-        { title: 'Product Number', field: 'product_number', align: 'left' },
+        { title: 'Product Number', field: 'product_number', align: 'left', hidden: true },
         { title: 'Product Name', field: 'product_name', align: 'left' },
         { title: 'Quantity', field: 'quantity', align: 'left' },
         { title: 'Price per Unit', field: 'price_per_unit', align: 'left', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2} },
-        { title: 'Total Sales Price', field: 'total_price', align: 'left', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2} },
-        { title: 'Category', field: 'product_category', align: 'left' },
+        { title: 'Discount', field: '', align: 'left', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2}  },
+        { title: 'Tax', field: '', align: 'left', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2}  },
+        { title: 'Shipping', field: '', align: 'left', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2}  },
+        { title: 'Total Sales Price', field: 'total_price', align: 'left', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2} },       
+        { title: 'Category', field: 'product_category', align: 'left', hidden: true },
         { title: 'Purchased By', field: 'sold_to', align: 'left' },
     ]
 

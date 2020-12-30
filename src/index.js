@@ -42,7 +42,7 @@ ReactDOM.render(
   <Provider store = {store}>
     <BrowserRouter>
       <ThemeProvider theme={theme}>
-        <Login />
+        {/* <Login /> */}
         <App className="App" />
       </ThemeProvider>
     </BrowserRouter>

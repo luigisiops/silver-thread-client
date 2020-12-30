@@ -7,16 +7,10 @@ import AddMaterials from './AddMaterials'
 import EditMaterials from './EditMaterials'
 import { GetMaterials } from "../use-cases/getMaterials"
 import { DeleteMaterial } from "../use-cases/deleteMaterial"
+import {AddMaterial} from "../use-cases/addMaterial";
 import Popover from '@material-ui/core/Popover';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import IconButton from '@material-ui/core/IconButton';
-
-// import Popover from '@material-ui/core/Popover';
-//import AddMaterialModal from './AddMaterialModal'
-
-import {AddMaterial} from "../use-cases/addMaterial";
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 
 
 const AddMaterialModal = ({closeModal }) => {
@@ -33,7 +27,7 @@ const AddMaterialModal = ({closeModal }) => {
 }
 
 const EditMaterialModal = ({closeEditModal, rowData }) => {
-   
+     
   return(
       <div className = "edit-material-container">
          <div className='closeIconButton'>
@@ -68,7 +62,7 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, materials
   }))
 
   const columns = [
-    { title: 'id', field: 'id', hidden: false },
+    { title: 'id', field: 'id', hidden: true },
     { title: 'Name', field: 'material_name', align: 'left' }, 
     { title: 'Unit of Measure', field: 'unit', align: 'left'  }, 
     { title: 'Price per Unit', field: 'unit_price', align: 'left', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2} },
@@ -122,8 +116,7 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, materials
           //export csv is a function we can use to override the generic export and export to excel
           // exportCsv
           headerStyle: {
-            backgroundColor: '#01579b',
-            // backgroundColor: '#78bfb5',
+            backgroundColor: '#01579b',          
             color: '#FFFFFF'
           }
         }}
@@ -138,7 +131,7 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, materials
           {
             icon: 'edit',
             tooltip: 'Edit Row',
-            onClick: (event, rowData) => {              
+            onClick: (event, rowData) => {           
               setRowData(rowData)
               setOpenEdit(true)
             }
@@ -149,8 +142,7 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, materials
           onRowDelete: oldData =>
             new Promise((resolve, reject) => {
               setTimeout(() => {
-                const id = oldData.id;
-                console.log(id)
+                const id = oldData.id;              
                 onDeleteMaterial(id)
                 resolve()
               }, 1000)
