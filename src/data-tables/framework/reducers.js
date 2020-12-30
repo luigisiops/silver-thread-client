@@ -29,15 +29,7 @@ export const materials = createReducer(
                 return state
             }
             state.materialsList = material
-        },
-
-        [onAddMaterial.type]: (state,{payload: material}) => {
-            if (material === null){
-                return state
-            } 
-            state.materialsList = [...state.materialsList, material]
-        }, 
-
+        },      
         [onDeleteMaterial.type]:(state, {payload: materialid}) => {
             if (materialid === null) {
                 return state

@@ -1,12 +1,12 @@
 import TextField from "@material-ui/core/TextField"
-// import SaveIcon from "@material-ui/icons/Save"
+import SaveIcon from "@material-ui/icons/Save"
 import Button from "@material-ui/core/Button"
 import { useState } from "react"
 import { connect } from "react-redux"
 import { AddMaterial } from "../use-cases/addMaterial"
 import './AddSales.css'
 
-const AddMaterials = ({ onAddMaterial }) => {
+const AddMaterials = ({ onAddMaterial, closeModal }) => {
     // putting empty fields object into local state
    const [fields, setFields] = useState({})
 
@@ -16,15 +16,9 @@ const AddMaterials = ({ onAddMaterial }) => {
          [evt.target.name]: evt.target.value,
       })
 
-   // refreshes the page when save button is clicked
-   // let onClosePopup = () => {
-   //    // console.log("onClosePopop")
-   //    window.location.reload()
-   // }
-
-   return (
+     return (
       <div id="container">
-         <h1>Add Sales</h1>
+         <h2>Add Material</h2>
 
          <div id="inputs">
             <TextField
@@ -90,14 +84,14 @@ const AddMaterials = ({ onAddMaterial }) => {
 
                 <Button
                   onClick={() => {
-                    onAddMaterial(fields)
+                    onAddMaterial(fields); closeModal()
            
                   }}
                   variant="contained"
                   color="secondary"
                   size="large"
                   className="addSalesBtn"
-                  // startIcon={<SaveIcon />}
+                  startIcon={<SaveIcon />}
                >
                   Save
                </Button>

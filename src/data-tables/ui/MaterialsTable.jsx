@@ -2,6 +2,7 @@ import MaterialTable from 'material-table';
 import { useEffect, useState } from 'react';
 import { connect } from "react-redux"
 import './MaterialsTable.css'
+import "./AddMaterialModal.css"
 import AddMaterials from './AddMaterials'
 import EditMaterials from './EditMaterials'
 import { GetMaterials } from "../use-cases/getMaterials"
@@ -9,68 +10,65 @@ import { DeleteMaterial } from "../use-cases/deleteMaterial"
 import Popover from '@material-ui/core/Popover';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import IconButton from '@material-ui/core/IconButton';
-import SaveIcon from "@material-ui/icons/Save"
 
 // import Popover from '@material-ui/core/Popover';
 //import AddMaterialModal from './AddMaterialModal'
-
-import "./AddMaterialModal.css"
 
 import {AddMaterial} from "../use-cases/addMaterial";
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
 
-const AddMaterialModal = ({materials, onAddMaterial, closeModal }) => {
-    const [fields, setFields] = useState({})
-
-    const setField = (evt) => {
-        setFields({
-            ...fields,
-            [evt.target.name]: evt.target.value
-        })
-    }
-    console.log(fields)
+const AddMaterialModal = ({closeModal }) => {
 
     return(
         <div className = "add-material-container">
            <div className='closeIconButton'>
                 <IconButton variant="contained" onClick={() => closeModal()} ><HighlightOffIcon /></IconButton>
-            </div>        
-            <div><h2>Add Material</h2></div>
-                <div className="material-input"><TextField id="outlined-basic" label="Name" variant="outlined" name = "materialName" onChange = {setField}/></div> 
-                <div className="material-input"><TextField id="outlined-basic" label="Vendor" variant="outlined" name = "vendor" onChange = {setField}/></div> 
-                <div className="material-input"><TextField id="outlined-basic" label="Vendor Material Id" variant="outlined" name = "vendorMaterialId" onChange = {setField}/></div> 
-                <div className="material-input"><TextField id="outlined-basic" label="Unit" variant="outlined" name = "unit" onChange = {setField}/></div> 
-                <div className="material-input"><TextField id="outlined-basic" label="Unit Price" variant="outlined" name = "unitPrice" onChange = {setField}/></div> 
-                <div className="material-input"><TextField id="outlined-basic" label="Category" variant="outlined" name = "category" onChange = {setField}/></div> 
-            <Button variant = "contained" onClick = {()=> onAddMaterial(fields)} startIcon={<SaveIcon />} color="primary" size="large">
-              Save
-            </Button>
+            </div>
+            <AddMaterials closeModal = {closeModal}/>      
         </div>
      
     )
 }
 
+const EditMaterialModal = ({closeEditModal, rowData }) => {
+   
+  return(
+      <div className = "edit-material-container">
+         <div className='closeIconButton'>
+              <IconButton variant="contained" onClick={() => closeEditModal()} ><HighlightOffIcon /></IconButton>
+          </div>
+          <EditMaterials materialData={rowData} closeEditModal = {closeEditModal}/>      
+      </div>
+   
+  )
+}
 
-const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, onAddMaterial }) => {
+
+const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, materialsEdit, materialsDelete, materialsAdd}) => {
   const [open, setOpen] = useState(false)
-
-  const [openAdd, setOpenAdd] = useState(false)
   const [openEdit, setOpenEdit] = useState(false)
   const [rowData, setRowData] = useState()
   
+  const closeModal = () => {
+    setOpen(false)
+  }
+
+  const closeEditModal = () => {
+    setOpenEdit(false)
+  }
 
   useEffect(() => {  
     onGetMaterials()
-  }, [])
+  }, [materialsEdit, materialsDelete, materialsAdd])
 
   let tableData = materials.map(data => ({
     ...data
   }))
 
   const columns = [
-    { title: 'id', field: 'id', hidden: true },
+    { title: 'id', field: 'id', hidden: false },
     { title: 'Name', field: 'material_name', align: 'left' }, 
     { title: 'Unit of Measure', field: 'unit', align: 'left'  }, 
     { title: 'Price per Unit', field: 'unit_price', align: 'left', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2} },
@@ -78,10 +76,6 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, onAddMate
     { title: 'Product Number', field: 'vendor_material_id', align: 'left' },
     { title: 'Category', field: 'category', align: 'left' },
   ]
-
-  const closeModal = () => {
-    setOpen(false)
-  }
 
   return (
     <div className='materialsContainer'>
@@ -111,8 +105,8 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, onAddMate
                 horizontal: 'center',
             }}
         >
-            <EditMaterials materialData={rowData} />
-        </Popover>
+          <EditMaterialModal rowData={rowData} closeEditModal = {closeEditModal} />
+          </Popover>
         
       <MaterialTable
         style={{backgroundColor:'#FFFFFF'}}
@@ -144,8 +138,9 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, onAddMate
           {
             icon: 'edit',
             tooltip: 'Edit Row',
-            onClick: (event, rowData) => {
-              console.log(rowData)
+            onClick: (event, rowData) => {              
+              setRowData(rowData)
+              setOpenEdit(true)
             }
           }
         ]}
@@ -155,6 +150,7 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, onAddMate
             new Promise((resolve, reject) => {
               setTimeout(() => {
                 const id = oldData.id;
+                console.log(id)
                 onDeleteMaterial(id)
                 resolve()
               }, 1000)
