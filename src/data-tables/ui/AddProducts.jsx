@@ -234,6 +234,7 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
 
         const addProduct = {
             product_name: product.product_name,
+            product_num: product.product_num,
             product_id: product.product_id,
             category: product.category,
             labor: product.labor,

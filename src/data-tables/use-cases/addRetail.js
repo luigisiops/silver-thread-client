@@ -1,4 +1,4 @@
-import { onEditProduct } from "../framework/actions"
+import { onAddRetail } from "../framework/actions"
 
 export const AddRetail = (dispatch) => async (
     editedProduct
@@ -19,7 +19,7 @@ export const AddRetail = (dispatch) => async (
         alert("There was an error creating your product")
     } else {
         //pass into our action as a payload and we dispatch it
-        return dispatch(onEditProduct(result.savedProduct))
+        return dispatch(onAddRetail(result.updatedProduct))
 
     }        
 

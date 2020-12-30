@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-import {onAddMaterial} from "../framework/actions"
-=======
 import { onAddMaterial } from "../framework/actions"
 
 export const AddMaterial = (dispatch) => async(
@@ -28,7 +25,6 @@ export const AddMaterial = (dispatch) => async(
 }
 
 // import {onAddMaterial} from "../framework/actions"
->>>>>>> 47a5c9ec26cfd5731a47006aee5ac5820fec80ba
 
 
 //This is a usecase for getting the list of materials

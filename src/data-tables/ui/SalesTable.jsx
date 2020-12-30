@@ -28,13 +28,17 @@ const useStyles = makeStyles((theme) => ({
 const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, salesDelete, }) => {
     const classes = useStyles();
 
-    //set date for date-pickers
-    let end_date = new Date()
-    let start_date = new Date().setDate(end_date.getDate() - 30)
+    //set date for date-pickers on load
+    const getStartDate = () => {
+        let d = new Date()
+        d.setDate(d.getDate() - 30)
+        return d
+    }
+    let end_date = new Date()    
+    let start_date = getStartDate()
 
     const [selectedDate, setSelectedDate] = useState({ start: start_date, end: end_date });
-    const [open, setOpen] = useState(false)
-    // const [data, setData] = useState(sales)
+    const [open, setOpen] = useState(false)  
     const [openEdit, setOpenEdit] = useState(false)
     const [rowData, setRowData] = useState()
 
@@ -42,7 +46,7 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, sale
 
     //get sales from db
     useEffect(() => {
-        onGetSales()
+        onGetSales(selectedDate)
     }, [salesAdd, salesEdit, salesDelete])
 
     tableData = sales.map(data => ({
@@ -65,12 +69,22 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, sale
         });
     };
 
+    //onclick function that runs new sales report based on input dates
+    const handleRunSalesReport = (dates) => {
+        if (dates.start === null || dates.end === null) {
+            alert('Please enter a start and end date for your report')
+        } else if (dates.start > dates.end) {
+            alert("The start date must be before the end date")
+        } else {
+            onGetSales(dates)
+        }      
+    }
 
     //sets column headers
     const columns = [
         { title: 'id', field: 'id', hidden: true },
         { title: 'Product ID', field: 'product_id', hidden: true },
-        { title: 'Date', field: 'createdAt' },
+        { title: 'Date', field: 'date_sold' },
         { title: 'Product Number', field: 'product_number' },
         { title: 'Product Name', field: 'product_name' },
         { title: 'Quantity', field: 'quantity' },
@@ -115,7 +129,7 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, sale
                         />
 
                         <div className={classes.root} style={{ backgroundColor: '#FFFFFF' }}>
-                            <Button variant="contained" color="secondary">
+                            <Button onClick={() => handleRunSalesReport(selectedDate)} variant="contained" color="secondary">
                                 Run Report
                             </Button>
                         </div>
@@ -173,8 +187,7 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, sale
                                 tooltip: 'Edit Row',
                                 onClick: (event, rowData) => {
                                     setRowData(rowData)
-                                    setOpenEdit(true)
-                                    console.log(rowData)
+                                    setOpenEdit(true)                                    
                                 }
                             },
                         ]}
