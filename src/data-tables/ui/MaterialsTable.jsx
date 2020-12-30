@@ -7,6 +7,9 @@ import EditMaterials from './EditMaterials'
 import { GetMaterials } from "../use-cases/getMaterials"
 import { DeleteMaterial } from "../use-cases/deleteMaterial"
 import Popover from '@material-ui/core/Popover';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import IconButton from '@material-ui/core/IconButton';
+import SaveIcon from "@material-ui/icons/Save"
 
 // import Popover from '@material-ui/core/Popover';
 //import AddMaterialModal from './AddMaterialModal'
@@ -31,15 +34,19 @@ const AddMaterialModal = ({materials, onAddMaterial, closeModal }) => {
 
     return(
         <div className = "add-material-container">
-        <Button variant = "contained" onClick = {() => closeModal()}>Close</Button>
-            <div>Add Material</div>
+           <div className='closeIconButton'>
+                <IconButton variant="contained" onClick={() => closeModal()} ><HighlightOffIcon /></IconButton>
+            </div>        
+            <div><h2>Add Material</h2></div>
                 <div className="material-input"><TextField id="outlined-basic" label="Name" variant="outlined" name = "materialName" onChange = {setField}/></div> 
                 <div className="material-input"><TextField id="outlined-basic" label="Vendor" variant="outlined" name = "vendor" onChange = {setField}/></div> 
                 <div className="material-input"><TextField id="outlined-basic" label="Vendor Material Id" variant="outlined" name = "vendorMaterialId" onChange = {setField}/></div> 
                 <div className="material-input"><TextField id="outlined-basic" label="Unit" variant="outlined" name = "unit" onChange = {setField}/></div> 
                 <div className="material-input"><TextField id="outlined-basic" label="Unit Price" variant="outlined" name = "unitPrice" onChange = {setField}/></div> 
                 <div className="material-input"><TextField id="outlined-basic" label="Category" variant="outlined" name = "category" onChange = {setField}/></div> 
-            <Button variant = "contained" onClick = {()=> onAddMaterial(fields)}>Add</Button>
+            <Button variant = "contained" onClick = {()=> onAddMaterial(fields)} startIcon={<SaveIcon />} color="primary" size="large">
+              Save
+            </Button>
         </div>
      
     )
@@ -61,19 +68,16 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, onAddMate
   let tableData = materials.map(data => ({
     ...data
   }))
+
   const columns = [
     { title: 'id', field: 'id', hidden: true },
-    { title: 'Name', field: 'name' },
-    { title: 'Description', field: 'description' },
-    { title: 'Price per Unit', field: 'unit_price' },
-    { title: 'Category', field: 'category' },
+    { title: 'Name', field: 'material_name', align: 'left' }, 
+    { title: 'Unit of Measure', field: 'unit', align: 'left'  }, 
+    { title: 'Price per Unit', field: 'unit_price', align: 'left', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2} },
+    { title: 'Vendor', field: 'vendor', align: 'left'  },
+    { title: 'Product Number', field: 'vendor_material_id', align: 'left' },
+    { title: 'Category', field: 'category', align: 'left' },
   ]
-
-  const [data, setData] = useState([
-    { id: '1', name: 'Jump Ring', description: 'small jump ring', unit_price: '.23', category: 'fasteners' },
-    { id: '2', name: 'Blue Bead', description: 'small blue bead', unit_price: '.84', category: 'bead' },
-    { id: '3', name: 'Leather Chain', description: 'Leather', unit_price: '.3.68', category: 'chain' },
-  ])
 
   const closeModal = () => {
     setOpen(false)
@@ -120,7 +124,7 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, onAddMate
           showTitle: false,
           filtering: true,
           addRowPosition: 'first',
-          exportButton: true,
+          exportButton: true,          
           //export csv is a function we can use to override the generic export and export to excel
           // exportCsv
           headerStyle: {
@@ -147,23 +151,6 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, onAddMate
         ]}
 
         editable={{
-          onRowAdd: newData =>
-            new Promise((resolve, reject) => {
-              setTimeout(() => {
-                setData([...data, newData]);
-                resolve();
-              }, 1000)
-            }),
-          onRowUpdate: (newData, oldData) =>
-            new Promise((resolve, reject) => {
-              setTimeout(() => {
-                const dataUpdate = [...data];
-                const index = oldData.tableData.id;
-                dataUpdate[index] = newData;
-                setData([...dataUpdate]);
-                resolve();
-              }, 1000)
-            }),
           onRowDelete: oldData =>
             new Promise((resolve, reject) => {
               setTimeout(() => {

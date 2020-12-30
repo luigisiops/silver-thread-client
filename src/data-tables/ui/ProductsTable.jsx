@@ -55,13 +55,13 @@ const ProductsTable = ({ onGetProducts, products, onDeleteProduct, productDelete
     //sets column headers
     const columns = [
         { title: 'id', field: 'id', hidden: true },
-        { title: 'labor', field: 'labor', hidden: true },
-        { title: 'Product Number', field: 'product_num' },
-        { title: 'Product Name', field: 'product_name' },
-        { title: 'Wholesale Price', field: 'wholesale', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2} },
-        { title: 'Retail Price', field: 'retail_price', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2} },
-        { title: 'Category', field: 'category' },
-        { title: 'Inventory', field: 'quantity' },
+        { title: 'labor', field: 'labor', hidden: true, align: 'left' },
+        { title: 'Product Number', field: 'product_num', align: 'left' },
+        { title: 'Product Name', field: 'product_name', align: 'left' },
+        { title: 'Wholesale Price', field: 'wholesale', align: 'left', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2} },
+        { title: 'Retail Price', field: 'retail_price', align: 'left', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2} },
+        { title: 'Category', field: 'category', align: 'left' },
+        { title: 'Inventory', field: 'quantity', align: 'left' },
     ]
 
     const closeModal = () => {

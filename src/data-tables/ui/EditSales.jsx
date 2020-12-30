@@ -43,11 +43,8 @@ const EditSales = (props, {onEditSale}) => {
     const handleOnClick = (data) => {        
         //check to make sure quantity is a number
         const quantity = +data.quantity
-
-        //check to make sure price_per_unit and total_price are x.xx
-        var regex = /^\d+(?:\.\d{0,2})$/;
-        const price_per_unit = data.price_per_unit
-        const total_price = data.total_price
+        const price_per_unit = +data.price_per_unit
+        const total_price = +data.total_price
 
         if (data.product_name == '') {
             alert('Please enter the name of the product you sold')
@@ -57,15 +54,17 @@ const EditSales = (props, {onEditSale}) => {
             alert('Please enter the category of the product you sold')
         } else if (quantity == '' || isNaN(quantity)) {
             alert('Please enter the quantity sole')
-        } else if (price_per_unit == '' || (!regex.test(price_per_unit)) ) {
+        } else if (price_per_unit == '' || isNaN(price_per_unit) ) {
             alert('Please enter the price per unit in the format X.XX')
-        } else if (total_price == '' || (!regex.test(total_price)) ) {
+        } else if (total_price == '' || isNaN(total_price) ) {
             alert('Please enter the total price in the format X.XX')
         } else if (data.sold_to == '') {
             alert('Please enter the name of the buyer')
         } else {
             props.onEditSale(data)
-        }       
+            props.closeEditModal()   
+        }
+            
     }
  
     return (
