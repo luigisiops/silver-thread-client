@@ -62,26 +62,26 @@ const theme = createMuiTheme({
                 },
            },
 // fontFamily: font // as an aside, highly recommend importing roboto font for Material UI projects! Looks really nice
-        // typography: {
-        //   fontFamily: 'League-Spartan, Bold',
-        // },
-        // overrides: {
-        //   MuiCssBaseline: {
-        //     '@global': {
-        //       '@font-face': [league_spartanbold],
-        //     },
-        //   },
-        // },
-                typography: {
-          fontFamily: 'Aileron, Regular',
+        typography: {
+          fontFamily: 'League-Spartan, Bold',
         },
         overrides: {
           MuiCssBaseline: {
             '@global': {
-              '@font-face': [Aileron],
+              '@font-face': [league_spartanbold],
             },
           },
         },
+        // typography: {
+        //   fontFamily: 'Aileron, Regular',
+        // },
+        // overrides: {
+        //   MuiCssBaseline: {
+        //     '@global': {
+        //       '@font-face': [Aileron],
+        //     },
+        //   },
+        // },
 });
 
 
