@@ -9,8 +9,9 @@ import { NavLink } from "react-router-dom"
 import "./login.css"
 import { onLogin } from '../frameworks/actions';
 import { UserLogin } from '../use-cases/UserLogin'
+import { UserRegister } from '../use-cases/UserRegister'
 
-const Login = () => {
+const Register = ({onRegister}) => {
 
     const [fields, setFields] = useState({})
 
@@ -29,13 +30,17 @@ const Login = () => {
             </div>
 
             <div className="login-container">
-                <h2 className = "login-blurb">See Your Business Data Now</h2>
+                <h2 className = "login-blurb">Register Here</h2>
                 <div className="login-box">
-                    <div className="login-input"><TextField id="outlined-basic" label="Username" variant="outlined" name = "name" onChange = {setField}/></div>
+                    <div className="login-input"><TextField id="outlined-basic" label="First Name" variant="outlined" name = "firstname" onChange = {setField}/></div>
+                    <div className="login-input"><TextField id="outlined-basic" label="Last Name" variant="outlined" name = "lastname" onChange = {setField}/></div>
+                    <div className="login-input"><TextField id="outlined-basic" label="Username" variant="outlined" name = "username" onChange = {setField}/></div>
                     <div className="login-input"><TextField id="outlined-basic" label="Password" variant="outlined" name = "password" onChange = {setField}/></div>
-                    <div>Not a user? <NavLink to="/register"> Register</NavLink> and get permission from a moderator!</div>
                     <div className = "button-container">
-                        <Button className ="login-button"variant="outlined">Login</Button>
+                        <NavLink to= "/">
+                            <Button className ="login-button" variant="outlined" onClick = {() => {onRegister(fields)}}>Login</Button>
+                        </NavLink>
+                        
                     </div>
                 </div>
             </div>
@@ -48,8 +53,8 @@ const mapStateToProps = (state, {materials}) => ({
   })
   
   const mapDispatchToProps = (dispatch) => ({
-    onLogin: UserLogin(dispatch)
+    onRegister: UserRegister(dispatch)
   })
   
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+export default connect(mapStateToProps, mapDispatchToProps)(Register)
 

@@ -12,7 +12,6 @@ import {
     onAddProduct,
     onGetProducts,
     onDeleteProduct,
-    onAddProduct,
     onAddRetail,
    
 }from "./actions"
