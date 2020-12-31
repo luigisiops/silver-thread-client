@@ -2,54 +2,93 @@ import MaterialTable from 'material-table';
 import { useEffect, useState } from 'react';
 import { connect } from "react-redux"
 import './MaterialsTable.css'
+import "./AddMaterialModal.css"
 import AddMaterials from './AddMaterials'
 import EditMaterials from './EditMaterials'
 import { GetMaterials } from "../use-cases/getMaterials"
 import { DeleteMaterial } from "../use-cases/deleteMaterial"
+import {AddMaterial} from "../use-cases/addMaterial";
 import Popover from '@material-ui/core/Popover';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import IconButton from '@material-ui/core/IconButton';
 
-const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial,  materialsDelete, materialsAdd, materialsEdit }) => {
 
-  const [openAdd, setOpenAdd] = useState(false)
+const AddMaterialModal = ({closeModal }) => {
+
+    return(
+        <div className = "add-material-container">
+           <div className='closeIconButton'>
+                <IconButton variant="contained" onClick={() => closeModal()} ><HighlightOffIcon /></IconButton>
+            </div>
+            <AddMaterials closeModal = {closeModal}/>      
+        </div>
+     
+    )
+}
+
+const EditMaterialModal = ({closeEditModal, rowData }) => {
+     
+  return(
+      <div className = "edit-material-container">
+         <div className='closeIconButton'>
+              <IconButton variant="contained" onClick={() => closeEditModal()} ><HighlightOffIcon /></IconButton>
+          </div>
+          <EditMaterials materialData={rowData} closeEditModal = {closeEditModal}/>      
+      </div>
+   
+  )
+}
+
+
+const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, materialsEdit, materialsDelete, materialsAdd}) => {
+  const [open, setOpen] = useState(false)
   const [openEdit, setOpenEdit] = useState(false)
   const [rowData, setRowData] = useState()
   
+  const closeModal = () => {
+    setOpen(false)
+  }
+
+  const closeEditModal = () => {
+    setOpenEdit(false)
+  }
 
   useEffect(() => {  
     onGetMaterials()
-  }, [materialsDelete, materialsAdd, materialsEdit])
+  }, [materialsEdit, materialsDelete, materialsAdd])
 
   let tableData = materials.map(data => ({
     ...data
-}))
+  }))
+
   const columns = [
     { title: 'id', field: 'id', hidden: true },
-    { title: 'Name', field: 'material_name' },
-    { title: 'Unit', field: 'unit' },
-    { title: 'Price per Unit', field: 'unit_price' },
-    { title: 'Category', field: 'category' },
-    { title: 'Vendor', field: 'vendor' },
-    { title: 'Product Number', field: 'vendor_material_id' },
+    { title: 'Name', field: 'material_name', align: 'left' }, 
+    { title: 'Unit of Measure', field: 'unit', align: 'left'  }, 
+    { title: 'Price per Unit', field: 'unit_price', align: 'left', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2} },
+    { title: 'Vendor', field: 'vendor', align: 'left'  },
+    { title: 'Product Number', field: 'vendor_material_id', align: 'left' },
+    { title: 'Category', field: 'category', align: 'left' },
   ]
 
   return (
     <div className='materialsContainer'>
       <h1>Silverthread Materials </h1>
       <Popover
-                open={openAdd}
-                anchorOrigin={{
-                    vertical: 'center',
-                    horizontal: 'center',
-                }}
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'center',
-                }}
-            >
-                <AddMaterials />
-            </Popover>
+        open={open}
+        anchorOrigin={{
+          vertical: 'center',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+      >
+        <AddMaterialModal className = "modal" closeModal = {closeModal}/>
+      </Popover>
 
-            <Popover
+      <Popover
             open={openEdit}
             anchorOrigin={{
                 vertical: 'center',
@@ -60,9 +99,9 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial,  material
                 horizontal: 'center',
             }}
         >
-            <EditMaterials materialData={rowData} />
-        </Popover>
-
+          <EditMaterialModal rowData={rowData} closeEditModal = {closeEditModal} />
+          </Popover>
+        
       <MaterialTable
         style={{backgroundColor:'#FFFFFF'}}
         title="Silverthread Materials"
@@ -73,36 +112,37 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial,  material
           showTitle: false,
           filtering: true,
           addRowPosition: 'first',
-          exportButton: true,
+          exportButton: true,          
           //export csv is a function we can use to override the generic export and export to excel
           // exportCsv
           headerStyle: {
-            backgroundColor: '#01579b',
-            // backgroundColor: '#78bfb5',
+            backgroundColor: '#01579b',          
             color: '#FFFFFF'
           }
         }}
+
         actions={[
           {
-              icon: 'add',
-              tooltip: 'Add Sale',
-              isFreeAction: true,
-              onClick: (event) => setOpenAdd(true)
+            icon: 'add',
+            tooltip: 'Add Material',
+            isFreeAction: true,
+            onClick: (event) => setOpen(true)
           },
           {
-              icon: 'edit',
-              tooltip: 'Edit Row',
-              onClick: (event, rowData) => {
-                  setRowData(rowData)
-                  setOpenEdit(true)
-              }
-          },
-      ]}
-        editable={{        
+            icon: 'edit',
+            tooltip: 'Edit Row',
+            onClick: (event, rowData) => {           
+              setRowData(rowData)
+              setOpenEdit(true)
+            }
+          }
+        ]}
+
+        editable={{
           onRowDelete: oldData =>
             new Promise((resolve, reject) => {
               setTimeout(() => {
-                const id = oldData.id;
+                const id = oldData.id;              
                 onDeleteMaterial(id)
                 resolve()
               }, 1000)
@@ -123,7 +163,8 @@ const mapStateToProps = (state, {materials}) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onGetMaterials: GetMaterials(dispatch),
-  onDeleteMaterial: DeleteMaterial(dispatch),
+  onAddMaterial: AddMaterial(dispatch),
+  onDeleteMaterial: DeleteMaterial(dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MaterialsTable)

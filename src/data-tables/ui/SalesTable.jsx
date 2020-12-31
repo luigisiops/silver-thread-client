@@ -10,6 +10,8 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker, } from '@material-ui/picke
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import IconButton from '@material-ui/core/IconButton';
 
 import './SalesTable.css'
 import AddSales from './AddSales'
@@ -25,24 +27,30 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+
+
 const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, salesDelete, }) => {
     const classes = useStyles();
- 
-    //set date for date-pickers
-    let end_date = new Date()
-    let start_date = new Date().setDate(end_date.getDate() - 30)
+
+    //set date for date-pickers on load
+    const getStartDate = () => {
+        let d = new Date()
+        d.setDate(d.getDate() - 30)
+        return d
+    }
+    let end_date = new Date()    
+    let start_date = getStartDate()
 
     const [selectedDate, setSelectedDate] = useState({ start: start_date, end: end_date });
-    const [open, setOpen] = useState(false)
-    const [data, setData] = useState(sales)
-    const [openEdit, setOpenEdit] = useState(false)
+    const [open, setOpen] = useState(false)  
+    const [openEdit, setOpenEdit] = useState(false)   
     const [rowData, setRowData] = useState()
 
     var tableData
 
     //get sales from db
     useEffect(() => {
-        onGetSales()       
+        onGetSales(selectedDate)
     }, [salesAdd, salesEdit, salesDelete])
 
     tableData = sales.map(data => ({
@@ -65,19 +73,48 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, sale
         });
     };
 
+    //onclick function that runs new sales report based on input dates
+    const handleRunSalesReport = (dates) => {
+        if (dates.start === null || dates.end === null) {
+            alert('Please enter a start and end date for your report')
+        } else if (dates.start > dates.end) {
+            alert("The start date must be before the end date")
+        } else {
+            onGetSales(dates)
+        }      
+    }
+
+    const EditSalesModal = ({ closeEditModal }) => {
+        return (
+            <div className="editSalesModal">
+                <div className='closeIconButton'>
+                    <IconButton variant="contained" onClick={() => closeEditModal()}><HighlightOffIcon /></IconButton>
+                </div>
+                <EditSales saleData={rowData} closeEditModal = {closeEditModal}/>
+            </div>
+        )
+    }
+
+
+    const closeEditModal = () => {
+        setOpenEdit(false)
+    }
 
     //sets column headers
     const columns = [
         { title: 'id', field: 'id', hidden: true },
         { title: 'Product ID', field: 'product_id', hidden: true },
-        { title: 'Date', field: 'createdAt' },
-        { title: 'Product Number', field: 'product_number' },
-        { title: 'Product Name', field: 'product_name' },
-        { title: 'Quantity', field: 'quantity' },
-        { title: 'Price per Unit', field: 'price_per_unit' },
-        { title: 'Total Sales Price', field: 'total_price' },
-        { title: 'Category', field: 'product_category' },
-        { title: 'Purchased By', field: 'sold_to' },
+        { title: 'Date', field: 'date_sold', defaultSort: 'desc', align: 'left'},
+        { title: 'Product Number', field: 'product_number', align: 'left', hidden: true },
+        { title: 'Product Name', field: 'product_name', align: 'left' },
+        { title: 'Quantity', field: 'quantity', align: 'left' },
+        { title: 'Price per Unit', field: 'price_per_unit', align: 'left', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2} },
+        { title: 'Discount', field: 'discount', align: 'left', },
+        { title: 'Total Sales Price', field: 'total_price', align: 'left', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2} },
+        { title: 'Tax', field: 'tax', align: 'left', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2}  },
+        { title: 'Shipping', field: 'shipping', align: 'left', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2}  },       
+        { title: 'Category', field: 'product_category', align: 'left', hidden: true },
+        { title: 'Purchased By', field: 'sold_to', align: 'left' },
     ]
 
     return (
@@ -85,9 +122,10 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, sale
             <h1>Silverthread Sales </h1>
             <div className='datePickerContainer'>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <Grid container justify="space-around" style={{backgroundColor:'#FFFFFF'}}>
+                    {/* <Grid container justify="space-around" style={{backgroundColor:'#FFFFFF'}}> */}
+                    <Grid container justify="space-evenly" alignItems="center" style={{ backgroundColor: '#FFFFFF' }}>
                         <KeyboardDatePicker
-                            style={{backgroundColor:'#FFFFFF'}}
+                            style={{ backgroundColor: '#FFFFFF' }}
                             margin="normal"
                             name="start"
                             id="date-picker-dialog"
@@ -112,13 +150,15 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, sale
                                 'aria-label': 'change date',
                             }}
                         />
+
+                        <div className={classes.root} style={{ backgroundColor: '#FFFFFF' }}>
+                            <Button onClick={() => handleRunSalesReport(selectedDate)} variant="contained" color="secondary">
+                                Run Report
+                            </Button>
+                        </div>
                     </Grid>
                 </MuiPickersUtilsProvider>
-                <div className={classes.root} style={{backgroundColor:'#FFFFFF'}}>
-                    <Button variant="contained" color="secondary">
-                        Submit
-                </Button>
-                </div>
+
             </div>
 
             <Popover
@@ -135,12 +175,26 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, sale
                 <AddSales />
             </Popover>
 
+            <Popover
+                open={openEdit}
+                anchorOrigin={{
+                    vertical: 'center',
+                    horizontal: 'center',
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                }}
+            >
+                <EditSalesModal className = "modal" closeEditModal = {closeEditModal} />            
+            </Popover>
+
             {sales === [] ?
                 <div>Loading Data....</div>
                 :
                 <div className='salesMaterialTable'>
                     <MaterialTable
-                        style={{backgroundColor:'#FFFFFF'}}
+                        style={{ backgroundColor: '#FFFFFF' }}
                         title="Silverthread Sales"
                         columns={columns}
                         data={tableData}
@@ -170,8 +224,7 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, sale
                                 tooltip: 'Edit Row',
                                 onClick: (event, rowData) => {
                                     setRowData(rowData)
-                                    setOpenEdit(true)
-                                    console.log(rowData)
+                                    setOpenEdit(true)                                    
                                 }
                             },
                         ]}
@@ -187,20 +240,8 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, sale
                         }}
                     />
                 </div>}
-        {/* </div> */}
-        <Popover
-            open={openEdit}
-            anchorOrigin={{
-                vertical: 'center',
-                horizontal: 'center',
-            }}
-            transformOrigin={{
-                vertical: 'top',
-                horizontal: 'center',
-            }}
-        >
-            <EditSales saleData={rowData} />
-        </Popover>
+  
+            
         </div >
     )
 }
