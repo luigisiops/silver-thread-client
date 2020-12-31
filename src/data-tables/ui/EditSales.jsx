@@ -82,6 +82,15 @@ const EditSales = (props, {onEditSale}) => {
                     <TextField name='price_per_unit' value={updatedSalesData.price_per_unit} onChange={handleOnChange} id="outlined-basic" label="Price Per Unit" variant="outlined" />
                 </form>
                 <form className={classes.root} noValidate autoComplete="off">
+                    <TextField name='discount' value={""} onChange={handleOnChange} id="outlined-basic" label="Discount" variant="outlined" />
+                </form>
+                <form className={classes.root} noValidate autoComplete="off">
+                    <TextField name='tax' value={""} onChange={handleOnChange} id="outlined-basic" label="Tax" variant="outlined" />
+                </form>
+                <form className={classes.root} noValidate autoComplete="off">
+                    <TextField name='shipping' value={""} onChange={handleOnChange} id="outlined-basic" label="Shipping" variant="outlined" />
+                </form>
+                <form className={classes.root} noValidate autoComplete="off">
                     <TextField name='total_price' value={updatedSalesData.total_price} onChange={handleOnChange} id="outlined-basic" label="Total Sales Price" variant="outlined" />
                 </form>
                 <form className={classes.root} noValidate autoComplete="off">

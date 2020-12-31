@@ -62,6 +62,7 @@ const ProductsTable = ({ onGetProducts, products, onDeleteProduct, productDelete
         { title: 'Retail Price', field: 'retail_price', align: 'left', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2} },
         { title: 'Category', field: 'category', align: 'left' },
         { title: 'Inventory', field: 'quantity', align: 'left' },
+        { title: 'Inventory - PTM', field: 'quantity_painted_tree', align: 'left' },
     ]
 
     const closeModal = () => {
