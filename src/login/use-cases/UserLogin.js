@@ -5,7 +5,7 @@ export const UserLogin = (dispatch) => async(
 ) => {
    // first we call a fetch request to update our backend because the backend is the source of truth for our global state
    
-      const response = await fetch(`http://localhost:8000/materials`, {
+      const response = await fetch(`http://localhost:8000/login`, {
          method: "POST",
          headers: {
             "Content-Type": "application/json",
@@ -15,6 +15,7 @@ export const UserLogin = (dispatch) => async(
 
       //need to await on parsing response to javascript objects from json
       const success = await response.json()
+      localStorage.setItem("token", success.token)
       console.log(success)
 
       //pass into our action as a payload and we dispatch it

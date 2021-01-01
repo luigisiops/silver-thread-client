@@ -9,8 +9,9 @@ import { NavLink } from "react-router-dom"
 import "./login.css"
 import { onLogin } from '../frameworks/actions';
 import { UserLogin } from '../use-cases/UserLogin'
+import { CheckUser } from '../use-cases/CheckUser'
 
-const Login = () => {
+const Login = ({onLogin, getLoggedUser}) => {
 
     const [fields, setFields] = useState({})
 
@@ -20,6 +21,10 @@ const Login = () => {
             [evt.target.name]: evt.target.value
         })
     }
+
+    useEffect(() => {
+        getLoggedUser()
+    },[])
     console.log(fields)
     return (
         <div className="login-component">
@@ -31,11 +36,11 @@ const Login = () => {
             <div className="login-container">
                 <h2 className = "login-blurb">See Your Business Data Now</h2>
                 <div className="login-box">
-                    <div className="login-input"><TextField id="outlined-basic" label="Username" variant="outlined" name = "name" onChange = {setField}/></div>
-                    <div className="login-input"><TextField id="outlined-basic" label="Password" variant="outlined" name = "password" onChange = {setField}/></div>
+                    <div className="login-input"><TextField id="outlined-basic" label="Username" variant="outlined" name = "username" onChange = {setField}/></div>
+                    <div className="login-input"><TextField id="outlined-basic" label="Password" variant="outlined" type = "password" name = "password" onChange = {setField}/></div>
                     <div>Not a user? <NavLink to="/register"> Register</NavLink> and get permission from a moderator!</div>
                     <div className = "button-container">
-                        <Button className ="login-button"variant="outlined">Login</Button>
+                        <Button onClick = {()=>onLogin(fields)} className ="login-button"variant="outlined">Login</Button>
                     </div>
                 </div>
             </div>
@@ -48,7 +53,9 @@ const mapStateToProps = (state, {materials}) => ({
   })
   
   const mapDispatchToProps = (dispatch) => ({
-    onLogin: UserLogin(dispatch)
+    onLogin: UserLogin(dispatch),
+    getLoggedUser: CheckUser(dispatch)
+
   })
   
 export default connect(mapStateToProps, mapDispatchToProps)(Login)
