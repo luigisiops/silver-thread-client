@@ -7,11 +7,13 @@ export const exportCsv = (allColumns, renderedData) => {
 
     const dataList = renderedData.map(data => {
         return {
-            'Material': data.material_name,
-            'Unit of Measure': data.unit,
-            'Price Per Unit': data.unit_price,
-            'Vendor': data.vendor,
-            'Product Number': data.vendor_material_id,
+            'Product Number': data.product_num,
+            'Product Name': data.product_name,
+            'Labor in Minutes': data.labor,
+            'Wholesale Price': data.wholesale,
+            'Retail Price': data.retail_price,
+            'Inventory - Home': data.quantity,
+            'Inventory - PTM': data.quantity_painted_tree,      
             'Category': data.category
         }
     })

@@ -4,12 +4,15 @@ import { connect } from 'react-redux'
 import './ProductsTable.css'
 
 import Popover from '@material-ui/core/Popover';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import IconButton from '@material-ui/core/IconButton';
+
 import EditProduct from './EditProduct'
 import AddProducts from './AddProducts'
 import { GetProducts } from '../use-cases/getProducts'
 import { DeleteProduct } from '../use-cases/deleteProduct'
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import IconButton from '@material-ui/core/IconButton';
+import { exportCsv} from '../use-cases/excelProductsReports'
+
 
 const AddProductModal = ({ closeModal }) => {
     return (
@@ -114,10 +117,8 @@ const ProductsTable = ({ onGetProducts, products, onDeleteProduct, productDelete
                         search: false,
                         showTitle: false,
                         filtering: true,
-                        addRowPosition: 'first',
-                        exportButton: true,
-                        //export csv is a function we can use to override the generic export and export to excel
-                        // exportCsv
+                        exportButton: true,                        
+                        exportCsv,
                         headerStyle: {
                             backgroundColor: '#f06292',
                             color: '#FFFFFF'
