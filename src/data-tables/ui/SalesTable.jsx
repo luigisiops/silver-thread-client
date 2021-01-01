@@ -18,6 +18,7 @@ import AddSales from './AddSales'
 import EditSales from './EditSales'
 import { GetSales } from '../use-cases/getSales';
 import { DeleteSale } from '../use-cases/deleteSale';
+import { exportCsv } from '../use-cases/exelSalesReports'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -203,10 +204,8 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, sale
                             search: false,
                             showTitle: false,
                             filtering: true,
-                            addRowPosition: 'first',
-                            exportButton: true,
-                            //export csv is a function we can use to override the generic export and export to excel
-                            // exportCsv
+                            exportButton: true,                            
+                            exportCsv,
                             headerStyle: {
                                 backgroundColor: '#b71c1c',
                                 color: '#FFFFFF'
