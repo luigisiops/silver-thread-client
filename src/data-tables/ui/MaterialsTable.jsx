@@ -11,7 +11,7 @@ import {AddMaterial} from "../use-cases/addMaterial";
 import Popover from '@material-ui/core/Popover';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import IconButton from '@material-ui/core/IconButton';
-
+import {exportCsv } from '../use-cases/excelMaterialsReports'
 
 const AddMaterialModal = ({closeModal }) => {
 
@@ -63,7 +63,7 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, materials
 
   const columns = [
     { title: 'id', field: 'id', hidden: true },
-    { title: 'Name', field: 'material_name', align: 'left' }, 
+    { title: 'Material', field: 'material_name', align: 'left' }, 
     { title: 'Unit of Measure', field: 'unit', align: 'left'  }, 
     { title: 'Price per Unit', field: 'unit_price', align: 'left', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2} },
     { title: 'Vendor', field: 'vendor', align: 'left'  },
@@ -111,10 +111,8 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, materials
           search: false,
           showTitle: false,
           filtering: true,
-          addRowPosition: 'first',
-          exportButton: true,          
-          //export csv is a function we can use to override the generic export and export to excel
-          // exportCsv
+          exportButton: true,        
+          exportCsv,
           headerStyle: {
             backgroundColor: '#01579b',          
             color: '#FFFFFF'
