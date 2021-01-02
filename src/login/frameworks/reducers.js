@@ -1,7 +1,8 @@
 import { createReducer } from "@reduxjs/toolkit"
 
 import {
-    onLogin
+    onLogin,
+    getLoggedUser
 } from "./actions"
 
 export const login = createReducer (
@@ -15,6 +16,13 @@ export const login = createReducer (
             }
             state.currentUser = user
         },
+
+        [getLoggedUser.type]: (state, {payload: user}) => {
+            if (user === null) {
+                return state
+            }
+            state.currentUser = user
+        }
     }
 )
 

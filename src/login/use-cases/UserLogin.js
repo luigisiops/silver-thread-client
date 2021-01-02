@@ -15,6 +15,14 @@ export const UserLogin = (dispatch) => async(
 
       //need to await on parsing response to javascript objects from json
       const success = await response.json()
+      const localUser = {
+          auth: success.auth, 
+          token: success.token, 
+          userId: success.user.id, 
+          username: success.user.username, 
+          firstname: success.user.first_name, 
+          lastname: success.user.last_name}
+
       localStorage.setItem("token", success.token)
       console.log(success)
 

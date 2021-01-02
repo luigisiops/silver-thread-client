@@ -11,13 +11,12 @@ export const CheckUser = (dispatch) => async(
             "x-access-token": localStorage.getItem("token"),
          },
       })
-//JSON.stringify({token: success.token, user:success.user.first_name, userId: success.user.id})
       //need to await on parsing response to javascript objects from json
       const success = await response.json()
       console.log(JSON.stringify(success))
 
       //pass into our action as a payload and we dispatch it
-      return success
+      return dispatch(getLoggedUser(success.user))
 }
 
 export default CheckUser
