@@ -1,21 +1,60 @@
 import React from 'react'
 import './Dashboard.css';
-// import Dashboard from './dashboard/ui/Dashboard'
-
+import { Container, AppBar, Typography, Grow, Grid } from '@material-ui/core';
 
 
 //Pages
 import PieChart from './PieChart'
 import BarChart from './BarChart'
+import BarChart2 from './BarChart2'
+import PieChart2 from './PieChart2'
 
 
 
 const Dashboard = () => {
+
+  // const useStyles = makeStyles((theme) => ({
+  //   root: {
+  //     flexGrow: 1,
+  //     backgroundColor: theme.palette.background.paper,
+  //   },
+  // }));
+
   return (
-    <div className="Dashboard">
-      <PieChart />
-      <BarChart />
-    </div>
+    <Container maxWidth="xlg">
+    {/* <AppBar className={classes.appBar} position="static" color="inherit">
+        <Typography className={classes.heading} variant="h2" align="center">DevSpace</Typography>
+        <img className={classes.image} src={computer} alt="computer" height="60" />
+    </AppBar> */}
+      <Grow in>
+          <Container maxWidth="50%">
+              <Grid container justify="space-between" alignItems="stretch" spacing={3}>
+                  {/* <Grid item xs={12} sm={7}>
+                      <PieChart/>
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                      <BarChart/>
+                  </Grid> */}
+                  {/* <Grid item xs={12} sm={4}>
+                      <BarChart2/>
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                      <PieChart2/>
+                  </Grid> */}
+                  <Grid item xs={20} sm={5}>
+                      <BarChart2/>
+                  </Grid>
+                  <Grid item xs={20} sm={5}>
+                      <PieChart2/>
+                  </Grid>
+              </Grid>
+          </Container>
+      </Grow>
+    </Container>
+    //  <div className="Dashboard">
+    //    <PieChart />
+    //    <BarChart />
+    // </div>
   )
 }
 
