@@ -12,9 +12,12 @@ import {
     onGetProducts,
     onDeleteProduct,
     onAddProduct,
-    onAddRetail,
-   
-}from "./actions"
+    onEditProduct,
+    onGetProductByID,
+    onDeleteMaterialItem,
+    onAddNewMaterial
+
+} from "./actions"
 
 export const materials = createReducer(
     {
@@ -24,26 +27,26 @@ export const materials = createReducer(
         materialEdit: '',
     },
     {
-        [onGetMaterials.type]: (state, {payload: material}) => {
-            if (material === null){
+        [onGetMaterials.type]: (state, { payload: material }) => {
+            if (material === null) {
                 return state
             }
             state.materialsList = material
-        },      
-        [onDeleteMaterial.type]:(state, {payload: materialid}) => {
+        },
+        [onDeleteMaterial.type]: (state, { payload: materialid }) => {
             if (materialid === null) {
                 return state
             }
             state.materialID = materialid
         },
-        [onAddMaterial.type]: (state, {payload: materialDetails }) => {
+        [onAddMaterial.type]: (state, { payload: materialDetails }) => {
             if (materialDetails === null) {
                 return state
             }
             state.materialAdd = materialDetails
         },
-        [onEditMaterial.type]: (state, {payload: materialEdits}) => {
-            if (materialEdits ===  null) {
+        [onEditMaterial.type]: (state, { payload: materialEdits }) => {
+            if (materialEdits === null) {
                 return state
             }
             state.materialEdit = materialEdits
@@ -53,35 +56,35 @@ export const materials = createReducer(
 
 export const sales = createReducer(
     {
-       salesList: [],
-       saleID: '',      
-       saleEdits: {} 
-    }, 
+        salesList: [],
+        saleID: '',
+        saleEdits: {}
+    },
     {
-        [onGetSales.type]: (state, {payload: salesList}) => {
+        [onGetSales.type]: (state, { payload: salesList }) => {
             if (sales === null) {
                 return state
-            } 
+            }
             /*    sales.forEach((sale) => {
                 state.byId[sale.id] = sale
             })*/
-            return {...state.salesList, salesList}
+            return { ...state.salesList, salesList }
         },
-        [onDeleteSale.type]: (state, {payload: saleid}) => {            
+        [onDeleteSale.type]: (state, { payload: saleid }) => {
             if (saleid === null) {
                 console.log(null)
                 return state
             }
             console.log(saleid)
-            state.saleID = saleid   
+            state.saleID = saleid
         },
-        [onAddSale.type]: (state, {payload:newSaleId}) => {
-            if(newSaleId === null){
+        [onAddSale.type]: (state, { payload: newSaleId }) => {
+            if (newSaleId === null) {
                 return state
             }
             state.newSaleId = newSaleId
-        },          
-        [onEditSale.type]: (state, {payload: saleDetails}) => {
+        },
+        [onEditSale.type]: (state, { payload: saleDetails }) => {
             if (saleDetails === null) {
                 return state
             }
@@ -95,22 +98,22 @@ export const products = createReducer(
         productsList: [],
         productsDelete: '',
         newProduct: {},
-        editedProduct: {},
-     }, 
-     {
-        [onGetProducts.type]: (state, {payload: products}) => {
-            if (products === null){
+        productListing: {},
+    },
+    {
+        [onGetProducts.type]: (state, { payload: products }) => {
+            if (products === null) {
                 return state
-            }            
+            }
             state.productsList = products
         },
-        [onDeleteProduct.type]: (state, {payload: productid}) => {
-            if (productid === null){
+        [onDeleteProduct.type]: (state, { payload: productid }) => {
+            if (productid === null) {
                 return state
-            }          
+            }
             state.productsDelete = productid
         },
-        [onAddProduct.type]:(state, {payload: newProduct}) => {
+        [onAddProduct.type]: (state, { payload: newProduct }) => {
             if (newProduct === null) {
                 return state
             } else {
@@ -118,15 +121,45 @@ export const products = createReducer(
             }
 
         },
-        [onAddRetail.type]: (state, {payload: editedProduct}) => {
+        [onEditProduct.type]: (state, { payload: editedProduct }) => {
             if (editedProduct === null) {
                 return state
             } else {
                 state.editedProduct = editedProduct
             }
+        },
+        [onGetProductByID.type]: (state, { payload: productListing }) => {
+            if (productListing === null) {
+                return state
+            } else {
+                state.productListing = productListing
+            }
+
         }
+    }
+)
 
-     }
-)    
+export const materialByProduct = createReducer(
+    {
+        materialItem: {},
+        newMaterial: []
+    },
+    {
+    [onDeleteMaterialItem.type]: (state, { payload: materialID }) => {
+        if (materialID === null) {
+            return state
+        } else {
+            state.materialItem = materialID
+        }
+    },
+    [onAddNewMaterial.type]: (state, {payload: newMaterial}) => {
+        if (newMaterial === null) {
+            return state
+        } else {
+            state.newMaterial = newMaterial
+        }
+    }
 
-export default {materials, sales, products}
+})
+
+export default { materials, sales, products, materialByProduct }

@@ -25,13 +25,13 @@ const AddProductModal = ({ closeModal }) => {
     )
 }
 
-const EditProductModal = ({ closeEditModal }) => {
+const EditProductModal = ({ closeEditModal, rowData }) => {
     return (
         <div className="addProductModal">
             <div className='closeIconButton'>
                 <IconButton variant="contained" onClick={() => closeEditModal()}><HighlightOffIcon /></IconButton>
             </div>
-            <EditProduct />
+            <EditProduct productData={rowData} closeEditModal={closeEditModal}/>
         </div>
     )
 }
@@ -92,6 +92,7 @@ const ProductsTable = ({ onGetProducts, products, onDeleteProduct, productDelete
             >
                 <AddProductModal className="modal" closeModal={closeModal} />
             </Popover>
+
             <Popover
                 open={openEdit}
                 anchorOrigin={{
@@ -103,7 +104,7 @@ const ProductsTable = ({ onGetProducts, products, onDeleteProduct, productDelete
                     horizontal: 'center',
                 }}
             >
-                <EditProductModal className="modal" closeEditModal={closeEditModal}  />
+                <EditProductModal className="modal" closeEditModal={closeEditModal} rowData={rowData} />
             </Popover>
 
             <div className='productsMaterialTable'>
@@ -134,9 +135,8 @@ const ProductsTable = ({ onGetProducts, products, onDeleteProduct, productDelete
                         {
                             icon: 'edit',
                             tooltip: 'Edit Row',
-                            onClick: (event, rowData) => {
-                                console.log(rowData)
-                                // setRowData(rowData.id)
+                            onClick: (event, rowData) => {                        
+                                setRowData(rowData)
                                 setOpenEdit(true)                                
                             }
                         }

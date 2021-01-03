@@ -15,7 +15,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from "@material-ui/icons/Save"
 import { GetMaterials } from "../use-cases/getMaterials"
 import { AddProduct } from "../use-cases/addProduct"
-import { AddRetail } from "../use-cases/addRetail"
+import EditProductDetails from '../use-cases/editProduct';
 
 //for material ui components
 const useStyles = makeStyles((theme) => ({
@@ -379,7 +379,7 @@ const mapStateToProps = (state, { materials }) => ({
 const mapDispatchToProps = (dispatch) => ({
     onGetMaterials: GetMaterials(dispatch),
     onAddProduct: AddProduct(dispatch),
-    onAddRetail: AddRetail(dispatch)
+    onAddRetail: EditProductDetails(dispatch)
 
 })
 
