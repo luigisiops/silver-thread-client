@@ -6,6 +6,7 @@ import { GetMaterials } from '../use-cases/getMaterials'
 import { EditProductDetails } from '../use-cases/editProduct'
 import { DeleteMaterialItem } from '../use-cases/deleteMaterialItem'
 import { AddNewMaterial } from '../use-cases/addMaterialItem'
+import { UpdateWholesale } from '../use-cases/editWholesale'
 
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -37,12 +38,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const EditProduct = ({ productData, onGetProductByID, productListing, onGetMaterials, materials, onEditProduct, onDeleteMaterialItem, materialDelete, onAddNewMaterial, newMaterialItem, closeEditModal }) => {
+const EditProduct = ({ productData, onGetProductByID, productListing, onGetMaterials, materials, onEditProduct, onDeleteMaterialItem, materialDelete, onAddNewMaterial, newMaterialItem, onUpdateWholesale, closeEditModal, editProduct }) => {
     const classes = useStyles();
     const [activeStep, setActiveStep] = useState(0);
 
     const [productDetails, setProductDetails] = useState({})
-    const [newMaterial, setNewMaterial] = useState({ product_id: productData.id })
+    const [newMaterial, setNewMaterial] = useState({ product_id: productData.id, material_unit_amount: '', })
     const [itemMaterialsList, setItemMaterialsList] = useState([])
 
     const steps = getSteps();
@@ -51,8 +52,7 @@ const EditProduct = ({ productData, onGetProductByID, productListing, onGetMater
         let id = productData.id
         onGetProductByID(id)
         onGetMaterials()
-    }, [materialDelete, newMaterialItem])
-
+    }, [materialDelete, newMaterialItem, editProduct])
 
     useEffect(() => {
         setProductDetails(productListing)
@@ -70,7 +70,6 @@ const EditProduct = ({ productData, onGetProductByID, productListing, onGetMater
             ...productDetails,
             [e.target.name]: e.target.value
         })
-
     }
 
     let materialItem = itemMaterialsList.map(item => {
@@ -86,7 +85,6 @@ const EditProduct = ({ productData, onGetProductByID, productListing, onGetMater
 
         switch (step) {
             case 0:
-
                 return (
                     <div className="editProductContainer">
                         <div className='textInput'>
@@ -124,7 +122,6 @@ const EditProduct = ({ productData, onGetProductByID, productListing, onGetMater
                         ...newMaterial,
                         material
                     })
-
                 }
 
                 //inputs quantity of materials
@@ -139,10 +136,8 @@ const EditProduct = ({ productData, onGetProductByID, productListing, onGetMater
                     <div>
                         <div className='textInput'>
                             <div><h2>Edit Materials</h2>
-
                                 <b>Current Materials List:</b>
                                 {materialItem}
-
                             </div>
                             <b>Add New Material:</b>
                         </div>
@@ -156,7 +151,7 @@ const EditProduct = ({ productData, onGetProductByID, productListing, onGetMater
                                 )}
                             />
                         </div>
-                        <div className='textInput'>
+                        <div className='textField'>
                             <TextField name="material_unit_amount" value={newMaterial.material_unit_amount} onChange={handleQuantityInput} id="outlined-basic" label="Quantity" variant="outlined" fullWidth />
                         </div>
                         <div className='textInput'>
@@ -170,10 +165,8 @@ const EditProduct = ({ productData, onGetProductByID, productListing, onGetMater
                                 <TextField name='labor' value={productDetails.labor} onChange={handleOnChange} id="outlined-basic" label="Labor (Minutes)" variant="outlined" InputLabelProps={{ shrink: true, }} fullWidth />
                             </form>
                         </div>
-
                     </div>
                 );
-
         }
     }
     // OnClick Functions For Stepper:
@@ -192,6 +185,11 @@ const EditProduct = ({ productData, onGetProductByID, productListing, onGetMater
         closeEditModal()
     };
 
+    const handleWholesaleUpdate = (product) => {
+        onUpdateWholesale(product)
+        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    }
+
     return (
         <div className="addProductsContainer">
             <h2>Edit Product</h2>
@@ -205,7 +203,6 @@ const EditProduct = ({ productData, onGetProductByID, productListing, onGetMater
                             <Step key={label} {...stepProps}>
                                 <StepLabel {...labelProps}>{label}</StepLabel>
                             </Step>
-
                         );
                     })}
 
@@ -254,7 +251,7 @@ const EditProduct = ({ productData, onGetProductByID, productListing, onGetMater
                                         <Button
                                             variant="contained"
                                             color="primary"
-                                            onClick={handleNext}
+                                            onClick={() => handleWholesaleUpdate(productDetails)}
                                             className={classes.button}
                                             startIcon={<SaveIcon />}
                                         >
@@ -275,7 +272,8 @@ const mapStateToProps = (state, { }) => ({
     productListing: state.products.productListing,
     materials: state.materials.materialsList,
     materialDelete: state.materialByProduct.materialItem,
-    newMaterialItem: state.materialByProduct.newMaterial
+    newMaterialItem: state.materialByProduct.newMaterial,
+    editProduct: state.products.editedProduct
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -283,9 +281,8 @@ const mapDispatchToProps = (dispatch) => ({
     onGetMaterials: GetMaterials(dispatch),
     onEditProduct: EditProductDetails(dispatch),
     onDeleteMaterialItem: DeleteMaterialItem(dispatch),
-    onAddNewMaterial: AddNewMaterial(dispatch)
-
+    onAddNewMaterial: AddNewMaterial(dispatch),
+    onUpdateWholesale: UpdateWholesale(dispatch)
 })
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditProduct)

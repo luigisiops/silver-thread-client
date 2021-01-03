@@ -15,7 +15,8 @@ import {
     onEditProduct,
     onGetProductByID,
     onDeleteMaterialItem,
-    onAddNewMaterial
+    onAddNewMaterial,
+    onUpdateWholesale
 
 } from "./actions"
 
@@ -133,6 +134,14 @@ export const products = createReducer(
                 return state
             } else {
                 state.productListing = productListing
+            }
+
+        },
+        [onUpdateWholesale.type]: (state, {payload: productDetails}) => {
+            if (productDetails === null) {
+                return state
+            } else {
+                state.editedProduct = productDetails
             }
 
         }
