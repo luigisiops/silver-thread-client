@@ -11,6 +11,7 @@ const useStyles = makeStyles({
         // minWidth: 400,
         // width: 500,
     //   minWidth: 275,
+    maxWidth: 500,
       backgroundColor: "white",
     //   justifyContent: "center"
     },
@@ -52,11 +53,14 @@ const PieChart2 = () => {
         <Card className={classes.root}>
             <CardContent>
                 <Typography variant="h4" component="h2">
-                    Silverthread Designs Sales Over Time
+                    Silverthread Designs Products Sold by Category
                     {/* be{bull}nev{bull}o{bull}lent */}
                 </Typography>
                 <VictoryPie
                 data={data}
+                colorScale={["#78bfb5", "#f06292", "#b71c1c"]}
+                labelRadius={({ innerRadius }) => innerRadius + 50 }
+                style={{ labels: { fill: "black", fontWeight: "bold" } }}                // labelPlacement={"perpindicular"}
                 // labels={({ legendData }) => data.y}
                 // labelPosition={({ index }) => index
                 //     ? "centroid"

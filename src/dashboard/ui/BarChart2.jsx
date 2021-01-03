@@ -7,6 +7,7 @@ import { VictoryBar, VictoryChart, VictoryTheme, VictoryAxis } from 'victory';
 
 const useStyles = makeStyles({
     root: {
+      maxWidth: 500,
       minWidth: 275,
       backgroundColor: "white"
     },
@@ -51,19 +52,22 @@ const BarChart2 = () => {
         domainPadding={{ x: 0 }}
         theme={VictoryTheme.material}
       >
-        <VictoryAxis />
+        <VictoryAxis 
+         style={{tickLabels: { angle: 30 }}}
+        //  fixLabelOverlap 
+        />
         <VictoryBar
           barRatio={1}
           cornerRadius={0} // Having this be a non-zero number looks good when it isn't transitioning, but looks like garbage when it is....
-          style={{ data: { fill: "#6DB65B" } }}
+          style={{ data: { fill: "#01579b" } }}
           alignment="middle"
           labels={d => d.y}
           data={[
-            { x: "Year 1", y: 150000 },
-            { x: "Year 2", y: 250000 },
-            { x: "Year 3", y: 500020 },
-            { x: "Year 4", y: 750000 },
-            { x: "Year 5", y: 1000000 }
+            { x: "August '20", y: 150000, style: "#f06292" },
+            { x: "September '20", y: 250000 },
+            { x: "October '20", y: 500020 },
+            { x: "November '20", y: 750000 },
+            { x: "December '20", y: 1000000 }
           ]}
         />
       </VictoryChart>
