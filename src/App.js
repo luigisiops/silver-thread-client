@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
+import { connect } from "react-redux"
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -16,6 +17,8 @@ import ProductsTable from './data-tables/ui/ProductsTable'
 import Dashboard from './dashboard/ui/Dashboard'
 import Login from './login/ui/login';
 import Logout from './login/ui/logout';
+
+import {UserSignout} from './login/use-cases/UserSignOut'
 
 
 function TabPanel(props) {
@@ -70,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NavTabs() {
+const NavTabs = ({onUserSignOut})=> {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -91,7 +94,7 @@ export default function NavTabs() {
           <LinkTab label="Materials" href="/materials" {...a11yProps(1)} />
           <LinkTab label="Products" href="/products" {...a11yProps(2)} />
           <LinkTab label="Sales" href="/sales" {...a11yProps(3)} />
-          <LinkTab label="Logout" href="/logout" {...a11yProps(4)} />
+          <LinkTab label="Logout" href="/login" onClick = {()=>{onUserSignOut()}} {...a11yProps(4)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -106,9 +109,16 @@ export default function NavTabs() {
       <TabPanel value={value} index={3}>
         <SalesTable />
       </TabPanel>
-      <TabPanel value={value} index={4}>
-        <Logout />
-      </TabPanel>
     </div>
   );
 }
+
+const mapStateToProps = (state) => ({
+  login: state.login.currentUser
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  onUserSignOut: UserSignout(dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavTabs)

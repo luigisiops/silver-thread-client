@@ -143,7 +143,7 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, materials
                 const id = oldData.id;              
                 onDeleteMaterial(id)
                 resolve()
-              }, 1000)
+              }, 1500)
             }),
         }}
 

@@ -4,10 +4,12 @@ import Button from "@material-ui/core/Button"
 import { useState } from "react"
 import { connect } from "react-redux"
 import { AddMaterial } from "../use-cases/addMaterial"
+import './AddSales.css'
+import './EditSales.css'
 import './AddMaterialModal.css'
 
-const AddMaterials = ({ onAddMaterial, closeModal }) => {
-   // putting empty fields object into local state
+const AddMaterials = ({ closeModal, onAddMaterial }) => {
+    // putting empty fields object into local state
    const [fields, setFields] = useState({})
 
    const setField = (evt) =>

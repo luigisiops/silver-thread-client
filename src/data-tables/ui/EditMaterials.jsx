@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const EditMaterials = (props, {onEditMaterial}) => {
+const EditMaterials = (props, {closeModal, onEditMaterial}) => {
     const classes = useStyles();
 
     const [updatedMaterialData, setUpdatedMaterialData] = useState(props.materialData)

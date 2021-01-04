@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { connect } from "react-redux"
-import { NavLink, Redirect } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 
 
 
 import "./login.css"
 import { onLogin } from '../frameworks/actions';
 import { UserLogin } from '../use-cases/UserLogin'
-import { CheckUser } from '../use-cases/CheckUser'
+import { UserRegister } from '../use-cases/UserRegister'
 
-const Login = ({onLogin, getLoggedUser, user}) => {
+const Register = ({onRegister}) => {
 
     const [fields, setFields] = useState({})
 
@@ -21,10 +21,6 @@ const Login = ({onLogin, getLoggedUser, user}) => {
             [evt.target.name]: evt.target.value
         })
     }
-
-    useEffect(() => {
-        getLoggedUser()
-    },[])
     console.log(fields)
     return (
         <div className="login-component">
@@ -34,14 +30,17 @@ const Login = ({onLogin, getLoggedUser, user}) => {
             </div>
 
             <div className="login-container">
-                <h2 className = "login-blurb">See Your Business Data Now</h2>
+                <h2 className = "login-blurb">Register Here</h2>
                 <div className="login-box">
+                    <div className="login-input"><TextField id="outlined-basic" label="First Name" variant="outlined" name = "firstname" onChange = {setField}/></div>
+                    <div className="login-input"><TextField id="outlined-basic" label="Last Name" variant="outlined" name = "lastname" onChange = {setField}/></div>
                     <div className="login-input"><TextField id="outlined-basic" label="Username" variant="outlined" name = "username" onChange = {setField}/></div>
-                    <div className="login-input"><TextField id="outlined-basic" label="Password" variant="outlined" type = "password" name = "password" onChange = {setField}/></div>
-                    <div>Not a user? <NavLink to="/register"> Register</NavLink> and get permission from a moderator!</div>
+                    <div className="login-input"><TextField id="outlined-basic" label="Password" variant="outlined" name = "password" type = "password" onChange = {setField}/></div>
                     <div className = "button-container">
-                       <Button onClick = {()=>onLogin(fields)}className ="login-button"variant="outlined">Login</Button>
-                       {Object.keys(user).length>0 ? <Redirect to="/"/> : <div></div>}
+                        <NavLink to= "/login">
+                            <Button className ="login-button" variant="outlined" onClick = {() => {onRegister(fields)}}>Login</Button>
+                        </NavLink>
+                        
                     </div>
                 </div>
             </div>
@@ -54,10 +53,8 @@ const mapStateToProps = (state, {materials}) => ({
   })
   
   const mapDispatchToProps = (dispatch) => ({
-    onLogin: UserLogin(dispatch),
-    getLoggedUser: CheckUser(dispatch)
-
+    onRegister: UserRegister(dispatch)
   })
   
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+export default connect(mapStateToProps, mapDispatchToProps)(Register)
 

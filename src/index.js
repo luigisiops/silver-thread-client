@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import Login from './login/ui/login';
+import Register from './login/ui/register';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from "react-redux"
 import store from "./common/redux/store"
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
 // import Login from './login/ui/login';
 import './index.css';
@@ -63,13 +64,20 @@ const theme = createMuiTheme({
 ReactDOM.render(
   <React.StrictMode>
   <Provider store = {store}>
-    <BrowserRouter>
+  <CssBaseline />
+    <Router>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
-        {/* <Login /> */}
-        <App className="App" />
+        <Route exact path = "/login">
+          <Login />
+        </Route>
+        <Route exact path = "/register">
+          <Register/>
+        </Route>
+        <Route exact path = "/">
+          <App className="App"/>
+        </Route>
       </ThemeProvider>
-    </BrowserRouter>
+    </Router>
     </Provider>
   </React.StrictMode>,
 

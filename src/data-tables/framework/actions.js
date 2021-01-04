@@ -14,6 +14,8 @@ export const onEditSale = createAction("edit.sale")
 export const onGetProducts = createAction("get.products")
 export const onDeleteProduct = createAction("delete.products")
 export const onAddProduct = createAction('add.product')
+
+export const onAddRetail = createAction('add.retailProduct')
 export const onEditProduct = createAction('edit.product')
 export const onGetProductByID = createAction('get.productByID')
 export const onUpdateWholesale = createAction('edit.wholesalePrice')
