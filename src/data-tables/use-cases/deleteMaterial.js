@@ -13,8 +13,7 @@ export const DeleteMaterial= (dispatch) => async(
         body: JSON.stringify({id: materialID})
     })
     //need to await on parsing response to javascript objects from json
-    const success = await response.json()
-    console.log(success)
+    const success = await response.json()  
    
     //pass into our action as a payload and we dispatch it
      return dispatch(onDeleteMaterial(success))

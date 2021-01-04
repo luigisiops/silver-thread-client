@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { connect } from "react-redux"
+
 
 
 import "./login.css"
@@ -37,4 +39,12 @@ const Login = () => {
     )
 }
 
-export default Login
+const mapStateToProps = (state, {materials}) => ({
+  })
+  
+  const mapDispatchToProps = (dispatch) => ({
+
+  })
+  
+export default connect(mapStateToProps, mapDispatchToProps)(Login)
+

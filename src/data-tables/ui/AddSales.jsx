@@ -1,5 +1,5 @@
 import TextField from "@material-ui/core/TextField"
-// import SaveIcon from "@material-ui/icons/Save"
+import SaveIcon from "@material-ui/icons/Save"
 import Button from "@material-ui/core/Button"
 import { useEffect, useState } from "react"
 import { connect } from "react-redux"
@@ -135,7 +135,7 @@ const AddSales = ({ addSale }) => {
                   color="primary"
                   size="large"
                   className="addSalesBtn"
-                  // startIcon={<SaveIcon />}
+                  startIcon={<SaveIcon />}
                >
                   Save
                </Button>
