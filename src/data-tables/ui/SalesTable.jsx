@@ -10,11 +10,15 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker, } from '@material-ui/picke
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import IconButton from '@material-ui/core/IconButton';
 
 import './SalesTable.css'
 import AddSales from './AddSales'
+import EditSales from './EditSales'
 import { GetSales } from '../use-cases/getSales';
 import { DeleteSale } from '../use-cases/deleteSale';
+import { exportCsv } from '../use-cases/exelSalesReports'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -24,41 +28,35 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const SalesTable = ({ onGetSales, sales, onDeleteSale }) => {
-    const classes = useStyles();
-    console.log(sales.salesList)
 
-    //set date for date-pickers
-    let end_date = new Date()
-    let start_date = new Date().setDate(end_date.getDate() - 30)
+
+const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, salesDelete, }) => {
+    const classes = useStyles();
+
+    //set date for date-pickers on load
+    const getStartDate = () => {
+        let d = new Date()
+        d.setDate(d.getDate() - 30)
+        return d
+    }
+    let end_date = new Date()    
+    let start_date = getStartDate()
 
     const [selectedDate, setSelectedDate] = useState({ start: start_date, end: end_date });
-    const [open, setOpen] = useState(false)
-    const [data, setData] = useState(sales)
+    const [open, setOpen] = useState(false)  
+    const [openEdit, setOpenEdit] = useState(false)   
+    const [rowData, setRowData] = useState()
+
     var tableData
+
     //get sales from db
     useEffect(() => {
-        onGetSales()
-        // onGetSalesList()
-    }, [])
-    
+        onGetSales(selectedDate)
+    }, [salesAdd, salesEdit, salesDelete])
+
     tableData = sales.map(data => ({
         ...data
     }))
-
-    const fetchSalesList = async () =>  {
-       let response = await fetch('http://localhost:8000/sales/getAllSales')
-       let result = await response.json()            
-
-       setData(result)
-    }
-    console.log(sales)
-
-    const onGetSalesList = async () => {
-        let response = await fetch('http://localhost:8000/sales/getAllSales')
-        let result = await response.json()
-        setData(result)
-    }
 
     //changes the start date of the reports
     const handleStartDateChange = (date) => {
@@ -76,19 +74,48 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale }) => {
         });
     };
 
-    
-        //sets column headers
+    //onclick function that runs new sales report based on input dates
+    const handleRunSalesReport = (dates) => {
+        if (dates.start === null || dates.end === null) {
+            alert('Please enter a start and end date for your report')
+        } else if (dates.start > dates.end) {
+            alert("The start date must be before the end date")
+        } else {
+            onGetSales(dates)
+        }      
+    }
+
+    const EditSalesModal = ({ closeEditModal }) => {
+        return (
+            <div className="editSalesModal">
+                <div className='closeIconButton'>
+                    <IconButton variant="contained" onClick={() => closeEditModal()}><HighlightOffIcon /></IconButton>
+                </div>
+                <EditSales saleData={rowData} closeEditModal = {closeEditModal}/>
+            </div>
+        )
+    }
+
+
+    const closeEditModal = () => {
+        setOpenEdit(false)
+    }
+
+    //sets column headers
     const columns = [
         { title: 'id', field: 'id', hidden: true },
         { title: 'Product ID', field: 'product_id', hidden: true },
-        { title: 'Date', field: 'createdAt' },
-        { title: 'Product Number', field: 'product_number' },
-        { title: 'Product Name', field: 'product_name' },
-        { title: 'Quantity', field: 'quantity' },
-        { title: 'Price per Unit', field: 'price_per_unit' },
-        { title: 'Total Sales Price', field: 'total_price' },
-        { title: 'Category', field: 'product_category' },
-        { title: 'Purchased By', field: 'sold_to' },     
+        { title: 'Date', field: 'date_sold', defaultSort: 'desc', align: 'left'},
+        { title: 'Product Number', field: 'product_number', align: 'left', hidden: true },
+        { title: 'Product Name', field: 'product_name', align: 'left' },
+        { title: 'Quantity', field: 'quantity', align: 'left' },
+        { title: 'Price per Unit', field: 'price_per_unit', align: 'left', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2} },
+        { title: 'Discount', field: 'discount', align: 'left', },
+        { title: 'Total Sales Price', field: 'total_price', align: 'left', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2} },
+        { title: 'Tax', field: 'tax', align: 'left', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2}  },
+        { title: 'Shipping', field: 'shipping', align: 'left', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2}  },       
+        { title: 'Category', field: 'product_category', align: 'left', hidden: true },
+        { title: 'Purchased By', field: 'sold_to', align: 'left' },
     ]
 
     return (
@@ -96,8 +123,10 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale }) => {
             <h1>Silverthread Sales </h1>
             <div className='datePickerContainer'>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <Grid container justify="space-around">
+                    {/* <Grid container justify="space-around" style={{backgroundColor:'#FFFFFF'}}> */}
+                    <Grid container justify="space-evenly" alignItems="center" style={{ backgroundColor: '#FFFFFF' }}>
                         <KeyboardDatePicker
+                            style={{ backgroundColor: '#FFFFFF' }}
                             margin="normal"
                             name="start"
                             id="date-picker-dialog"
@@ -122,13 +151,15 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale }) => {
                                 'aria-label': 'change date',
                             }}
                         />
+
+                        <div className={classes.root} style={{ backgroundColor: '#FFFFFF' }}>
+                            <Button onClick={() => handleRunSalesReport(selectedDate)} variant="contained" color="secondary">
+                                Run Report
+                            </Button>
+                        </div>
                     </Grid>
                 </MuiPickersUtilsProvider>
-                <div className={classes.root}>
-                    <Button variant="contained" color="secondary">
-                        Submit
-                </Button>
-                </div>
+
             </div>
 
             <Popover
@@ -144,62 +175,81 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale }) => {
             >
                 <AddSales />
             </Popover>
+
+            <Popover
+                open={openEdit}
+                anchorOrigin={{
+                    vertical: 'center',
+                    horizontal: 'center',
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                }}
+            >
+                <EditSalesModal className = "modal" closeEditModal = {closeEditModal} />            
+            </Popover>
+
+            {sales === [] ?
+                <div>Loading Data....</div>
+                :
+                <div className='salesMaterialTable'>
+                    <MaterialTable
+                        style={{ backgroundColor: '#FFFFFF' }}
+                        title="Silverthread Sales"
+                        columns={columns}
+                        data={tableData}
+
+                        options={{
+                            search: false,
+                            showTitle: false,
+                            filtering: true,
+                            exportButton: true,                            
+                            exportCsv,
+                            headerStyle: {
+                                backgroundColor: '#b71c1c',
+                                color: '#FFFFFF'
+                            },
+                        }}
+                        actions={[
+                            {
+                                icon: 'add',
+                                tooltip: 'Add Sale',
+                                isFreeAction: true,
+                                onClick: (event) => setOpen(true)
+                            },
+                            {
+                                icon: 'edit',
+                                tooltip: 'Edit Row',
+                                onClick: (event, rowData) => {
+                                    setRowData(rowData)
+                                    setOpenEdit(true)                                    
+                                }
+                            },
+                        ]}
+                        editable={{
+                            onRowDelete: oldData =>
+                                new Promise((resolve, reject) => {
+                                    setTimeout(() => {
+                                        const id = oldData.id;
+                                        onDeleteSale(id)
+                                        resolve()
+                                    }, 1000)
+                                }),
+                        }}
+                    />
+                </div>}
+  
             
-            {sales === [] ? 
-            <div>Loading Data....</div> 
-            :
-            <div className='salesMaterialTable'>
-                <MaterialTable
-                    title="Silverthread Sales"
-                    columns={columns}
-                    data={tableData}
-                    
-                    options={{
-                        search: false,
-                        showTitle: false,
-                        filtering: true,
-                        addRowPosition: 'first',
-                        exportButton: true,
-                        //export csv is a function we can use to override the generic export and export to excel
-                        // exportCsv
-                        headerStyle: {
-                            backgroundColor: '#78bfb5',
-                            color: '#FFFFFF'
-                        },
-                    }}
-                    actions={[
-                        {
-                            icon: 'add',
-                            tooltip: 'Add Sale',
-                            isFreeAction: true,
-                            onClick: (event) => setOpen(true)
-                        },
-                        {
-                            icon: 'edit',
-                            tooltip: 'Edit Row',
-                            onClick: (event, rowData) => {
-                                console.log(rowData)                                
-                            }
-                        }
-                    ]}
-                    editable={{
-                        onRowDelete: oldData =>
-                            new Promise((resolve, reject) => {
-                                setTimeout(() => {
-                                    const id = oldData.id;                            
-                                    onDeleteSale(id)
-                                    resolve()
-                                }, 1000)
-                            }),
-                    }}
-                />
-            </div>}
         </div >
     )
 }
 
 const mapStateToProps = (state, { }) => ({
-    sales: state.sales.salesList
+    sales: state.sales.salesList,
+    salesAdd: state.sales.newSaleId,
+    salesEdit: state.sales.saleEdits,
+    salesDelete: state.sales.saleID,
 })
 
 const mapDispatchToProps = (dispatch) => ({

@@ -1,3 +1,16 @@
 .materialsContainer {
     margin: 25px;
 }
+.modal{
+    display: flex;
+    width: 500px;
+    height: 700px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.closeIconButton {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+}

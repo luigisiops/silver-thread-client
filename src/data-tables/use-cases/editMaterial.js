@@ -1,25 +1,23 @@
-import {onDeleteSale} from "../framework/actions"
+import {onEditMaterial} from "../framework/actions"
 
 //This is a usecase for getting the list of sales
-export const DeleteSale = (dispatch) => async(
-    salesID,
+export const EditMaterial = (dispatch) => async(
+    materialEdit,
 ) => {
-    console.log(salesID)
+
     // first we call a fetch request to update our backend because the backend is the source of truth for our global state
-    const response = await fetch(`http://localhost:8000/sales/${salesID}/deleteASale`, {
-        method: 'DELETE',
+    const response = await fetch(`http://localhost:8000/edit-material`, {
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
         },
+        body: JSON.stringify(materialEdit)
     })
-    console.log(response)
     //need to await on parsing response to javascript objects from json
     const success = await response.json()
-    console.log(success)
-   
+    
     //pass into our action as a payload and we dispatch it
-     return dispatch(onDeleteSale(success))
+    return dispatch(onEditMaterial(success))
 }
 
-
-export default DeleteSale
+export default EditMaterial
