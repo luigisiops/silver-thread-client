@@ -6,7 +6,7 @@ import { connect } from "react-redux"
 import { AddSale } from "../use-cases/addSale"
 import { Link } from "react-router-dom"
 
-const AddSales = ({ addSale }) => {
+const AddSales = ({ addSale, closeModal }) => {
     // putting empty fields object into local state
    const [fields, setFields] = useState({})
    const setField = (evt) =>
@@ -102,8 +102,9 @@ const AddSales = ({ addSale }) => {
             <Link to="/sales">
                <Button
                   onClick={() => {
-                     addSale(fields)
-                     onClosePopup()
+                     addSale(fields); 
+                     closeModal()
+                     
                   }}
                   variant="contained"
                   color="primary"
