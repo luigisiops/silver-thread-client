@@ -19,7 +19,7 @@ const AddSales = ({ addSale, onGetProducts, products, closeAddModal }) => {
       onGetProducts()
    }, [])
 
-   const [fields, setFields] = useState({'tax': 8.25})
+   const [fields, setFields] = useState({ 'tax': 8.25, date_sold: new Date(), shipping: 0, quantity: 0, discount: 0 })
 
    const setField = (evt) =>
       setFields({
@@ -50,38 +50,6 @@ const AddSales = ({ addSale, onGetProducts, products, closeAddModal }) => {
    return (
       <div className="addMaterialTBContainer">
          <h2>Add Sale</h2>
-
-         <div className="inputContainer">
-            {/* <TextField
-               className="outlined"
-               label="Date Sold"
-               name="date_sold"
-               placeholder="YYYY-MM-DD"
-               onChange={setField}
-               InputLabelProps={{
-                  shrink: true,
-               }}
-               variant="outlined"
-               fullWidth
-            /> */}
-            
-            {/* Date Picker for date sold */}
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-               <KeyboardDatePicker
-                  margin="normal"
-                  name="date_sold"
-                  id="date-picker-dialog"
-                  label="Date Sold"
-                  format="MM/dd/yyyy"
-                  onChange={handleDateChange}
-                  KeyboardButtonProps={{
-                     'aria-label': 'change date',
-                  }}
-                  fullWidth
-               />
-            </MuiPickersUtilsProvider>
-         </div>
-
          {/* <div className="inputContainer">
             <TextField
                className="outlined"
@@ -217,7 +185,7 @@ const AddSales = ({ addSale, onGetProducts, products, closeAddModal }) => {
                variant="outlined"
                fullWidth
             />
-         </div> */}
+         </div> */}        
 
          <div className="inputContainer">
             <TextField
@@ -233,9 +201,28 @@ const AddSales = ({ addSale, onGetProducts, products, closeAddModal }) => {
             />
          </div>
 
+         <div className="inputContainer">
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+               <KeyboardDatePicker
+                  margin="normal"
+                  name="date_sold"
+                  id="date-picker-dialog"
+                  label="Date Sold"
+                  format="MM/dd/yyyy"
+                  value={fields.date_sold}
+                  onChange={handleDateChange}
+                  KeyboardButtonProps={{
+                     'aria-label': 'change date',
+                  }}
+                  fullWidth
+               />
+            </MuiPickersUtilsProvider>
+         </div>
+
          <div>
             <Button
                onClick={() => {
+                  console.log(fields)
                   addSale(fields)
                   closeAddModal()
                }}
