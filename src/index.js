@@ -11,7 +11,6 @@ import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
 // import Login from './login/ui/login';
 import './index.css';
 import LeagueSparatanBoldWoff2 from './fonts/leaguespartan-bold-webfont.woff2'
-import Aileron from './fonts/aileron-regular-webfont.woff2'
 
 const league_spartanbold = {
   fontFamily: 'League Spartan',
@@ -27,20 +26,6 @@ const league_spartanbold = {
     'U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF',
 };
 
-
-const aileron_regular = {
-  fontFamily: 'Aileron',
-  fontStyle: 'regular',
-  fontDisplay: 'swap',
-  fontWeight: 400,
-  src: `
-    local('Aileron'),
-    local('Aileron-Regular'),
-    url(${Aileron}) format('woff2')
-  `,
-  unicodeRange:
-    'U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF',
-};
 
 const theme = createMuiTheme({
   palette: {
@@ -62,27 +47,16 @@ const theme = createMuiTheme({
         // main: "#f50057" //dark pink
                 },
            },
-// fontFamily: font // as an aside, highly recommend importing roboto font for Material UI projects! Looks really nice
-        typography: {
-          fontFamily: 'League-Spartan, Bold',
-        },
-        overrides: {
-          MuiCssBaseline: {
-            '@global': {
-              '@font-face': [league_spartanbold],
-            },
+      typography: {
+        fontFamily: 'League-Spartan, Bold',
+      },
+      overrides: {
+        MuiCssBaseline: {
+          '@global': {
+            '@font-face': [league_spartanbold],
           },
         },
-        // typography: {
-        //   fontFamily: 'Aileron, Regular',
-        // },
-        // overrides: {
-        //   MuiCssBaseline: {
-        //     '@global': {
-        //       '@font-face': [Aileron],
-        //     },
-        //   },
-        // },
+      },
 });
 
 
