@@ -1,6 +1,6 @@
-import { onAddRetail } from "../framework/actions"
+import { onEditProduct } from "../framework/actions"
 
-export const AddRetail = (dispatch) => async (
+export const EditProductDetails = (dispatch) => async (
     editedProduct
 ) => {
     const response = await fetch('http://localhost:8000/edit-product', {
@@ -19,10 +19,10 @@ export const AddRetail = (dispatch) => async (
         alert("There was an error creating your product")
     } else {
         //pass into our action as a payload and we dispatch it
-        return dispatch(onAddRetail(result.updatedProduct))
+        return dispatch(onEditProduct(result.updatedProduct))
 
     }        
 
 }
 
-export default AddRetail
+export default EditProductDetails

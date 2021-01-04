@@ -7,10 +7,24 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from "react-redux"
 import store from "./common/redux/store"
 import { BrowserRouter } from 'react-router-dom'
-import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
 // import Login from './login/ui/login';
 import './index.css';
+import LeagueSparatanBoldWoff2 from './fonts/leaguespartan-bold-webfont.woff2'
 
+const league_spartanbold = {
+  fontFamily: 'League Spartan',
+  fontStyle: 'bold',
+  fontDisplay: 'swap',
+  fontWeight: 400,
+  src: `
+    local('League-Spartan'),
+    local('League-Spartan-Bold'),
+    url(${LeagueSparatanBoldWoff2}) format('woff2')
+  `,
+  unicodeRange:
+    'U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF',
+};
 
 
 const theme = createMuiTheme({
@@ -33,7 +47,16 @@ const theme = createMuiTheme({
         // main: "#f50057" //dark pink
                 },
            },
-// fontFamily: font // as an aside, highly recommend importing roboto font for Material UI projects! Looks really nice
+      typography: {
+        fontFamily: 'League-Spartan, Bold',
+      },
+      overrides: {
+        MuiCssBaseline: {
+          '@global': {
+            '@font-face': [league_spartanbold],
+          },
+        },
+      },
 });
 
 
@@ -42,6 +65,7 @@ ReactDOM.render(
   <Provider store = {store}>
     <BrowserRouter>
       <ThemeProvider theme={theme}>
+        <CssBaseline />
         {/* <Login /> */}
         <App className="App" />
       </ThemeProvider>
