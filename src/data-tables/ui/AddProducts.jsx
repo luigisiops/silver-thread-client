@@ -13,10 +13,9 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from "@material-ui/icons/Save"
-// import { onAddProduct, onGetProducts, onEditProduct } from '../framework/actions';
 import { GetMaterials } from "../use-cases/getMaterials"
 import { AddProduct } from "../use-cases/addProduct"
-import { AddRetail } from "../use-cases/addRetail"
+import EditProductDetails from '../use-cases/editProduct';
 
 //for material ui components
 const useStyles = makeStyles((theme) => ({
@@ -219,7 +218,10 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
                         <b>Retail Price:</b> $<TextField name="retail_price" onChange={handleSetPricing} id="standard-basic" label="" />
                     </div>
                     <div className='pricingInputs'>
-                        <b>Inventory:</b> <TextField name="quantity" onChange={handleSetPricing} id="standard-basic" label="" />
+                        <b>Inventory - Home:</b> <TextField name="quantity" onChange={handleSetPricing} id="standard-basic" label="" />
+                    </div>
+                    <div className='pricingInputs'>
+                        <b>Inventory - PTM:</b> <TextField name="quantity_painted_tree" onChange={handleSetPricing} id="standard-basic" label="" />
                     </div>
                 </div>
             default:
@@ -241,8 +243,7 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
             materials: listMaterials
         }
         //call function here pass in addProduct
-        onAddProduct(addProduct)
-      
+        onAddProduct(addProduct)      
     }
 
     //from onclick in last step add retail price and inventory to the db
@@ -280,9 +281,7 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
         let labor = +newProduct.labor
 
         if (newProduct.product_name == '') {
-            alert('Please enter a product name')
-        } else if (newProduct.product_num == '') {
-            alert('Please enter a product number')
+            alert('Please enter a product name')  
         } else if (newProduct.category == '') {
             alert('Please enter a category')
         } else if (isNaN(labor) || labor === '') {
@@ -291,7 +290,6 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
             setActiveStep((prevActiveStep) => prevActiveStep + 1);
         }
     };
-
    
     return (
         <div className="addProductsContainer">
@@ -369,22 +367,19 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
                         )}
                 </div>
             </div>
-
         </div>
     )
 }
 
 const mapStateToProps = (state, { materials }) => ({
     materials: state.materials.materialsList,
-    newReturnedProduct: state.products.newProduct,
-       
-
+    newReturnedProduct: state.products.newProduct,     
 })
 
 const mapDispatchToProps = (dispatch) => ({
     onGetMaterials: GetMaterials(dispatch),
     onAddProduct: AddProduct(dispatch),
-    onAddRetail: AddRetail(dispatch)
+    onAddRetail: EditProductDetails(dispatch)
 
 })
 

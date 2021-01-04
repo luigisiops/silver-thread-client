@@ -4,12 +4,15 @@ import { connect } from 'react-redux'
 import './ProductsTable.css'
 
 import Popover from '@material-ui/core/Popover';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import IconButton from '@material-ui/core/IconButton';
+
 import EditProduct from './EditProduct'
 import AddProducts from './AddProducts'
 import { GetProducts } from '../use-cases/getProducts'
 import { DeleteProduct } from '../use-cases/deleteProduct'
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import IconButton from '@material-ui/core/IconButton';
+import { exportCsv} from '../use-cases/excelProductsReports'
+
 
 const AddProductModal = ({ closeModal }) => {
     return (
@@ -22,13 +25,13 @@ const AddProductModal = ({ closeModal }) => {
     )
 }
 
-const EditProductModal = ({ closeEditModal }) => {
+const EditProductModal = ({ closeEditModal, rowData }) => {
     return (
         <div className="addProductModal">
             <div className='closeIconButton'>
                 <IconButton variant="contained" onClick={() => closeEditModal()}><HighlightOffIcon /></IconButton>
             </div>
-            <EditProduct />
+            <EditProduct productData={rowData} closeEditModal={closeEditModal}/>
         </div>
     )
 }
@@ -55,13 +58,14 @@ const ProductsTable = ({ onGetProducts, products, onDeleteProduct, productDelete
     //sets column headers
     const columns = [
         { title: 'id', field: 'id', hidden: true },
-        { title: 'labor', field: 'labor', hidden: true },
-        { title: 'Product Number', field: 'product_num' },
-        { title: 'Product Name', field: 'product_name' },
-        { title: 'Wholesale Price', field: 'wholesale', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2} },
-        { title: 'Retail Price', field: 'retail_price', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2} },
-        { title: 'Category', field: 'category' },
-        { title: 'Inventory', field: 'quantity' },
+        { title: 'labor', field: 'labor', hidden: true, align: 'left' },
+        { title: 'Product Number', field: 'product_num', align: 'left' },
+        { title: 'Product Name', field: 'product_name', align: 'left' },
+        { title: 'Wholesale Price', field: 'wholesale', align: 'left', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2} },
+        { title: 'Retail Price', field: 'retail_price', align: 'left', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2} },
+        { title: 'Category', field: 'category', align: 'left' },
+        { title: 'Inventory', field: 'quantity', align: 'left' },
+        { title: 'Inventory - PTM', field: 'quantity_painted_tree', align: 'left' },
     ]
 
     const closeModal = () => {
@@ -88,6 +92,7 @@ const ProductsTable = ({ onGetProducts, products, onDeleteProduct, productDelete
             >
                 <AddProductModal className="modal" closeModal={closeModal} />
             </Popover>
+
             <Popover
                 open={openEdit}
                 anchorOrigin={{
@@ -99,7 +104,7 @@ const ProductsTable = ({ onGetProducts, products, onDeleteProduct, productDelete
                     horizontal: 'center',
                 }}
             >
-                <EditProductModal className="modal" closeEditModal={closeEditModal}  />
+                <EditProductModal className="modal" closeEditModal={closeEditModal} rowData={rowData} />
             </Popover>
 
             <div className='productsMaterialTable'>
@@ -113,10 +118,8 @@ const ProductsTable = ({ onGetProducts, products, onDeleteProduct, productDelete
                         search: false,
                         showTitle: false,
                         filtering: true,
-                        addRowPosition: 'first',
-                        exportButton: true,
-                        //export csv is a function we can use to override the generic export and export to excel
-                        // exportCsv
+                        exportButton: true,                        
+                        exportCsv,
                         headerStyle: {
                             backgroundColor: '#f06292',
                             color: '#FFFFFF'
@@ -132,9 +135,8 @@ const ProductsTable = ({ onGetProducts, products, onDeleteProduct, productDelete
                         {
                             icon: 'edit',
                             tooltip: 'Edit Row',
-                            onClick: (event, rowData) => {
-                                console.log(rowData)
-                                // setRowData(rowData.id)
+                            onClick: (event, rowData) => {                        
+                                setRowData(rowData)
                                 setOpenEdit(true)                                
                             }
                         }

@@ -2,73 +2,76 @@ import MaterialTable from 'material-table';
 import { useEffect, useState } from 'react';
 import { connect } from "react-redux"
 import './MaterialsTable.css'
+import "./AddMaterialModal.css"
 import AddMaterials from './AddMaterials'
 import EditMaterials from './EditMaterials'
 import { GetMaterials } from "../use-cases/getMaterials"
 import { DeleteMaterial } from "../use-cases/deleteMaterial"
-import Popover from '@material-ui/core/Popover';
-
-// import Popover from '@material-ui/core/Popover';
-//import AddMaterialModal from './AddMaterialModal'
-
-import "./AddMaterialModal.css"
-
 import {AddMaterial} from "../use-cases/addMaterial";
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+import Popover from '@material-ui/core/Popover';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import IconButton from '@material-ui/core/IconButton';
+import {exportCsv } from '../use-cases/excelMaterialsReports'
 
-
-const AddMaterialModal = ({materials, onAddMaterial, closeModal }) => {
-    const [fields, setFields] = useState({})
-
-    const setField = (evt) => {
-        setFields({
-            ...fields,
-            [evt.target.name]: evt.target.value
-        })
-    }
-    console.log(fields)
+const AddMaterialModal = ({closeModal }) => {
 
     return(
         <div className = "add-material-container">
-        <Button variant = "contained" onClick = {() => closeModal()}>Close</Button>
-            <div>Add Material</div>
-                <div className="material-input"><TextField id="outlined-basic" label="Name" variant="outlined" name = "materialName" onChange = {setField}/></div> 
-                <div className="material-input"><TextField id="outlined-basic" label="Vendor" variant="outlined" name = "vendor" onChange = {setField}/></div> 
-                <div className="material-input"><TextField id="outlined-basic" label="Vendor Material Id" variant="outlined" name = "vendorMaterialId" onChange = {setField}/></div> 
-                <div className="material-input"><TextField id="outlined-basic" label="Unit" variant="outlined" name = "unit" onChange = {setField}/></div> 
-                <div className="material-input"><TextField id="outlined-basic" label="Unit Price" variant="outlined" name = "unitPrice" onChange = {setField}/></div> 
-                <div className="material-input"><TextField id="outlined-basic" label="Category" variant="outlined" name = "category" onChange = {setField}/></div> 
-            <Button variant = "contained" onClick = {()=> onAddMaterial(fields)}>Add</Button>
+           <div className='closeIconButton'>
+                <IconButton variant="contained" onClick={() => closeModal()} ><HighlightOffIcon /></IconButton>
+            </div>
+            <AddMaterials closeModal = {closeModal}/>      
         </div>
      
     )
 }
 
+const EditMaterialModal = ({closeEditModal, rowData }) => {
+     
+  return(
+      <div className = "edit-material-container">
+         <div className='closeIconButton'>
+              <IconButton variant="contained" onClick={() => closeEditModal()} ><HighlightOffIcon /></IconButton>
+          </div>
+          <EditMaterials materialData={rowData} closeEditModal = {closeEditModal}/>      
+      </div>
+   
+  )
+}
 
-const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, onAddMaterial }) => {
+
+const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, materialsEdit, materialsDelete, materialsAdd}) => {
   const [open, setOpen] = useState(false)
-
-  const [openAdd, setOpenAdd] = useState(false)
   const [openEdit, setOpenEdit] = useState(false)
   const [rowData, setRowData] = useState()
   
+  const closeModal = () => {
+    setOpen(false)
+  }
+
+  const closeEditModal = () => {
+    setOpenEdit(false)
+  }
 
   useEffect(() => {  
     onGetMaterials()
-  }, [])
+  }, [materialsEdit, materialsDelete, materialsAdd])
 
   let tableData = materials.map(data => ({
     ...data
   }))
+
   const columns = [
     { title: 'id', field: 'id', hidden: true },
-    { title: 'Name', field: 'name' },
-    { title: 'Description', field: 'description' },
-    { title: 'Price per Unit', field: 'unit_price' },
-    { title: 'Category', field: 'category' },
+    { title: 'Material', field: 'material_name', align: 'left' }, 
+    { title: 'Unit of Measure', field: 'unit', align: 'left'  }, 
+    { title: 'Price per Unit', field: 'unit_price', align: 'left', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2} },
+    { title: 'Vendor', field: 'vendor', align: 'left'  },
+    { title: 'Product Number', field: 'vendor_material_id', align: 'left' },
+    { title: 'Category', field: 'category', align: 'left' },
   ]
 
+<<<<<<< HEAD
   const [data, setData] = useState([
     { id: '1', name: 'Jump Ring', description: 'small jump ring', unit_price: '.23', category: 'fasteners' },
     { id: '2', name: 'Blue Bead', description: 'small blue bead', unit_price: '.84', category: 'bead' },
@@ -80,6 +83,8 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, onAddMate
     setOpenEdit(false)
   }
 
+=======
+>>>>>>> a9110dc92a4285cc02b492116ea9d7c4b2de9a73
   return (
     <div className='materialsContainer'>
       <h1>Silverthread Materials </h1>
@@ -108,8 +113,8 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, onAddMate
                 horizontal: 'center',
             }}
         >
-            <EditMaterials materialData={rowData} />
-        </Popover>
+          <EditMaterialModal rowData={rowData} closeEditModal = {closeEditModal} />
+          </Popover>
         
       <MaterialTable
         style={{backgroundColor:'#FFFFFF'}}
@@ -120,13 +125,10 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, onAddMate
           search: false,
           showTitle: false,
           filtering: true,
-          addRowPosition: 'first',
-          exportButton: true,
-          //export csv is a function we can use to override the generic export and export to excel
-          // exportCsv
+          exportButton: true,        
+          exportCsv,
           headerStyle: {
-            backgroundColor: '#01579b',
-            // backgroundColor: '#78bfb5',
+            backgroundColor: '#01579b',          
             color: '#FFFFFF'
           }
         }}
@@ -141,34 +143,18 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, onAddMate
           {
             icon: 'edit',
             tooltip: 'Edit Row',
-            onClick: (event, rowData) => {
-              console.log(rowData)
+            onClick: (event, rowData) => {           
+              setRowData(rowData)
+              setOpenEdit(true)
             }
           }
         ]}
 
         editable={{
-          onRowAdd: newData =>
-            new Promise((resolve, reject) => {
-              setTimeout(() => {
-                setData([...data, newData]);
-                resolve();
-              }, 1000)
-            }),
-          onRowUpdate: (newData, oldData) =>
-            new Promise((resolve, reject) => {
-              setTimeout(() => {
-                const dataUpdate = [...data];
-                const index = oldData.tableData.id;
-                dataUpdate[index] = newData;
-                setData([...dataUpdate]);
-                resolve();
-              }, 1000)
-            }),
           onRowDelete: oldData =>
             new Promise((resolve, reject) => {
               setTimeout(() => {
-                const id = oldData.id;
+                const id = oldData.id;              
                 onDeleteMaterial(id)
                 resolve()
               }, 1500)

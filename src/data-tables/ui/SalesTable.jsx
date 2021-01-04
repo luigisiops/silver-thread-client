@@ -10,12 +10,15 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker, } from '@material-ui/picke
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import IconButton from '@material-ui/core/IconButton';
 
 import './SalesTable.css'
 import AddSales from './AddSales'
 import EditSales from './EditSales'
 import { GetSales } from '../use-cases/getSales';
 import { DeleteSale } from '../use-cases/deleteSale';
+import { exportCsv } from '../use-cases/exelSalesReports'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,7 +28,13 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+<<<<<<< HEAD
 const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, salesDelete, closeModal }) => {
+=======
+
+
+const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, salesDelete, }) => {
+>>>>>>> a9110dc92a4285cc02b492116ea9d7c4b2de9a73
     const classes = useStyles();
 
     //set date for date-pickers on load
@@ -39,7 +48,7 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, sale
 
     const [selectedDate, setSelectedDate] = useState({ start: start_date, end: end_date });
     const [open, setOpen] = useState(false)  
-    const [openEdit, setOpenEdit] = useState(false)
+    const [openEdit, setOpenEdit] = useState(false)   
     const [rowData, setRowData] = useState()
 
     var tableData
@@ -80,18 +89,37 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, sale
         }      
     }
 
+    const EditSalesModal = ({ closeEditModal }) => {
+        return (
+            <div className="editSalesModal">
+                <div className='closeIconButton'>
+                    <IconButton variant="contained" onClick={() => closeEditModal()}><HighlightOffIcon /></IconButton>
+                </div>
+                <EditSales saleData={rowData} closeEditModal = {closeEditModal}/>
+            </div>
+        )
+    }
+
+
+    const closeEditModal = () => {
+        setOpenEdit(false)
+    }
+
     //sets column headers
     const columns = [
         { title: 'id', field: 'id', hidden: true },
         { title: 'Product ID', field: 'product_id', hidden: true },
-        { title: 'Date', field: 'date_sold' },
-        { title: 'Product Number', field: 'product_number' },
-        { title: 'Product Name', field: 'product_name' },
-        { title: 'Quantity', field: 'quantity' },
-        { title: 'Price per Unit', field: 'price_per_unit' },
-        { title: 'Total Sales Price', field: 'total_price' },
-        { title: 'Category', field: 'product_category' },
-        { title: 'Purchased By', field: 'sold_to' },
+        { title: 'Date', field: 'date_sold', defaultSort: 'desc', align: 'left'},
+        { title: 'Product Number', field: 'product_number', align: 'left', hidden: true },
+        { title: 'Product Name', field: 'product_name', align: 'left' },
+        { title: 'Quantity', field: 'quantity', align: 'left' },
+        { title: 'Price per Unit', field: 'price_per_unit', align: 'left', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2} },
+        { title: 'Discount', field: 'discount', align: 'left', },
+        { title: 'Total Sales Price', field: 'total_price', align: 'left', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2} },
+        { title: 'Tax', field: 'tax', align: 'left', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2}  },
+        { title: 'Shipping', field: 'shipping', align: 'left', type:'currency', currencySetting:{ currencyCode:'USD', minimumFractionDigits:2, maximumFractionDigits:2}  },       
+        { title: 'Category', field: 'product_category', align: 'left', hidden: true },
+        { title: 'Purchased By', field: 'sold_to', align: 'left' },
     ]
 
     return (
@@ -152,6 +180,20 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, sale
                 <AddSales closeModal = {closeModal}/>
             </Popover>
 
+            <Popover
+                open={openEdit}
+                anchorOrigin={{
+                    vertical: 'center',
+                    horizontal: 'center',
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                }}
+            >
+                <EditSalesModal className = "modal" closeEditModal = {closeEditModal} />            
+            </Popover>
+
             {sales === [] ?
                 <div>Loading Data....</div>
                 :
@@ -166,10 +208,8 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, sale
                             search: false,
                             showTitle: false,
                             filtering: true,
-                            addRowPosition: 'first',
-                            exportButton: true,
-                            //export csv is a function we can use to override the generic export and export to excel
-                            // exportCsv
+                            exportButton: true,                            
+                            exportCsv,
                             headerStyle: {
                                 backgroundColor: '#b71c1c',
                                 color: '#FFFFFF'
@@ -203,20 +243,8 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, sale
                         }}
                     />
                 </div>}
-            {/* </div> */}
-            <Popover
-                open={openEdit}
-                anchorOrigin={{
-                    vertical: 'center',
-                    horizontal: 'center',
-                }}
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'center',
-                }}
-            >
-                <EditSales saleData={rowData} />
-            </Popover>
+  
+            
         </div >
     )
 }

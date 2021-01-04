@@ -14,5 +14,14 @@ export const onEditSale = createAction("edit.sale")
 export const onGetProducts = createAction("get.products")
 export const onDeleteProduct = createAction("delete.products")
 export const onAddProduct = createAction('add.product')
+<<<<<<< HEAD
 export const onAddRetail = createAction('add.retailProduct')
 export const onEditProduct = createAction('edit.product')
+=======
+export const onEditProduct = createAction('edit.product')
+export const onGetProductByID = createAction('get.productByID')
+export const onUpdateWholesale = createAction('edit.wholesalePrice')
+
+export const onDeleteMaterialItem = createAction('delete.materialItem')
+export const onAddNewMaterial = createAction('add.newMaterial')
+>>>>>>> a9110dc92a4285cc02b492116ea9d7c4b2de9a73
