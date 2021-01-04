@@ -1,7 +1,10 @@
-import React from 'react'
+import React, {useEffect} from 'react'
+import { connect } from "react-redux"
 import { Card, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { VictoryBar, VictoryChart, VictoryTheme, VictoryAxis } from 'victory';
+
+import { GetSales } from '../../data-tables/use-cases/getSales'
 
 
 
@@ -32,7 +35,11 @@ const useStyles = makeStyles({
   ];
 
 
-const BarChart2 = () => {
+const BarChart2 = ({sales, getSales}) => {
+
+  /*useEffect(() => {
+   getSales()
+  }, [])*/
     const classes = useStyles();
     // const bull = <span className={classes.bullet}>•</span>;
 
@@ -92,6 +99,13 @@ const BarChart2 = () => {
       </Card>
     )
 }
+const mapStateToProps = (state) => ({
+  sales: state.sales.salesList
+})
 
-export default BarChart2
+const mapDispatchToProps = (dispatch) => ({
+  getSales: GetSales(dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(BarChart2)
 
