@@ -43,16 +43,12 @@ ReactDOM.render(
   <Provider store = {store}>
     <Router>
       <ThemeProvider theme={theme}>
-<<<<<<< HEAD
         <Route exact path = "/">
           <Login />
         </Route>
         <Route exact path = "/register">
           <Register/>
         </Route>
-=======
-        {/* <Login /> */}
->>>>>>> a9110dc92a4285cc02b492116ea9d7c4b2de9a73
         <App className="App" />
       </ThemeProvider>
     </Router>

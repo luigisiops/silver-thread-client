@@ -5,27 +5,23 @@ import {
     onAddMaterial,
     onDeleteMaterial,
     onEditMaterial,
+    
     onGetSales,
     onDeleteSale,
     onAddSale,
     onEditSale,
+
     onAddProduct,
     onGetProducts,
     onDeleteProduct,
-<<<<<<< HEAD
-    onAddRetail,
-   
-}from "./actions"
-=======
-    onAddProduct,
     onEditProduct,
     onGetProductByID,
+    
     onDeleteMaterialItem,
     onAddNewMaterial,
     onUpdateWholesale
 
 } from "./actions"
->>>>>>> a9110dc92a4285cc02b492116ea9d7c4b2de9a73
 
 export const materials = createReducer(
     {
@@ -45,7 +41,6 @@ export const materials = createReducer(
                 state.byId[item.id] = item
             })
         },
-<<<<<<< HEAD
 
         [onAddMaterial.type]: (state,{payload: material}) => {
             if (material === null){
@@ -57,9 +52,6 @@ export const materials = createReducer(
         }, 
 
         [onDeleteMaterial.type]:(state, {payload: materialid}) => {
-=======
-        [onDeleteMaterial.type]: (state, { payload: materialid }) => {
->>>>>>> a9110dc92a4285cc02b492116ea9d7c4b2de9a73
             if (materialid === null) {
                 return state
             }
@@ -67,25 +59,15 @@ export const materials = createReducer(
             delete state.byId[materialid.deletedMaterial]
 
         },
-<<<<<<< HEAD
         /*
         [onAddMaterial.type]: (state, {payload: materialDetails }) => {
-=======
-        [onAddMaterial.type]: (state, { payload: materialDetails }) => {
->>>>>>> a9110dc92a4285cc02b492116ea9d7c4b2de9a73
             if (materialDetails === null) {
                 return state
             }
             state.materialAdd = materialDetails
-<<<<<<< HEAD
         },*/
         [onEditMaterial.type]: (state, {payload: materialEdits}) => {
             if (materialEdits ===  null) {
-=======
-        },
-        [onEditMaterial.type]: (state, { payload: materialEdits }) => {
-            if (materialEdits === null) {
->>>>>>> a9110dc92a4285cc02b492116ea9d7c4b2de9a73
                 return state
             }
             state.materialEdit = materialEdits
@@ -95,7 +77,6 @@ export const materials = createReducer(
 
 export const sales = createReducer(
     {
-<<<<<<< HEAD
        salesList: [],
        byId: {},
        saleID: '',      
@@ -112,14 +93,6 @@ export const sales = createReducer(
         }, 
 
         [onGetSales.type]: (state, {payload: salesList}) => {
-=======
-        salesList: [],
-        saleID: '',
-        saleEdits: {}
-    },
-    {
-        [onGetSales.type]: (state, { payload: salesList }) => {
->>>>>>> a9110dc92a4285cc02b492116ea9d7c4b2de9a73
             if (sales === null) {
                 return state
             }
@@ -157,28 +130,11 @@ export const products = createReducer(
         byId: {},
         productsDelete: '',
         newProduct: {},
-<<<<<<< HEAD
-        editedProduct: {},
-     }, 
-     {
-        [onAddProduct.type]: (state,{payload: product}) => {
-            if (product === null){
-                return state
-            } 
-            state.productsList = [...state.productsList, product]
-            state.byId[product.id] = product
-            
-        }, 
-
-        [onGetProducts.type]: (state, {payload: products}) => {
-            if (products === null){
-=======
         productListing: {},
     },
     {
         [onGetProducts.type]: (state, { payload: products }) => {
             if (products === null) {
->>>>>>> a9110dc92a4285cc02b492116ea9d7c4b2de9a73
                 return state
             }
             state.productsList = products

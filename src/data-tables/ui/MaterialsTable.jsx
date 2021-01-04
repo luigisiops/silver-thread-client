@@ -71,20 +71,6 @@ const MaterialsTable = ({ onGetMaterials, materials, onDeleteMaterial, materials
     { title: 'Category', field: 'category', align: 'left' },
   ]
 
-<<<<<<< HEAD
-  const [data, setData] = useState([
-    { id: '1', name: 'Jump Ring', description: 'small jump ring', unit_price: '.23', category: 'fasteners' },
-    { id: '2', name: 'Blue Bead', description: 'small blue bead', unit_price: '.84', category: 'bead' },
-    { id: '3', name: 'Leather Chain', description: 'Leather', unit_price: '.3.68', category: 'chain' },
-  ])
-
-  const closeModal = () => {
-    setOpenAdd(false)
-    setOpenEdit(false)
-  }
-
-=======
->>>>>>> a9110dc92a4285cc02b492116ea9d7c4b2de9a73
   return (
     <div className='materialsContainer'>
       <h1>Silverthread Materials </h1>

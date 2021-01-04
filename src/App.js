@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
+import { connect } from "react-redux"
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -70,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NavTabs() {
+function NavTabs() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -91,7 +92,7 @@ export default function NavTabs() {
           <LinkTab label="Materials" href="/materials" {...a11yProps(1)} />
           <LinkTab label="Products" href="/products" {...a11yProps(2)} />
           <LinkTab label="Sales" href="/sales" {...a11yProps(3)} />
-          <LinkTab label="Logout" href="/" {...a11yProps(4)} />
+          <LinkTab label="Logout" onClick = {()=>{}} {...a11yProps(4)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -109,3 +110,12 @@ export default function NavTabs() {
     </div>
   );
 }
+
+const mapStateToProps = (state) => ({
+  login: state.login.currentUser
+})
+
+const mapDispatchToProps = (dispatch) => ({
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavTabs)

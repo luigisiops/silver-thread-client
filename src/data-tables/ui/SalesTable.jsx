@@ -28,13 +28,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-<<<<<<< HEAD
 const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, salesDelete, closeModal }) => {
-=======
-
-
-const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, salesDelete, }) => {
->>>>>>> a9110dc92a4285cc02b492116ea9d7c4b2de9a73
     const classes = useStyles();
 
     //set date for date-pickers on load

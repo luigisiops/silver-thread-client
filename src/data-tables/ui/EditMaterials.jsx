@@ -37,12 +37,7 @@ const EditMaterials = (props, {closeModal, onEditMaterial}) => {
  
     return (
         <div className='editSalesContainer'>
-<<<<<<< HEAD
-            <h1>Edit Materials</h1>
-            <Button onClick = {closeModal}>Close</Button>
-=======
             <h2>Edit Materials</h2>
->>>>>>> a9110dc92a4285cc02b492116ea9d7c4b2de9a73
             <div>                
                 <form className={classes.root} noValidate autoComplete="off">
                     <TextField name='material_name' value={updatedMaterialData.material_name} onChange={handleOnChange} id="outlined-basic" label="Material Name" variant="outlined" fullWidth/>
