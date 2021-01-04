@@ -73,7 +73,7 @@ const EditProduct = ({ productData, onGetProductByID, productListing, onGetMater
     }
 
     let materialItem = itemMaterialsList.map(item => {
-        return <div className='materialItem' key={item.id}> {item.material_name}: {item.material_unit_amount} @ ${item.material_cost} each <IconButton onClick={() => onDeleteMaterialItem(item.id)} aria-label="delete"><DeleteIcon /></IconButton></div>
+        return <div className='materialItem' key={item.id}> {item.material_name}: {item.material_unit_amount} @ ${item.material_cost.toFixed(2)} each <IconButton onClick={() => onDeleteMaterialItem(item.id)} aria-label="delete"><DeleteIcon /></IconButton></div>
     })
 
     //these are the steps shown at the top of the stepper
