@@ -16,6 +16,10 @@ export const CheckUser = (dispatch) => async(
       console.log(JSON.stringify(success))
 
       //pass into our action as a payload and we dispatch it
+      if (!success.user){
+         success.user = {}
+      }
+      
       return dispatch(getLoggedUser(success.user))
 }
 

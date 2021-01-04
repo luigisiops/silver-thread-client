@@ -37,7 +37,7 @@ const Register = ({onRegister}) => {
                     <div className="login-input"><TextField id="outlined-basic" label="Username" variant="outlined" name = "username" onChange = {setField}/></div>
                     <div className="login-input"><TextField id="outlined-basic" label="Password" variant="outlined" name = "password" type = "password" onChange = {setField}/></div>
                     <div className = "button-container">
-                        <NavLink to= "/">
+                        <NavLink to= "/login">
                             <Button className ="login-button" variant="outlined" onClick = {() => {onRegister(fields)}}>Login</Button>
                         </NavLink>
                         

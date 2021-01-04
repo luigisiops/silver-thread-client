@@ -43,13 +43,15 @@ ReactDOM.render(
   <Provider store = {store}>
     <Router>
       <ThemeProvider theme={theme}>
-        <Route exact path = "/">
+        <Route exact path = "/login">
           <Login />
         </Route>
         <Route exact path = "/register">
           <Register/>
         </Route>
-        <App className="App" />
+        <Route exact path = "/">
+          <App className="App"/>
+        </Route>
       </ThemeProvider>
     </Router>
     </Provider>

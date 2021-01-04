@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { connect } from "react-redux"
-import { NavLink } from "react-router-dom"
+import { NavLink, Redirect } from "react-router-dom"
 
 
 
@@ -11,7 +11,7 @@ import { onLogin } from '../frameworks/actions';
 import { UserLogin } from '../use-cases/UserLogin'
 import { CheckUser } from '../use-cases/CheckUser'
 
-const Login = ({onLogin, getLoggedUser}) => {
+const Login = ({onLogin, getLoggedUser, user}) => {
 
     const [fields, setFields] = useState({})
 
@@ -40,7 +40,8 @@ const Login = ({onLogin, getLoggedUser}) => {
                     <div className="login-input"><TextField id="outlined-basic" label="Password" variant="outlined" type = "password" name = "password" onChange = {setField}/></div>
                     <div>Not a user? <NavLink to="/register"> Register</NavLink> and get permission from a moderator!</div>
                     <div className = "button-container">
-                        <Button onClick = {()=>onLogin(fields)} className ="login-button"variant="outlined">Login</Button>
+                       <Button onClick = {()=>onLogin(fields)}className ="login-button"variant="outlined">Login</Button>
+                       {Object.keys(user).length>0 ? <Redirect to="/"/> : <div></div>}
                     </div>
                 </div>
             </div>
