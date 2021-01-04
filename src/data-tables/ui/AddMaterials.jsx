@@ -18,6 +18,23 @@ const AddMaterials = ({ closeModal, onAddMaterial }) => {
          [evt.target.name]: evt.target.value,
       })
 
+   const handleAddMaterial = (material) => {
+      let unit_price = +material.unit_price      
+            
+      if (!material.material_name) {
+         alert('Please enter the material name')
+      } else if (!material.unit_price || isNaN(unit_price)) {
+         alert('Price Per Unit must be a number')
+
+      } else if (!material.unit === null) {
+         alert ('Please enter a unit of measure')
+      } else {
+         onAddMaterial(material)
+         closeModal()
+      }
+
+   }   
+
    return (
       <div className="addMaterialTBContainer">
          <h2>Add Material</h2>
@@ -106,10 +123,7 @@ const AddMaterials = ({ closeModal, onAddMaterial }) => {
          </div>
          <div>
             <Button
-               onClick={() => {
-                  onAddMaterial(fields); closeModal()
-
-               }}
+               onClick={() => handleAddMaterial(fields)}
                variant="contained"
                color="secondary"
                size="large"
