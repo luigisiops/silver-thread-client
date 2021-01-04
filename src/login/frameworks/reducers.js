@@ -2,7 +2,8 @@ import { createReducer } from "@reduxjs/toolkit"
 
 import {
     onLogin,
-    getLoggedUser
+    getLoggedUser,
+    onUserSignout
 } from "./actions"
 
 export const login = createReducer (
@@ -22,7 +23,11 @@ export const login = createReducer (
                 return state
             }
             state.currentUser = user
-        }
+        },
+
+        [onUserSignout.type]: (state) => {
+            state.currentUser = {}
+        },
     }
 )
 

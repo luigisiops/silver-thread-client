@@ -91,7 +91,7 @@ export default function NavTabs() {
           <LinkTab label="Materials" href="/materials" {...a11yProps(1)} />
           <LinkTab label="Products" href="/products" {...a11yProps(2)} />
           <LinkTab label="Sales" href="/sales" {...a11yProps(3)} />
-          <LinkTab label="Logout" href="/logout" {...a11yProps(4)} />
+          <LinkTab label="Logout" href="/" {...a11yProps(4)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -105,9 +105,6 @@ export default function NavTabs() {
       </TabPanel>
       <TabPanel value={value} index={3}>
         <SalesTable />
-      </TabPanel>
-      <TabPanel value={value} index={4}>
-        <Logout />
       </TabPanel>
     </div>
   );
