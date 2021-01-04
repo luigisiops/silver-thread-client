@@ -22,6 +22,7 @@ import EditSales from "./EditSales"
 import { GetSales } from "../use-cases/getSales"
 import { DeleteSale } from "../use-cases/deleteSale"
 import { exportCsv } from "../use-cases/exelSalesReports"
+import AddMaterial from "../use-cases/addMaterial"
 
 const useStyles = makeStyles((theme) => ({
    root: {
@@ -334,7 +335,7 @@ const SalesTable = ({
    )
 }
 
-const mapStateToProps = (state, {}) => ({
+const mapStateToProps = (state, {sales}) => ({
    sales: state.sales.salesList,
    salesAdd: state.sales.newSaleId,
    salesEdit: state.sales.saleEdits,
@@ -344,6 +345,7 @@ const mapStateToProps = (state, {}) => ({
 const mapDispatchToProps = (dispatch) => ({
    onGetSales: GetSales(dispatch),
    onDeleteSale: DeleteSale(dispatch),
+   onAddMaterial: AddMaterial(dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SalesTable)

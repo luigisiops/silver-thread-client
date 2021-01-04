@@ -25,7 +25,20 @@ const AddSales = ({ addSale, closeAddModal }) => {
       <div className="addMaterialTBContainer">
          <h2>Add Sale</h2>
 
-         {/*  need to add date */}
+         <div className="inputContainer">
+            <TextField
+               className="outlined"
+               label="Date Sold"
+               name="date_sold"
+               placeholder="YYYY-MM-DD"
+               onChange={setField}
+               InputLabelProps={{
+                  shrink: true,
+               }}
+               variant="outlined"
+               fullWidth
+            />
+         </div>
 
          <div className="inputContainer">
             <TextField
