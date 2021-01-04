@@ -5,6 +5,11 @@ import { useState } from "react"
 import { connect } from "react-redux"
 import { AddSale } from "../use-cases/addSale"
 import "./AddMaterialModal.css"
+import DateFnsUtils from "@date-io/date-fns"
+import {
+   MuiPickersUtilsProvider,
+   KeyboardDatePicker,
+} from "@material-ui/pickers"
 
 const AddSales = ({ addSale, closeAddModal }) => {
    // putting empty fields object into local state
