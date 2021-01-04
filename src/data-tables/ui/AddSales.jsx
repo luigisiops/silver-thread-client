@@ -110,6 +110,27 @@ const AddSales = ({ addSale, closeModal }) => {
                }}
                variant="outlined"
             />
+            <TextField
+               className="outlined"
+               label="Discount"
+               name="discount"
+               onChange={setField}
+               InputLabelProps={{
+                  shrink: true,
+               }}
+               variant="outlined"
+            />
+            <TextField
+               className="outlined"
+               label="Tax"
+               name="tax"
+               value="8.25"
+               onChange={setField}
+               InputLabelProps={{
+                  shrink: true,
+               }}
+               variant="outlined"
+            />
              <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
                         margin="normal"

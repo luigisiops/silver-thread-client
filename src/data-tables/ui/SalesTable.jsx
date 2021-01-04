@@ -31,6 +31,11 @@ const useStyles = makeStyles((theme) => ({
 
 
 const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, salesDelete, }) => {
+
+    const closeModal = () => {
+        setOpen(false)
+      }
+
     const classes = useStyles();
 
     //set date for date-pickers on load
@@ -173,7 +178,7 @@ const SalesTable = ({ onGetSales, sales, onDeleteSale, salesAdd, salesEdit, sale
                     horizontal: 'center',
                 }}
             >
-                <AddSales />
+                <AddSales className= "modal" closeModal = {closeModal}/>
             </Popover>
 
             <Popover
