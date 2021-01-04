@@ -1,19 +1,25 @@
 import TextField from "@material-ui/core/TextField"
 import SaveIcon from "@material-ui/icons/Save"
 import Button from "@material-ui/core/Button"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { connect } from "react-redux"
 import { AddSale } from "../use-cases/addSale"
+import { GetProducts } from '../use-cases/getProducts'
 import "./AddMaterialModal.css"
 import DateFnsUtils from "@date-io/date-fns"
 import {
    MuiPickersUtilsProvider,
    KeyboardDatePicker,
 } from "@material-ui/pickers"
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
-const AddSales = ({ addSale, closeAddModal }) => {
+const AddSales = ({ addSale, onGetProducts, products, closeAddModal }) => {
    // putting empty fields object into local state
-   const [fields, setFields] = useState({})
+   useEffect(() => {
+      onGetProducts()
+   }, [])
+
+   const [fields, setFields] = useState({'tax': 8.25})
 
    const setField = (evt) =>
       setFields({
@@ -21,12 +27,32 @@ const AddSales = ({ addSale, closeAddModal }) => {
          [evt.target.name]: evt.target.value,
       })
 
+   const handleDateChange = (date) => {
+      setFields({
+         ...fields,
+         date_sold: date
+      })
+   };
+
+   const getProductDetails = (e) => {
+      let selected_product = e.target.value
+
+      let productDetails = products.find(item => {
+         return item.product_name == selected_product
+      })
+
+      setFields({
+         ...fields,
+         productDetails
+      })
+   }
+
    return (
       <div className="addMaterialTBContainer">
          <h2>Add Sale</h2>
 
          <div className="inputContainer">
-            <TextField
+            {/* <TextField
                className="outlined"
                label="Date Sold"
                name="date_sold"
@@ -37,10 +63,26 @@ const AddSales = ({ addSale, closeAddModal }) => {
                }}
                variant="outlined"
                fullWidth
-            />
+            /> */}
+            
+            {/* Date Picker for date sold */}
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+               <KeyboardDatePicker
+                  margin="normal"
+                  name="date_sold"
+                  id="date-picker-dialog"
+                  label="Date Sold"
+                  format="MM/dd/yyyy"
+                  onChange={handleDateChange}
+                  KeyboardButtonProps={{
+                     'aria-label': 'change date',
+                  }}
+                  fullWidth
+               />
+            </MuiPickersUtilsProvider>
          </div>
 
-         <div className="inputContainer">
+         {/* <div className="inputContainer">
             <TextField
                className="outlined"
                label="Product Number"
@@ -52,10 +94,10 @@ const AddSales = ({ addSale, closeAddModal }) => {
                variant="outlined"
                fullWidth
             />
-         </div>
+         </div> */}
 
          <div className="inputContainer">
-            <TextField
+            {/* <TextField
                className="outlined"
                label="Product Name"
                name="product_name"
@@ -65,6 +107,16 @@ const AddSales = ({ addSale, closeAddModal }) => {
                }}
                variant="outlined"
                fullWidth
+            /> */}
+
+            {/* Selector for products */}
+            <Autocomplete
+               id="free-solo-demo"
+               freeSolo
+               options={products.map((option) => option.product_name)}
+               renderInput={(params) => (
+                  <TextField {...params} name='product_name' onSelect={getProductDetails} value="" label="Product" margin="normal" variant="outlined" fullWidth />
+               )} handleProductInput
             />
          </div>
 
@@ -82,11 +134,11 @@ const AddSales = ({ addSale, closeAddModal }) => {
             />
          </div>
 
-         <div className="inputContainer">
+         {/* <div className="inputContainer">
             <TextField
                className="outlined"
                label="Price per Unit"
-               name="price_per_unit"
+               name="price_per_unit"               
                onChange={setField}
                InputLabelProps={{
                   shrink: true,
@@ -94,7 +146,7 @@ const AddSales = ({ addSale, closeAddModal }) => {
                variant="outlined"
                fullWidth
             />
-         </div>
+         </div> */}
 
          <div className="inputContainer">
             <TextField
@@ -110,7 +162,7 @@ const AddSales = ({ addSale, closeAddModal }) => {
             />
          </div>
 
-         <div className="inputContainer">
+         {/* <div className="inputContainer">
             <TextField
                className="outlined"
                label="Total Sales Price"
@@ -122,14 +174,14 @@ const AddSales = ({ addSale, closeAddModal }) => {
                variant="outlined"
                fullWidth
             />
-         </div>
+         </div> */}
 
          <div className="inputContainer">
             <TextField
                className="outlined"
                label="Tax"
                name="tax"
-               value="8.25"
+               value={fields.tax}
                onChange={setField}
                InputLabelProps={{
                   shrink: true,
@@ -153,7 +205,7 @@ const AddSales = ({ addSale, closeAddModal }) => {
             />
          </div>
 
-         <div className="inputContainer">
+         {/* <div className="inputContainer">
             <TextField
                className="outlined"
                label="Category"
@@ -165,7 +217,7 @@ const AddSales = ({ addSale, closeAddModal }) => {
                variant="outlined"
                fullWidth
             />
-         </div>
+         </div> */}
 
          <div className="inputContainer">
             <TextField
@@ -201,9 +253,14 @@ const AddSales = ({ addSale, closeAddModal }) => {
    )
 }
 
+const mapStateToProps = (state) => ({
+   products: state.products.productsList,
+})
+
 // CRUD operation
 const mapDispatchToProps = (dispatch) => ({
    addSale: AddSale(dispatch),
+   onGetProducts: GetProducts(dispatch),
 })
 
-export default connect(null, mapDispatchToProps)(AddSales)
+export default connect(mapStateToProps, mapDispatchToProps)(AddSales)
