@@ -4,6 +4,7 @@ export const UserSignout = (dispatch) => async(
 ) => {
    //first get the current user id from the current token
    // then remove that user from the local storage and redirect
+      console.log("removing token")
       localStorage.removeItem("token")
 
       //pass into our action as a payload and we dispatch it

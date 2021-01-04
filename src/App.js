@@ -18,6 +18,8 @@ import Dashboard from './data-tables/ui/Dashboard'
 import Login from './login/ui/login';
 import Logout from './login/ui/logout';
 
+import {UserSignout} from './login/use-cases/UserSignOut'
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -71,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function NavTabs() {
+const NavTabs = ({onUserSignOut})=> {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -92,7 +94,7 @@ function NavTabs() {
           <LinkTab label="Materials" href="/materials" {...a11yProps(1)} />
           <LinkTab label="Products" href="/products" {...a11yProps(2)} />
           <LinkTab label="Sales" href="/sales" {...a11yProps(3)} />
-          <LinkTab label="Logout" onClick = {()=>{}} {...a11yProps(4)} />
+          <LinkTab label="Logout" onClick = {()=>{onUserSignOut()}} {...a11yProps(4)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -116,6 +118,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  onUserSignOut: UserSignout(dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavTabs)
