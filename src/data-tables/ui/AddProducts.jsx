@@ -48,15 +48,15 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
     }, [])
 
     //updates returned product, resets new product, and moves stepper forward when returned product is received
-    useEffect(() => {    
-        setReturnedProduct(newReturnedProduct)              
-        if (activeStep > 0) {            
+    useEffect(() => {
+        setReturnedProduct(newReturnedProduct)
+        if (activeStep > 0) {
             setNewProduct({ 'product_name': '', 'product_num': '', 'category': '', 'labor': '' })
             setActiveStep((prevActiveStep) => prevActiveStep + 1);
         }
     }, [newReturnedProduct])
 
-    
+
     //these are the steps shown at the top of the stepper
     function getSteps() {
         return ['Enter Product', 'Add Materials', 'Set Pricing'];
@@ -91,7 +91,7 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
                         <div className="textField">
                             <Autocomplete
                                 id="free-solo-demo"
-                                freeSolo                                
+                                freeSolo
                                 options={category.map((option) => option.title)}
                                 renderInput={(params) => (
                                     <TextField {...params} name='category' onSelect={handleProductInput} value={newProduct.category} label="Category" margin="normal" variant="outlined" fullWidth />
@@ -143,8 +143,8 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
                         {
                             material_id: addMaterial.material.id,
                             material_name: addMaterial.material.material_name,
-                            unit_price: addMaterial.material.unit_price,
-                            material_unit_amount: addMaterial.material_unit_amount
+                            unit_price: addMaterial.material.unit_price.toFixed(2),
+                            material_unit_amount: addMaterial.material_unit_amount,                            
                         }
                         ])
 
@@ -162,8 +162,8 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
                 }
 
                 //map through materials in MaterialsList to show what has been added
-                const displayMaterialList = addedMaterialsList.map(item => {
-                    return <div key={item.material_id}>{item.material_name}: {item.material_unit_amount} @ ${item.unit_price} <IconButton onClick={() => deleteMaterial(item.material_id)} aria-label="delete"><DeleteIcon /></IconButton></div>
+                const displayMaterialList = addedMaterialsList.map(item => {                   
+                    return <div key={item.material_id}>{item.material_name}: {item.material_unit_amount} @ ${item.unit_price} each <IconButton onClick={() => deleteMaterial(item.material_id)} aria-label="delete"><DeleteIcon /></IconButton></div>
                 })
 
 
@@ -213,15 +213,26 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
                     <label><b>Name:</b> {returnedProduct.product_name}</label>
                     <label><b>Product number:</b> {returnedProduct.product_num}</label>
                     <label><b>Category:</b> {returnedProduct.category}</label>
-                    <label><b>Wholesale Price:</b> ${returnedProduct.wholesale}</label>
+                    <label><b>Wholesale Price:</b> ${returnedProduct.wholesale.toFixed(2)}</label>
+                    
                     <div className='pricingInputs'>
-                        <b>Retail Price:</b> $<TextField name="retail_price" onChange={handleSetPricing} id="standard-basic" label="" />
+                        <h3>Add Retail Price:</h3>
+                        <form className={classes.root} noValidate autoComplete="off">
+                            <TextField name='retail_price' onChange={handleSetPricing} id="outlined-basic" label="Retai Price" variant="outlined" InputLabelProps={{ shrink: true, }} fullWidth />
+                        </form>
                     </div>
                     <div className='pricingInputs'>
-                        <b>Inventory - Home:</b> <TextField name="quantity" onChange={handleSetPricing} id="standard-basic" label="" />
+                        <h3>Add Inventory - Onsite:</h3>                    
+                        <form className={classes.root} noValidate autoComplete="off">
+                            <TextField name='quantity' onChange={handleSetPricing} id="outlined-basic" label="Inventory (Onsite)" variant="outlined" InputLabelProps={{ shrink: true, }} fullWidth />
+                        </form>
                     </div>
                     <div className='pricingInputs'>
-                        <b>Inventory - PTM:</b> <TextField name="quantity_painted_tree" onChange={handleSetPricing} id="standard-basic" label="" />
+                    <h3>Add Inventory - Painted Tree:</h3>                      
+                        <form className={classes.root} noValidate autoComplete="off">
+                            <TextField name='quantity_painted_tree' onChange={handleSetPricing} id="outlined-basic" label="Inventory (PTM)" variant="outlined" InputLabelProps={{ shrink: true, }} fullWidth />
+                        </form>
+                    
                     </div>
                 </div>
             default:
@@ -243,7 +254,7 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
             materials: listMaterials
         }
         //call function here pass in addProduct
-        onAddProduct(addProduct)      
+        onAddProduct(addProduct)
     }
 
     //from onclick in last step add retail price and inventory to the db
@@ -263,9 +274,9 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
             alert('Inventory must be entered as a whole number')
 
         } else {
-            onAddRetail(finalProduct) 
+            onAddRetail(finalProduct)
             setReturnedProduct({})
-            setActiveStep((prevActiveStep) => prevActiveStep + 1);          
+            setActiveStep((prevActiveStep) => prevActiveStep + 1);
         }
     }
 
@@ -281,7 +292,7 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
         let labor = +newProduct.labor
 
         if (newProduct.product_name == '') {
-            alert('Please enter a product name')  
+            alert('Please enter a product name')
         } else if (newProduct.category == '') {
             alert('Please enter a category')
         } else if (isNaN(labor) || labor === '') {
@@ -290,7 +301,7 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
             setActiveStep((prevActiveStep) => prevActiveStep + 1);
         }
     };
-   
+
     return (
         <div className="addProductsContainer">
             <h2>Add New Product</h2>
@@ -373,7 +384,7 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
 
 const mapStateToProps = (state, { materials }) => ({
     materials: state.materials.materialsList,
-    newReturnedProduct: state.products.newProduct,     
+    newReturnedProduct: state.products.newProduct,
 })
 
 const mapDispatchToProps = (dispatch) => ({
