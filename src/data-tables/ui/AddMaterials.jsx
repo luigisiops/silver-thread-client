@@ -4,19 +4,38 @@ import Button from "@material-ui/core/Button"
 import { useState } from "react"
 import { connect } from "react-redux"
 import { AddMaterial } from "../use-cases/addMaterial"
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import './AddSales.css'
 import './EditSales.css'
 import './AddMaterialModal.css'
 
 const AddMaterials = ({ closeModal, onAddMaterial }) => {
-    // putting empty fields object into local state
+   // putting empty fields object into local state
    const [fields, setFields] = useState({})
+   const materialCategories = [{title: 'Beads'}, {title: 'Chains'}, {title: 'Findings'}, {title: 'Raw Metal'}, {title: 'Stone'}, {title: 'Misc'}, ]
 
    const setField = (evt) =>
       setFields({
          ...fields,
          [evt.target.name]: evt.target.value,
       })
+
+   const handleAddMaterial = (material) => {
+      let unit_price = +material.unit_price
+
+      if (!material.material_name) {
+         alert('Please enter the material name')
+      } else if (!material.unit_price || isNaN(unit_price)) {
+         alert('Price Per Unit must be a number')
+
+      } else if (!material.unit === null) {
+         alert('Please enter a unit of measure')
+      } else {
+         onAddMaterial(material)
+         closeModal()
+      }
+
+   }
 
    return (
       <div className="addMaterialTBContainer">
@@ -64,17 +83,14 @@ const AddMaterials = ({ closeModal, onAddMaterial }) => {
             />
          </div>
 
-         <div className="inputContainer">
-            <TextField
-               className="outlined"
-               label="Material Category"
-               name="category"
-               onChange={setField}
-               InputLabelProps={{
-                  shrink: true,
-               }}
-               variant="outlined"
-               fullWidth
+         <div className="inputContainer">       
+            <Autocomplete
+               id="free-solo-demo"               
+               freeSolo
+               options={materialCategories.map((option) => option.title)}
+               renderInput={(params) => (
+                  <TextField {...params} name='category' onSelect={setField}  label="Category" margin="normal" variant="outlined" fullWidth InputLabelProps={{shrink: true,}}/>
+               )} handleProductInput
             />
          </div>
 
@@ -106,10 +122,7 @@ const AddMaterials = ({ closeModal, onAddMaterial }) => {
          </div>
          <div>
             <Button
-               onClick={() => {
-                  onAddMaterial(fields); closeModal()
-
-               }}
+               onClick={() => handleAddMaterial(fields)}
                variant="contained"
                color="secondary"
                size="large"

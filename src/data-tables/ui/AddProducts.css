@@ -1,7 +1,8 @@
 /* container for AddProduct Component */
 .addProductsContainer {
-    margin: 25px;
-   
+    margin: 5px;
+    display: flex;
+   flex-direction: column;
 }
 
 h2 { 
@@ -47,5 +48,12 @@ h2 {
 /* div around pricing and inventory input - final step */
 .pricingInputs {
     display: flex;
+    flex-direction: column;
     align-items: baseline;
+}
+
+@media only screen and (min-width: 600px) {
+    .addProductsContainer {
+    margin: 25px;
+    }
 }

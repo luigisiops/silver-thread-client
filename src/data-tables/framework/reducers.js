@@ -99,7 +99,7 @@ export const sales = createReducer(
             /*    sales.forEach((sale) => {
                 state.byId[sale.id] = sale
             })*/
-            return { ...state.salesList, salesList }
+            return { ...state, salesList }
         },
         [onDeleteSale.type]: (state, { payload: saleid }) => {
             if (saleid === null) {
@@ -127,6 +127,7 @@ export const sales = createReducer(
 export const products = createReducer(
     {
         productsList: [],
+        byCategories:{},
         byId: {},
         productsDelete: '',
         newProduct: {},
@@ -134,11 +135,23 @@ export const products = createReducer(
     },
     {
         [onGetProducts.type]: (state, { payload: products }) => {
-            if (products === null) {
-                return state
+          if (products === null) {
+            return state;
+          }
+          state.productsList = products;
+          products.forEach((product)=>{
+            state.byId[product.id] = product
+            if (!state.byCategories[product.category]) {
+                state.byCategories[product.category] = [product]
             }
-            state.productsList = products
+            else{
+                state.byCategories[product.category] = [...state.byCategories[product.category], product]
+            }
+          })
+
+
         },
+    
         [onDeleteProduct.type]: (state, { payload: productid }) => {
             if (productid === null) {
                 return state

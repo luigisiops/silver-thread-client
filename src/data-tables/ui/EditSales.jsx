@@ -51,7 +51,7 @@ const EditSales = (props, {onEditSale}) => {
         } else if (data.product_category == '') {
             alert('Please enter the category of the product you sold')
         } else if (quantity == '' || isNaN(quantity)) {
-            alert('Please enter the quantity sole')
+            alert('Please enter the quantity sold')
         } else if (price_per_unit == '' || isNaN(price_per_unit) ) {
             alert('Please enter the price per unit in the format X.XX')
         } else if (total_price == '' || isNaN(total_price) ) {
@@ -82,13 +82,13 @@ const EditSales = (props, {onEditSale}) => {
                     <TextField name='price_per_unit' value={updatedSalesData.price_per_unit} onChange={handleOnChange} id="outlined-basic" label="Price Per Unit" variant="outlined" />
                 </form>
                 <form className={classes.root} noValidate autoComplete="off">
-                    <TextField name='discount' value={""} onChange={handleOnChange} id="outlined-basic" label="Discount" variant="outlined" />
+                    <TextField name='discount' value={updatedSalesData.discount} onChange={handleOnChange} id="outlined-basic" label="Discount" variant="outlined" />
                 </form>
                 <form className={classes.root} noValidate autoComplete="off">
-                    <TextField name='tax' value={""} onChange={handleOnChange} id="outlined-basic" label="Tax" variant="outlined" />
+                    <TextField name='tax' value={updatedSalesData.tax} onChange={handleOnChange} id="outlined-basic" label="Total Tax Amount" variant="outlined" />
                 </form>
                 <form className={classes.root} noValidate autoComplete="off">
-                    <TextField name='shipping' value={""} onChange={handleOnChange} id="outlined-basic" label="Shipping" variant="outlined" />
+                    <TextField name='shipping' value={updatedSalesData.shipping} onChange={handleOnChange} id="outlined-basic" label="Shipping Amount" variant="outlined" />
                 </form>
                 <form className={classes.root} noValidate autoComplete="off">
                     <TextField name='total_price' value={updatedSalesData.total_price} onChange={handleOnChange} id="outlined-basic" label="Total Sales Price" variant="outlined" />
