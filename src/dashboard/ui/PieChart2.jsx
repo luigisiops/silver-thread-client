@@ -1,8 +1,12 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import { connect } from "react-redux"
 import { VictoryPie, VictoryChart, VictoryLegend, VictoryLabel , VictoryContainer, VictoryGroup} from 'victory';
 import { Card, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Autocomplete } from '@material-ui/lab';
+
+
+import { GetProducts } from '../../data-tables/use-cases/getProducts'
 
 const useStyles = makeStyles({
     root: {
@@ -46,9 +50,22 @@ const useStyles = makeStyles({
 //   ];
 //   const legendData = [{ name: "Necklaces" }, { name: "Bracelets" }, { name: "Rings" }];
   
-const PieChart2 = () => {
+const PieChart2 = ({getProducts, products}) => {
+  const [loaded, setLoaded] = useState(false)
+
+  if(products) {
+    console.log(loaded)
+    console.log(products)
+    setLoaded(true)
+  }
+    
     const classes = useStyles();
 
+    useEffect(() => {  
+      getProducts()
+    }, [])
+
+    console.log(products)
       return (
         <Card className={classes.root}>
             <CardContent>
@@ -56,22 +73,50 @@ const PieChart2 = () => {
                     Silverthread Designs Products Sold by Category
                     {/* be{bull}nev{bull}o{bull}lent */}
                 </Typography>
+                {loaded === true ?  
+                  <VictoryPie
+                    data={[
+      { x: "Bracelets", y: products.Bracelets.length },
+      { x: "Brooches", y: products.Brooches.length },
+      { x: "Rings", y: products.Rings.length },
+      { x: "Earrings", y: products.Earrings.length }
+    ]}
+                    colorScale={["#78bfb5", "#f06292", "#b71c1c"]}
+                    labelRadius={({ innerRadius }) => innerRadius + 50 }
+                    style={{ labels: { fill: "black", fontWeight: "bold" } }}                // labelPlacement={"perpindicular"}
+                    // labels={({ legendData }) => data.y}
+                    // labelPosition={({ index }) => index
+                    //     ? "centroid"
+                    //     : "startAngle"
+                    // }
+                  />
+
+                : 
                 <VictoryPie
-                data={data}
-                colorScale={["#78bfb5", "#f06292", "#b71c1c"]}
-                labelRadius={({ innerRadius }) => innerRadius + 50 }
-                style={{ labels: { fill: "black", fontWeight: "bold" } }}                // labelPlacement={"perpindicular"}
-                // labels={({ legendData }) => data.y}
-                // labelPosition={({ index }) => index
-                //     ? "centroid"
-                //     : "startAngle"
-                // }
+                  data={data}
+                  colorScale={["#78bfb5", "#f06292", "#b71c1c"]}
+                  labelRadius={({ innerRadius }) => innerRadius + 50 }
+                  style={{ labels: { fill: "black", fontWeight: "bold" } }}                // labelPlacement={"perpindicular"}
+                  // labels={({ legendData }) => data.y}
+                  // labelPosition={({ index }) => index
+                  //     ? "centroid"
+                  //     : "startAngle"
+                  // }
                 />
+                }
           </CardContent>
         </Card>
       )
 }
 
-export default PieChart2
+const mapStateToProps = (state) => ({
+  products: state.products.byCategories
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  getProducts: GetProducts(dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(PieChart2)
 
   
