@@ -53,11 +53,6 @@ const useStyles = makeStyles({
 const PieChart2 = ({getProducts, products}) => {
   const [loaded, setLoaded] = useState(false)
 
-  if(products) {
-    console.log(loaded)
-    console.log(products)
-    setLoaded(true)
-  }
     
     const classes = useStyles();
 
@@ -73,25 +68,6 @@ const PieChart2 = ({getProducts, products}) => {
                     Silverthread Designs Products Sold by Category
                     {/* be{bull}nev{bull}o{bull}lent */}
                 </Typography>
-                {loaded === true ?  
-                  <VictoryPie
-                    data={[
-      { x: "Bracelets", y: products.Bracelets.length },
-      { x: "Brooches", y: products.Brooches.length },
-      { x: "Rings", y: products.Rings.length },
-      { x: "Earrings", y: products.Earrings.length }
-    ]}
-                    colorScale={["#78bfb5", "#f06292", "#b71c1c"]}
-                    labelRadius={({ innerRadius }) => innerRadius + 50 }
-                    style={{ labels: { fill: "black", fontWeight: "bold" } }}                // labelPlacement={"perpindicular"}
-                    // labels={({ legendData }) => data.y}
-                    // labelPosition={({ index }) => index
-                    //     ? "centroid"
-                    //     : "startAngle"
-                    // }
-                  />
-
-                : 
                 <VictoryPie
                   data={data}
                   colorScale={["#78bfb5", "#f06292", "#b71c1c"]}
@@ -103,7 +79,7 @@ const PieChart2 = ({getProducts, products}) => {
                   //     : "startAngle"
                   // }
                 />
-                }
+                
           </CardContent>
         </Card>
       )
