@@ -12,6 +12,7 @@ import {
    KeyboardDatePicker,
 } from "@material-ui/pickers"
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import Checkbox from '@material-ui/core/Checkbox'
 
 const AddSales = ({ addSale, onGetProducts, products, closeAddModal }) => {
    // putting empty fields object into local state
@@ -19,7 +20,9 @@ const AddSales = ({ addSale, onGetProducts, products, closeAddModal }) => {
       onGetProducts()
    }, [])
 
-   const [fields, setFields] = useState({ 'tax': 8.25, date_sold: new Date(), shipping: 0, quantity: 0, discount: 0 })
+   const [checked, setChecked] = useState(false)
+   const [fields, setFields] = useState({ 'tax': 8.25, 'date_sold': new Date(), 'shipping': 0, 'quantity': 0, 'discount': 0, 'sold_PTM': checked, 'sold_to': '' })
+  
 
    const setField = (evt) =>
       setFields({
@@ -40,43 +43,37 @@ const AddSales = ({ addSale, onGetProducts, products, closeAddModal }) => {
       let productDetails = products.find(item => {
          return item.product_name == selected_product
       })
-
       setFields({
          ...fields,
          productDetails
       })
    }
 
+   const handleChange = (event) => {
+      setChecked(event.target.checked);
+      // setFields({...fields,
+      // 'sold_PTM': event.target.checked,     
+      // })
+
+      if (event.target.checked === true) {
+         setFields({...fields,
+            'sold_PTM': true,
+            'sold_to': 'Painted Tree Marketplace'
+         })
+      } else if (event.target.checked === false) {
+         setFields({...fields,
+            'sold_PTM': false,
+            'sold_to': ''
+         })
+      }
+
+   };
+
    return (
       <div className="addMaterialTBContainer">
          <h2>Add Sale</h2>
-         {/* <div className="inputContainer">
-            <TextField
-               className="outlined"
-               label="Product Number"
-               name="product_number"
-               onChange={setField}
-               InputLabelProps={{
-                  shrink: true,
-               }}
-               variant="outlined"
-               fullWidth
-            />
-         </div> */}
-
-         <div className="inputContainer">
-            {/* <TextField
-               className="outlined"
-               label="Product Name"
-               name="product_name"
-               onChange={setField}
-               InputLabelProps={{
-                  shrink: true,
-               }}
-               variant="outlined"
-               fullWidth
-            /> */}
-
+                  
+         <div className="inputContainer">            
             {/* Selector for products */}
             <Autocomplete
                id="free-solo-demo"
@@ -87,6 +84,14 @@ const AddSales = ({ addSale, onGetProducts, products, closeAddModal }) => {
                )} handleProductInput
             />
          </div>
+         <div>
+         <label> Sold At Painted Tree MarketPlace
+         <Checkbox
+            checked={checked}
+            onChange={handleChange}
+            inputProps={{ 'aria-label': 'primary checkbox' }}
+         /></label>
+         </div>    
 
          <div className="inputContainer">
             <TextField
@@ -100,21 +105,7 @@ const AddSales = ({ addSale, onGetProducts, products, closeAddModal }) => {
                variant="outlined"
                fullWidth
             />
-         </div>
-
-         {/* <div className="inputContainer">
-            <TextField
-               className="outlined"
-               label="Price per Unit"
-               name="price_per_unit"               
-               onChange={setField}
-               InputLabelProps={{
-                  shrink: true,
-               }}
-               variant="outlined"
-               fullWidth
-            />
-         </div> */}
+         </div>         
 
          <div className="inputContainer">
             <TextField
@@ -128,21 +119,7 @@ const AddSales = ({ addSale, onGetProducts, products, closeAddModal }) => {
                variant="outlined"
                fullWidth
             />
-         </div>
-
-         {/* <div className="inputContainer">
-            <TextField
-               className="outlined"
-               label="Total Sales Price"
-               name="total_price"
-               onChange={setField}
-               InputLabelProps={{
-                  shrink: true,
-               }}
-               variant="outlined"
-               fullWidth
-            />
-         </div> */}
+         </div>        
 
          <div className="inputContainer">
             <TextField
@@ -171,27 +148,14 @@ const AddSales = ({ addSale, onGetProducts, products, closeAddModal }) => {
                variant="outlined"
                fullWidth
             />
-         </div>
-
-         {/* <div className="inputContainer">
-            <TextField
-               className="outlined"
-               label="Category"
-               name="product_category"
-               onChange={setField}
-               InputLabelProps={{
-                  shrink: true,
-               }}
-               variant="outlined"
-               fullWidth
-            />
-         </div> */}        
+         </div>         
 
          <div className="inputContainer">
             <TextField
                className="outlined"
                label="Purchased By"
                name="sold_to"
+               value={fields.sold_to}
                onChange={setField}
                InputLabelProps={{
                   shrink: true,
