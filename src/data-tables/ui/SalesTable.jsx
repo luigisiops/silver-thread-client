@@ -136,7 +136,7 @@ const SalesTable = ({
    const columns = [
       { title: "id", field: "id", hidden: true },
       { title: "Product ID", field: "product_id", hidden: true },
-      // { title: "sold_PTM", field: "sold_PTM", align: "left", hidden: true  },
+      { title: "sold_PTM", field: "sold_PTM", align: "left", hidden: true  },
       { title: "Date", field: "date_sold", defaultSort: "desc", align: "left" },
       { title: "Product Number", field: "product_number", align: "left", hidden: true, },
       { title: "Product Name", field: "product_name", align: "left" },
@@ -273,8 +273,8 @@ const SalesTable = ({
                      onRowDelete: (oldData) =>
                         new Promise((resolve, reject) => {
                            setTimeout(() => {
-                              const id = oldData.id
-                              onDeleteSale(id)
+                              // const id = oldData.id
+                              onDeleteSale(oldData)
                               resolve()
                            }, 1000)
                         }),

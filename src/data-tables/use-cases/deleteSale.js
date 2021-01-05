@@ -6,11 +6,12 @@ export const DeleteSale = (dispatch) => async(
 ) => {
     console.log(salesID)
     // first we call a fetch request to update our backend because the backend is the source of truth for our global state
-    const response = await fetch(`http://localhost:8000/sales/${salesID}/deleteASale`, {
+    const response = await fetch(`http://localhost:8000/sales/${salesID.id}/deleteASale`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
         },
+        body: JSON.stringify(salesID)
     })
     console.log(response)
     //need to await on parsing response to javascript objects from json
