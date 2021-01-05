@@ -61,10 +61,12 @@ const EditSales = (props, { onEditSale }) => {
     };
 
     const handleOnClick = (data, originalData) => {
-        //check to make sure quantity is a number
+        //check to make sure these fields are numbers
         const quantity = +data.quantity
         const price_per_unit = +data.price_per_unit
         const total_price = +data.total_price
+        const discount = +data.discount
+        const shipping = +data.shipping
 
         if (data.product_name == '') {
             alert('Please enter the name of the product you sold')
@@ -78,8 +80,11 @@ const EditSales = (props, { onEditSale }) => {
             alert('Please enter the total price in the format X.XX')
         } else if (data.sold_to == '') {
             alert('Please enter the name of the buyer')
-        } else {
-           
+        } else if (isNaN(discount)) {
+            alert('Please enter a number in the discount field')            
+        } else if (isNaN(shipping)) {
+            alert("Please enter a number in the shipping field")
+        } else {           
             let saleData = {updated: data, original: originalData}
             
             props.onEditSale(saleData)

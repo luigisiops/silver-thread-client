@@ -22,7 +22,7 @@ const AddSales = ({ addSale, onGetProducts, products, closeAddModal }) => {
 
    const [checked, setChecked] = useState(false)
    const [fields, setFields] = useState({ 'tax': 8.25, 'date_sold': new Date(), 'shipping': 0, 'quantity': 0, 'discount': 0, 'sold_PTM': checked, 'sold_to': '' })
-  
+
 
    const setField = (evt) =>
       setFields({
@@ -51,17 +51,15 @@ const AddSales = ({ addSale, onGetProducts, products, closeAddModal }) => {
 
    const handleChange = (event) => {
       setChecked(event.target.checked);
-      // setFields({...fields,
-      // 'sold_PTM': event.target.checked,     
-      // })
-
       if (event.target.checked === true) {
-         setFields({...fields,
+         setFields({
+            ...fields,
             'sold_PTM': true,
             'sold_to': 'Painted Tree Marketplace'
          })
       } else if (event.target.checked === false) {
-         setFields({...fields,
+         setFields({
+            ...fields,
             'sold_PTM': false,
             'sold_to': ''
          })
@@ -69,11 +67,38 @@ const AddSales = ({ addSale, onGetProducts, products, closeAddModal }) => {
 
    };
 
+   const handleSave = (fields) => {
+      //check to make sure these fields are numbers
+      let quantity = +fields.quantity
+      let tax = +fields.tax
+      let discount = +fields.discount
+      let shipping = +fields.shipping
+
+      if(!fields.productDetails) {
+         alert("Please select a product")
+      } else if (!quantity || isNaN(quantity)) {
+         alert("Please enter a quantity sold")
+      } else if (isNaN(tax)) {
+         alert("Please enter a tax rate")
+      } else if (!fields.sold_to || fields.sold_to == "") {
+         alert("please enter the purchasers name")
+      } else if (!fields.date_sold) {
+         alert("Please enter the sales date")                 
+      } else if (isNaN(discount)) {
+         alert("Please enter the discount percentage")    
+      } else if (isNaN(shipping)) {
+         alert("Please enter the shipping cost")  
+      } else {
+         addSale(fields)
+         closeAddModal()
+      }    
+   }
+
    return (
       <div className="addMaterialTBContainer">
          <h2>Add Sale</h2>
-                  
-         <div className="inputContainer">            
+
+         <div className="inputContainer">
             {/* Selector for products */}
             <Autocomplete
                id="free-solo-demo"
@@ -85,13 +110,13 @@ const AddSales = ({ addSale, onGetProducts, products, closeAddModal }) => {
             />
          </div>
          <div>
-         <label> Sold At Painted Tree MarketPlace
+            <label> Sold At Painted Tree MarketPlace
          <Checkbox
-            checked={checked}
-            onChange={handleChange}
-            inputProps={{ 'aria-label': 'primary checkbox' }}
-         /></label>
-         </div>    
+                  checked={checked}
+                  onChange={handleChange}
+                  inputProps={{ 'aria-label': 'primary checkbox' }}
+               /></label>
+         </div>
 
          <div className="inputContainer">
             <TextField
@@ -105,7 +130,7 @@ const AddSales = ({ addSale, onGetProducts, products, closeAddModal }) => {
                variant="outlined"
                fullWidth
             />
-         </div>         
+         </div>
 
          <div className="inputContainer">
             <TextField
@@ -119,7 +144,7 @@ const AddSales = ({ addSale, onGetProducts, products, closeAddModal }) => {
                variant="outlined"
                fullWidth
             />
-         </div>        
+         </div>
 
          <div className="inputContainer">
             <TextField
@@ -148,7 +173,7 @@ const AddSales = ({ addSale, onGetProducts, products, closeAddModal }) => {
                variant="outlined"
                fullWidth
             />
-         </div>         
+         </div>
 
          <div className="inputContainer">
             <TextField
@@ -186,9 +211,7 @@ const AddSales = ({ addSale, onGetProducts, products, closeAddModal }) => {
          <div>
             <Button
                onClick={() => {
-                  console.log(fields)
-                  addSale(fields)
-                  closeAddModal()
+                  handleSave(fields)
                }}
                variant="contained"
                color="secondary"
