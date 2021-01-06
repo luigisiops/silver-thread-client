@@ -4,7 +4,7 @@ import {onDeleteSale} from "../framework/actions"
 export const DeleteSale = (dispatch) => async(
     salesID,
 ) => {
-    console.log(salesID)
+   
     // first we call a fetch request to update our backend because the backend is the source of truth for our global state
     const response = await fetch(`http://localhost:8000/sales/${salesID.id}/deleteASale`, {
         method: 'DELETE',
@@ -13,10 +13,10 @@ export const DeleteSale = (dispatch) => async(
         },
         body: JSON.stringify(salesID)
     })
-    console.log(response)
+
     //need to await on parsing response to javascript objects from json
     const success = await response.json()
-    console.log(success)
+   
    
     //pass into our action as a payload and we dispatch it
      return dispatch(onDeleteSale(success))

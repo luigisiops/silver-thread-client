@@ -102,11 +102,9 @@ export const sales = createReducer(
             return { ...state, salesList }
         },
         [onDeleteSale.type]: (state, { payload: saleid }) => {
-            if (saleid === null) {
-                console.log(null)
+            if (saleid === null) {         
                 return state
-            }
-            console.log(saleid)
+            }           
             state.saleID = saleid
         },
         [onAddSale.type]: (state, { payload: newSaleId }) => {
