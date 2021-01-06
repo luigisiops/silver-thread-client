@@ -94,13 +94,16 @@ const EditProduct = ({ productData, onGetProductByID, productListing, onGetMater
                             <TextField name='product_num' value={productDetails.product_num} onChange={handleOnChange} id="outlined-basic" label="Product Number" variant="outlined" InputLabelProps={{ shrink: true, }} fullWidth />
                         </div>
                         <div className='textInput'>
+                            <TextField name='category' value={productDetails.category} onChange={handleOnChange} id="outlined-basic" label="Category" variant="outlined" InputLabelProps={{ shrink: true, }} fullWidth />
+                        </div>
+                        <div className='textInput'>
                             <TextField name='wholesale' value={productDetails.wholesale} onChange={handleOnChange} id="outlined-basic" label="Wholesale Price" variant="outlined" InputLabelProps={{ shrink: true, }} fullWidth />
                         </div>
                         <div className='textInput'>
                             <TextField name='retail_price' value={productDetails.retail_price} onChange={handleOnChange} id="outlined-basic" label="Retail Price" variant="outlined" InputLabelProps={{ shrink: true, }} fullWidth />
                         </div>
                         <div className='textInput'>
-                            <TextField name='quantity' value={productDetails.quantity} onChange={handleOnChange} id="outlined-basic" label="Inventory (Home)" variant="outlined" InputLabelProps={{ shrink: true, }} fullWidth />
+                            <TextField name='quantity' value={productDetails.quantity} onChange={handleOnChange} id="outlined-basic" label="Inventory (Onsite)" variant="outlined" InputLabelProps={{ shrink: true, }} fullWidth />
                         </div>
                         <div className='textInput'>
                             <TextField name='quantity_painted_tree' value={productDetails.quantity_painted_tree} onChange={handleOnChange} id="outlined-basic" label="Inventory (PTM)" variant="outlined" InputLabelProps={{ shrink: true, }} fullWidth />
@@ -132,12 +135,24 @@ const EditProduct = ({ productData, onGetProductByID, productListing, onGetMater
                     })
                 }
 
+                const handleAddNewMaterial = (addMaterial) => {
+                    let material_unit_amount = +addMaterial.material_unit_amount
+                   
+                    if (!addMaterial.material) {
+                        alert("Please select a material")
+                    } else if (isNaN(material_unit_amount) || addMaterial.material_unit_amount == '') {
+                        alert("Please enter a quantity")                 
+                    } else {
+                        onAddNewMaterial(addMaterial)
+                    }                    
+                }
+
                 return (
                     <div>
                         <div className='textInput'>
                             <div><h2>Edit Materials</h2>
-                                <b>Current Materials List:</b>
-                                {materialItem}
+                                {/* <b>Current Materials List:</b>
+                                {materialItem} */}
                             </div>
                             <b>Add New Material:</b>
                         </div>
@@ -155,9 +170,13 @@ const EditProduct = ({ productData, onGetProductByID, productListing, onGetMater
                             <TextField name="material_unit_amount" value={newMaterial.material_unit_amount} onChange={handleQuantityInput} id="outlined-basic" label="Quantity" variant="outlined" fullWidth />
                         </div>
                         <div className='textInput'>
-                            <Button variant="contained" color="primary" onClick={() => onAddNewMaterial(newMaterial)} className={classes.button} fullWidth >
+                            <Button variant="contained" color="primary" onClick={() => handleAddNewMaterial(newMaterial)} className={classes.button} fullWidth >
                                 Add Material
                             </Button>
+                        </div>
+                        <div className='textInput'>
+                            <b>Current Materials List:</b>
+                            {materialItem}
                         </div>
                         <div className='laborContainer'>
                             <h2>Edit Labor</h2>
@@ -175,19 +194,60 @@ const EditProduct = ({ productData, onGetProductByID, productListing, onGetMater
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
+    const validate = (product) => {
+        let quantity = +product.quantity
+        let quantity_painted_tree = +product.quantity_painted_tree
+        let retail = +product.retail_price
+        let wholesale = +product.wholesale        
+
+        if (!product.product_name || product.product_name == '') {
+            alert('Please enter a product name')
+        } else if (product.retail_price == '' || isNaN(retail)) {
+            alert('Please enter a retail price')
+        } else if (product.wholesale == '' || isNaN(wholesale)) {
+            alert('Please enter a wholesale price')
+        } else if (isNaN(quantity)) {
+            alert('Inventory(Onsite) must be entered as a whole number')
+        } else if (isNaN(quantity_painted_tree)) {
+            alert('Inventory(PTM) must be entered as a whole number')
+        } else {
+            return true
+        }
+    }
+
+    //next button on first pg of modal
     const handleNext = (product) => {
-        onEditProduct(product)
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+
+        let validation = validate(product)
+
+        if (validation) {
+            onEditProduct(product)
+            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        }
     };
 
+
+    //save button on first pg of modal
     const handleComplete = (product) => {
-        onEditProduct(product)
-        closeEditModal()
+
+        let validation = validate(product)
+
+        if (validation) {
+            onEditProduct(product)
+            closeEditModal()
+        }
     };
 
+    //save button on second pg of modal
     const handleWholesaleUpdate = (product) => {
-        onUpdateWholesale(product)
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+        let labor = +product.labor
+
+        if (isNaN(labor)) {
+            alert('Please enter labor time')
+        } else {
+            onUpdateWholesale(product)
+            setActiveStep((prevActiveStep) => prevActiveStep - 1);
+        }
     }
 
     return (
