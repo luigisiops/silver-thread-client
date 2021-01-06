@@ -10,6 +10,9 @@ import BarChart from './BarChart'
 import BarChart2 from './BarChart2'
 import PieChart2 from './PieChart2'
 import LineGraph from './LineGraph';
+import SalesPieChart from './SalesPieChart'
+import PtmSalesPieChart from './PtmSalesPieChart'
+import SalesBarChart from './SalesBarChart'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -65,7 +68,10 @@ const Dashboard = () => {
                       <PieChart2/>
                   </Grid>
                   <Grid container item xs={12} sm={5} lg={20}>
-                      <LineGraph/>
+                      <SalesBarChart/>
+                  </Grid>
+                  <Grid container item xs={12} sm={5} lg={20}>
+                      <PtmSalesPieChart/>
                   </Grid>
               </Grid>
           </Container>

@@ -27,18 +27,11 @@ const useStyles = makeStyles({
     },
   });
 
-  const data = [
-    {quarter: 1, earnings: 13000},
-    {quarter: 2, earnings: 16500},
-    {quarter: 3, earnings: 14250},
-    {quarter: 4, earnings: 19000}
-  ];
 
-
-const BarChart2 = ({sales, getSales}) => {
+const SalesBarChart = ({productSales, getSales}) => {
   const getStartDate = () => {
     let d = new Date()
-    d.setFullYear(d.getFullYear()-1)
+    d.setDate(d.getDay()-90)
     return d
  }
 
@@ -51,17 +44,24 @@ const BarChart2 = ({sales, getSales}) => {
     end: end_date,
  })
 
-  useEffect(() => {
-   getSales(selectedDate)
-  }, [])
     const classes = useStyles();
     // const bull = <span className={classes.bullet}>•</span>;
+    useEffect(() => {  
+      getSales(selectedDate)
+    }, [])
 
+    if (Object.keys(productSales).length > 0) {
+      let data = []
+      for (const category in productSales){
+        //data[category] = products[category].length
+        let field = { x: `${category} `, y: productSales[category].length}
+        data.push(field)
+      }
     return (
         <Card className={classes.root}>
         <CardContent>
         <Typography variant="h4" component="h2">
-            Silverthread Designs Sales Over Time
+            Silverthread Designs Sales By Category (Last 90 Days)
             {/* be{bull}nev{bull}o{bull}lent */}
           </Typography>
         <VictoryChart
@@ -70,26 +70,14 @@ const BarChart2 = ({sales, getSales}) => {
           duration: 500,
           onLoad: { duration: 200 }
         }}
-        domainPadding={{ x: 0 }}
+        domainPadding={{ x: 15 }}
         theme={VictoryTheme.material}
       >
-        <VictoryAxis 
-         style={{tickLabels: { angle: 30 }}}
-        //  fixLabelOverlap 
-        />
+     
         <VictoryBar
-          barRatio={1}
-          cornerRadius={0} // Having this be a non-zero number looks good when it isn't transitioning, but looks like garbage when it is....
+          barRatio={0.8}
           style={{ data: { fill: "#01579b" } }}
-          alignment="middle"
-          labels={d => d.y}
-          data={[
-            { x: "August '20", y: 150000, style: "#f06292" },
-            { x: "September '20", y: 250000 },
-            { x: "October '20", y: 500020 },
-            { x: "November '20", y: 750000 },
-            { x: "December '20", y: 1000000 }
-          ]}
+          data={data}
         />
       </VictoryChart>
           {/* <Typography className={classes.title} color="textSecondary" gutterBottom>
@@ -112,14 +100,20 @@ const BarChart2 = ({sales, getSales}) => {
         </CardActions> */}
       </Card>
     )
+      }
+      else{
+        return(
+          <div></div>
+        )
+      }
 }
 const mapStateToProps = (state) => ({
-  sales: state.sales.salesList
+  productSales: state.sales.salesByCategories
 })
 
 const mapDispatchToProps = (dispatch) => ({
   getSales: GetSales(dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(BarChart2)
+export default connect(mapStateToProps, mapDispatchToProps)(SalesBarChart)
 

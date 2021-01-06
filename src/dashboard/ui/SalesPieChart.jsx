@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Autocomplete } from '@material-ui/lab';
 
 
-import { GetProducts } from '../../data-tables/use-cases/getProducts'
+import { GetSales } from '../../data-tables/use-cases/getSales'
 
 const useStyles = makeStyles({
     root: {
@@ -50,21 +50,34 @@ const useStyles = makeStyles({
 //   ];
 //   const legendData = [{ name: "Necklaces" }, { name: "Bracelets" }, { name: "Rings" }];
   
-const PieChart2 = ({getProducts, products}) => {
+const SalesPieChart = ({getSales, productSales}) => {
   const [loaded, setLoaded] = useState(false)
+  const getStartDate = () => {
+    let d = new Date()
+    d.setDate(d.getDay()-90)
+    return d
+ }
 
+ let end_date = new Date()
+ let start_date = getStartDate()
+ console.log(start_date)
+
+ const [selectedDate, setSelectedDate] = useState({
+    start: start_date,
+    end: end_date,
+ })
     
     const classes = useStyles();
 
     useEffect(() => {  
-      getProducts()
+      getSales(selectedDate)
     }, [])
 
-    if (Object.keys(products).length>0) {
+    if (Object.keys(productSales).length > 0) {
       let data = []
-      for (const category in products){
+      for (const category in productSales){
         //data[category] = products[category].length
-        let field = { x: `${category}: ${products[category].length} `, y: products[category].length}
+        let field = { x: `${category}: ${productSales[category].length} `, y: productSales[category].length}
         data.push(field)
       }
       console.log(data)
@@ -72,11 +85,10 @@ const PieChart2 = ({getProducts, products}) => {
         <Card className={classes.root}>
             <CardContent>
                 <Typography variant="h4" component="h2">
-                    Silverthread Designs Products Sold by Category
+                    Silverthread Designs Products Sales by Category (Past 90)
                     {/* be{bull}nev{bull}o{bull}lent */}
                 </Typography>
                 <VictoryPie
-                innerRadius={90}
                   data={data}
                   colorScale={["#78bfb5", "#f06292", "#b71c1c"]}
                   labelRadius={({ innerRadius }) => innerRadius + 50 }
@@ -102,13 +114,13 @@ const PieChart2 = ({getProducts, products}) => {
 }
 
 const mapStateToProps = (state) => ({
-  products: state.products.byCategories
+  productSales: state.sales.salesByCategories
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  getProducts: GetProducts(dispatch)
+  getSales: GetSales(dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(PieChart2)
+export default connect(mapStateToProps, mapDispatchToProps)(SalesPieChart)
 
   
