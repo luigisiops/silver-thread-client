@@ -1,11 +1,16 @@
-.login-component {
+body {
+  background-color: '#4db6ac';
+  height: 100%;
+}
+
+/* .login-component {
   display: flex;
   flex-direction: row;
   height: 100vh;
   width: 100vw;
   background: #78bfb5;
-  /* background-color: white; */
-}
+  background-color: white;
+} */
 
 .left-container {
   display: flex;
@@ -28,7 +33,7 @@
 
 .login-container {
   display: flex;
-  width: 50%;
+  /* width: 50%; */
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -38,11 +43,13 @@
 .login-blurb {
   font-size: 30px;
   font-weight: 700;
+  margin: 0 auto;
 }
 
 .login-box {
   display: inherit;
   flex-direction: column;
+  margin: 0 auto;
 }
 
 #outlined-basic {
