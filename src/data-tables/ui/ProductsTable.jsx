@@ -81,8 +81,6 @@ const ProductsTable = ({ onGetProducts, products, onDeleteProduct, productDelete
             <h1>Silverthread Products </h1>
             <Popover
                 open={open}
-                anchorReference="anchorPosition"
-                anchorPosition={{ top: 200, left: 960 }}
                 anchorOrigin={{
                     vertical: 'center',
                     horizontal: 'center',
@@ -97,8 +95,6 @@ const ProductsTable = ({ onGetProducts, products, onDeleteProduct, productDelete
 
             <Popover
                 open={openEdit}
-                anchorReference="anchorPosition"
-                anchorPosition={{ top: 200, left: 960 }}
                 anchorOrigin={{
                     vertical: 'center',
                     horizontal: 'center',

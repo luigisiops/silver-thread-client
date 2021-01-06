@@ -207,8 +207,6 @@ const SalesTable = ({
 
          <Popover
             open={openAdd}
-            anchorReference="anchorPosition"
-            anchorPosition={{top: 200, left: 960}}
             anchorOrigin={{
                vertical: "center",
                horizontal: "center",
