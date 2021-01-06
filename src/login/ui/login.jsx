@@ -8,7 +8,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import { Container, AppBar, Grid, Card, CardMedia } from '@material-ui/core';
+import { Container, AppBar, Grid, Card, CardMedia, ThemeProvider, CssBaseline } from '@material-ui/core';
+import LeagueSparatanBoldWoff2 from '../../fonts/leaguespartan-bold-webfont.woff2'
+
 
 
 import "./login.css"
@@ -30,8 +32,25 @@ import ST_12 from '../images/ST_12.jpg';
 import ST_13 from '../images/ST_13.jpg';
 import ST_14 from '../images/ST_14.jpg';
 
+const league_spartanbold = {
+    fontFamily: 'League Spartan',
+    fontStyle: 'bold',
+    fontDisplay: 'swap',
+    fontWeight: 400,
+    src: `
+      local('League-Spartan'),
+      local('League-Spartan-Bold'),
+      url(${LeagueSparatanBoldWoff2}) format('woff2')
+    `,
+    unicodeRange:
+      'U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF',
+  };
+
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        background: theme.background,
+    },
     modal: {
         display: 'flex',
         alignItems: 'center',
@@ -45,7 +64,8 @@ const useStyles = makeStyles((theme) => ({
       },
       appBar: {
         borderRadius: 15,
-        marginTop: '10px',
+        // marginTop: '-25px',
+        marginTop: '5px',
         marginBottom: '30px',
         display: 'flex',
         flexDirection: 'row',
@@ -66,7 +86,17 @@ const useStyles = makeStyles((theme) => ({
       },
       big: {
           backgroundColor: '#4db6ac',
-      }
+      },
+      typography: {
+        fontFamily: 'League-Spartan, Bold',
+      },
+      overrides: {
+        MuiCssBaseline: {
+          '@global': {
+            '@font-face': [league_spartanbold],
+          },
+        },
+      },
   }));
 
 
@@ -98,7 +128,13 @@ const Login = ({onLogin, getLoggedUser, user}) => {
       setOpen(false);
     };
 
+    const theme = {
+        background: "linear-gradient(45deg, green 30%, blue 90%)"
+      };
+
     return (
+        <CssBaseline>
+        <ThemeProvider theme={theme}>
             <Container className={classes.big} maxWidth="xlg" flexDirection="column">
                 <AppBar position="static" className={classes.appBar}>
                     <Toolbar>
@@ -247,6 +283,8 @@ const Login = ({onLogin, getLoggedUser, user}) => {
                         </Grid>
                  </Grid>
         </Container>
+        </ThemeProvider>
+        </CssBaseline>
     )
 }
 
