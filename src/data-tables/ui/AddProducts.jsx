@@ -134,7 +134,7 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
 
                     let quantity = +addMaterial.material_unit_amount
 
-                    if (!addMaterial.material) {
+                    if (!addMaterial.material || addMaterial.material == '') {
                         alert('Please select a material')
                     } else if (isNaN(quantity) || quantity == '') {
                         alert('Please enter a quantity')
