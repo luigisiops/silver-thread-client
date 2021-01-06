@@ -106,7 +106,8 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
 
             //Input materials and quantity into MaterialsList   
             case 1:
-                //STEP 2 -handles selection on material from selection picker
+                //STEP 2 -gets the material details for the selected material from teh selector and adds
+                //to materialToAdd - this is the step prior to adding to the material array
                 const handleMaterialInput = (e) => {
                     let materialItem = e.target.value
 
@@ -121,7 +122,7 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
                     })
                 }
 
-                //inputs quantity of materials
+                //inputs quantity of materials into materialToAdd
                 const handleQuantityInput = (e) => {
                     setMaterialToAdd({
                         ...materialToAdd,
@@ -132,11 +133,11 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
                 //adds material in materialToAdd into the MaterialsArry
                 const addToMaterialList = (addMaterial) => {
 
-                    let quantity = +addMaterial.material_unit_amount
+                    let material_unit_amount = +addMaterial.material_unit_amount
 
                     if (!addMaterial.material || addMaterial.material == '') {
                         alert('Please select a material')
-                    } else if (isNaN(quantity) || quantity == '') {
+                    } else if (isNaN(material_unit_amount) || material_unit_amount == '') {
                         alert('Please enter a quantity')
                     } else {
                         setAddedMaterialsList([...addedMaterialsList,
@@ -148,8 +149,7 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
                         }
                         ])
 
-                        setMaterialToAdd({
-                            material: {},
+                        setMaterialToAdd({                        
                             material_unit_amount: ''
                         })
                     }
@@ -266,13 +266,14 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
 
         //check to make sure inventory is a number
         let quantity = +finalProduct.quantity
+        let quantity_painted_tree = +finalProduct.quantity_painted_tree
 
         if (!finalProduct.retail_price || (!regex.test(retail))) {
             alert('The retail price must be entered in the format X.XX')
-
         } else if (!finalProduct.quantity || isNaN(quantity)) {
             alert('Inventory must be entered as a whole number')
-
+        } else if (!finalProduct.quantity_painted_tree || isNaN(quantity_painted_tree)) {
+            alert('Inventory must be entered as a whole number')        
         } else {
             onAddRetail(finalProduct)
             setReturnedProduct({})
@@ -295,7 +296,7 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
             alert('Please enter a product name')
         } else if (newProduct.category == '') {
             alert('Please enter a category')
-        } else if (isNaN(labor) || labor === '') {
+        } else if (isNaN(labor) || newProduct.labor === '') {
             alert('Please enter the number of minutes required')
         } else {
             setActiveStep((prevActiveStep) => prevActiveStep + 1);

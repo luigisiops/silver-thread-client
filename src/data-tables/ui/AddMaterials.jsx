@@ -27,9 +27,10 @@ const AddMaterials = ({ closeModal, onAddMaterial }) => {
          alert('Please enter the material name')
       } else if (!material.unit_price || isNaN(unit_price)) {
          alert('Price Per Unit must be a number')
-
       } else if (!material.unit === null) {
          alert('Please enter a unit of measure')
+      } else if (!material.category) {
+         alert('Please enter a category')    
       } else {
          onAddMaterial(material)
          closeModal()
