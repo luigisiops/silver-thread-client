@@ -11,6 +11,7 @@ import { onLogin } from '../frameworks/actions';
 import { UserLogin } from '../use-cases/UserLogin'
 import { UserRegister } from '../use-cases/UserRegister'
 
+
 import logo from '../images/logo.png'
 
 const useStyles = makeStyles((theme) => ({
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
       },
   }));
 
-const Register = ({onRegister}) => {
+const ForgotPassword = ({onRegister}) => {
 
     const [fields, setFields] = useState({})
 
@@ -34,7 +35,7 @@ const Register = ({onRegister}) => {
             [evt.target.name]: evt.target.value
         })
     }
-    console.log(fields)
+
     const classes = useStyles();
 
     return (
@@ -46,8 +47,7 @@ const Register = ({onRegister}) => {
             </div>
 
             <div className="register-container">
-            {/* <img className={classes.image} src={logo} alt="logo" height="150" /> */}
-                <h2 className = "login-blurb">Register Here</h2>
+                <h2 className = "login-blurb">Reset Your Password</h2>
                 <div className="login-box">
                     <div className="login-input"><TextField id="outlined-basic" label="First Name" variant="outlined" name = "firstname" onChange = {setField}/></div>
                     <div className="login-input"><TextField id="outlined-basic" label="Last Name" variant="outlined" name = "lastname" onChange = {setField}/></div>
@@ -74,5 +74,4 @@ const mapStateToProps = (state, {materials}) => ({
     onRegister: UserRegister(dispatch)
   })
   
-export default connect(mapStateToProps, mapDispatchToProps)(Register)
-
+export default connect(mapStateToProps, mapDispatchToProps)(ForgotPassword)

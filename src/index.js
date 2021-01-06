@@ -12,6 +12,7 @@ import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
 // import Login from './login/ui/login';
 import './index.css';
 import LeagueSparatanBoldWoff2 from './fonts/leaguespartan-bold-webfont.woff2'
+import ForgotPassword from './login/ui/forgotPassword';
 
 const league_spartanbold = {
   fontFamily: 'League Spartan',
@@ -72,6 +73,9 @@ ReactDOM.render(
         </Route>
         <Route exact path = "/register">
           <Register/>
+        </Route>
+        <Route exact path = "/forgotPassword">
+          <ForgotPassword />
         </Route>
         <Route exact path = "/">
           <App className="App"/>
