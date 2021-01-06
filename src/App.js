@@ -75,52 +75,18 @@ const useStyles = makeStyles((theme) => ({
       fontSize: 10,
     },
   },
-  tabs: {
+  label: {
     [theme.breakpoints.down("sm")]: {
       justifyItems: 'center',
       fontSize: 10,
     },
   },
-  // .MuiTab-root: {
-  //   [theme.breakpoints.down("sm")]: {
-  //     justifyItems: 'center',
-  //     fontSize: 10,
-  //   },
-  // },
   overrides: {
     MuiTabRoot: {
       [theme.breakpoints.down("sm")]: {
         justifyItems: 'center',
         fontSize: 10,
       },
-      },
-    },
-    // overrides: {
-    //   .MuiTab-root: {
-    //     [theme.breakpoints.down("sm")]: {
-    //       justifyItems: 'center',
-    //       fontSize: 10,
-    //     },
-    //     },
-    //   },
-    overrides: {
-      MuiCssBaseline: {
-        '@global': {
-          '.MuiTab-root': {
-            [theme.breakpoints.down("sm")]: {
-              justifyItems: 'center',
-              fontSize: 10,
-            },
-            },        
-          },
-          '@global': {
-            '.MuiTab-wrapper': {
-              [theme.breakpoints.down("sm")]: {
-                justifyItems: 'center',
-                fontSize: 10,
-              },
-              },        
-            },
       },
     },
   }))
@@ -136,17 +102,17 @@ const NavTabs = ({onUserSignOut})=> {
   return (
     <div className={classes.root}>
       <AppBar position="static">
-        <Tabs className={classes.tabs}
+        <Tabs
           variant="fullWidth"
           value={value}
           onChange={handleChange}
           aria-label="nav tabs example"
         >
-          <LinkTab label="Dashboard" href="/dashboard" {...a11yProps(0)} />
-          <LinkTab label="Materials" href="/materials" {...a11yProps(1)} />
-          <LinkTab label="Products" href="/products" {...a11yProps(2)} />
-          <LinkTab label="Sales" href="/sales" {...a11yProps(3)} />
-          <LinkTab label="Logout" href="/login" onClick = {()=>{onUserSignOut()}} {...a11yProps(4)} />
+          <LinkTab label={<span className={classes.label}>Dashboard</span>} href="/dashboard" {...a11yProps(0)} />
+          <LinkTab label={<span className={classes.label}>Materials</span>} href="/materials" {...a11yProps(1)} />
+          <LinkTab label={<span className={classes.label}>Products</span>} href="/products" {...a11yProps(2)} />
+          <LinkTab label={<span className={classes.label}>Sales</span>} href="/sales" {...a11yProps(3)} />
+          <LinkTab label={<span className={classes.label}>Logout</span>} href="/login" onClick = {()=>{onUserSignOut()}} {...a11yProps(4)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>

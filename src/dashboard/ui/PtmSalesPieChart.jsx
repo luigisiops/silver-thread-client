@@ -42,13 +42,6 @@ const useStyles = makeStyles({
     { x: "Bracelets", y: 40 },
     { x: "Earrings", y: 55 }
   ]
-
-//   const data = [
-//     { x: 1, y: 2 },
-//     { x: 2, y: 2 },
-//     { x: 3, y: 3 }
-//   ];
-//   const legendData = [{ name: "Necklaces" }, { name: "Bracelets" }, { name: "Rings" }];
   
 const PtmSalesPieChart = ({getSales, ptmSales}) => {
   const [loaded, setLoaded] = useState(false)
@@ -92,14 +85,8 @@ const PtmSalesPieChart = ({getSales, ptmSales}) => {
                   data={data}
                   colorScale={["#78bfb5", "#f06292", "#b71c1c"]}
                   labelRadius={({ innerRadius }) => innerRadius + 50 }
-                  style={{ labels: { fill: "black", fontWeight: "bold" } }}                // labelPlacement={"perpindicular"}
-                  // labels={({ legendData }) => data.y}
-                  // labelPosition={({ index }) => index
-                  //     ? "centroid"
-                  //     : "startAngle"
-                  // }
+                  style={{ labels: { fill: "black", fontWeight: "bold" } }}
                 />
-                
           </CardContent>
         </Card>
       )
