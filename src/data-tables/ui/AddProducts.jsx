@@ -260,16 +260,15 @@ const AddProducts = ({ onGetMaterials, materials, newReturnedProduct, onAddProdu
     //from onclick in last step add retail price and inventory to the db
     const addRetailPriceToDB = async (finalProduct) => {
 
-        //check to make sure retail price is currency
-        var regex = /^\d+(?:\.\d{0,2})$/;
-        let retail = finalProduct.retail_price
+        //check to make sure retail price is currency        
+        let retail = +finalProduct.retail_price
 
         //check to make sure inventory is a number
         let quantity = +finalProduct.quantity
         let quantity_painted_tree = +finalProduct.quantity_painted_tree
 
-        if (!finalProduct.retail_price || (!regex.test(retail))) {
-            alert('The retail price must be entered in the format X.XX')
+        if (!finalProduct.retail_price || isNaN(retail)) {
+            alert('The retail price must be a number')
         } else if (!finalProduct.quantity || isNaN(quantity)) {
             alert('Inventory must be entered as a whole number')
         } else if (!finalProduct.quantity_painted_tree || isNaN(quantity_painted_tree)) {
