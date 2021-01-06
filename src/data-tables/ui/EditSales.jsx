@@ -132,7 +132,7 @@ const EditSales = (props, { onEditSale }) => {
                     <TextField name='product_category' value={updatedSalesData.product_category} onChange={handleOnChange} id="outlined-basic" label="Category" variant="outlined" />
                 </form>
                 <form className={classes.root} noValidate autoComplete="off">
-                    <TextField name='sold_to' value={updatedSalesData.sold_to} onChange={handleOnChange} id="outlined-basic" label="Sold To" variant="outlined" />
+                    <TextField name='sold_to' value={updatedSalesData.sold_to} onChange={handleOnChange} id="outlined-basic" label="Purchased By" variant="outlined" />
                 </form>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker

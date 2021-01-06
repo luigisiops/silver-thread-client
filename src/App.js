@@ -7,7 +7,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-// import './App.css';
+import './App.css';
 
 
 // Pages
@@ -70,8 +70,60 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
+    [theme.breakpoints.down("sm")]: {
+      justifyItems: 'center',
+      fontSize: 10,
+    },
   },
-}));
+  tabs: {
+    [theme.breakpoints.down("sm")]: {
+      justifyItems: 'center',
+      fontSize: 10,
+    },
+  },
+  // .MuiTab-root: {
+  //   [theme.breakpoints.down("sm")]: {
+  //     justifyItems: 'center',
+  //     fontSize: 10,
+  //   },
+  // },
+  overrides: {
+    MuiTabRoot: {
+      [theme.breakpoints.down("sm")]: {
+        justifyItems: 'center',
+        fontSize: 10,
+      },
+      },
+    },
+    // overrides: {
+    //   .MuiTab-root: {
+    //     [theme.breakpoints.down("sm")]: {
+    //       justifyItems: 'center',
+    //       fontSize: 10,
+    //     },
+    //     },
+    //   },
+    overrides: {
+      MuiCssBaseline: {
+        '@global': {
+          '.MuiTab-root': {
+            [theme.breakpoints.down("sm")]: {
+              justifyItems: 'center',
+              fontSize: 10,
+            },
+            },        
+          },
+          '@global': {
+            '.MuiTab-wrapper': {
+              [theme.breakpoints.down("sm")]: {
+                justifyItems: 'center',
+                fontSize: 10,
+              },
+              },        
+            },
+      },
+    },
+  }))
 
 const NavTabs = ({onUserSignOut})=> {
   const classes = useStyles();
@@ -84,7 +136,7 @@ const NavTabs = ({onUserSignOut})=> {
   return (
     <div className={classes.root}>
       <AppBar position="static">
-        <Tabs
+        <Tabs className={classes.tabs}
           variant="fullWidth"
           value={value}
           onChange={handleChange}

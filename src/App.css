@@ -9,3 +9,15 @@
 .App {
   /* background-color: #eeeeee; */
 }
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 600px) {
+  .MuiTab.wrapper {
+    font-size: 10;
+  }
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 600px) {
+  .MuiTab-root {
+    font-size: 10;
+  }
+}

@@ -31,7 +31,7 @@ const league_spartanbold = {
 const theme = createMuiTheme({
   palette: {
     background: {
-      paper: "#eeeeee"
+      // paper: "#eeeeee"
       // paper: "#bdbdbd"
       // paper: "#616161" // gray
     },

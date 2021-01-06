@@ -29,7 +29,7 @@ const Register = ({onRegister}) => {
                 <h2 className="blurb">Handle your business logic via linked tables and graphical interfaces</h2>
             </div>
 
-            <div className="login-container">
+            <div className="register-container">
                 <h2 className = "login-blurb">Register Here</h2>
                 <div className="login-box">
                     <div className="login-input"><TextField id="outlined-basic" label="First Name" variant="outlined" name = "firstname" onChange = {setField}/></div>
