@@ -11,14 +11,13 @@ export const exportCsv = (allColumns, renderedData) => {
             'Product Number': data.product_number,
             'Product Name': data.product_name,
             'Price Per Unit': data.price_per_unit,
-            'Quantity Sold - Home Inventory': data.quantity,
-            //need to update this to be PTM inventory once added to db
-            'Quantity Sold - PTM Inventory': data.quantity,
+            'Quantity Sold': data.quantity,           
             'Discount %': data.discount,
             'Total Revenue': data.total_price,
             'Tax': data.tax,
             'Shipping': data.shipping,
-            'Category': data.product_category
+            'Category': data.product_category,
+            'Purchased By': data.sold_to
         }
     })
     const ws = XLSX.utils.json_to_sheet(dataList);

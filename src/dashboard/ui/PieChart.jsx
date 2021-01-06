@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { VictoryPie, VictoryChart, VictoryLegend, VictoryLabel } from 'victory';
+import { VictoryPie, VictoryChart, VictoryLegend, VictoryLabel , VictoryContainer} from 'victory';
 
 const data = [
     { x: 1, y: 2 },
@@ -10,14 +10,10 @@ const data = [
   const legendData = [{ name: "Necklaces" }, { name: "Bracelets" }, { name: "Rings" }];
 
 
-const Dashboard = () => {
+const PieChart = () => {
     return (
-      <div>
-        <h1>Silverthread Products Sold</h1>
-        <svg color={"white"} width={500} height={400} style={{ border: "1px solid #ccc", backgroundColor: "white" }}>
-        {/* <h1>Silverthread Prodcuts Sold</h1> */}
-        {/* <div> */}
-        {/* <p>Silverthread Prodcuts Sold</p> */}
+        // <h1>Silverthread Products Sold</h1>
+        <svg width={500} height={400} style={{ border: "1px solid #ccc", backgroundColor: "white" }}>
           <VictoryLegend
             standalone={false}
             colorScale={["#78bfb5", "#f06292", "#b71c1c"]}
@@ -30,9 +26,6 @@ const Dashboard = () => {
             data={legendData}
           />
           <VictoryPie
-        //   titleComponent={"Silverthread Prodcuts Sold"}
-            // title="Silverthread Prodcuts Sold"
-            // name="Silverthread Prodcuts Sold"
             standalone={false}
             width={400}
             height={300}
@@ -45,9 +38,43 @@ const Dashboard = () => {
             data={data}
             labels={() => null}
           />
-          {/* </div> */}
-        </svg>
-        </div>
+          </svg>
+    //   <div>
+    //     <h1>Silverthread Products Sold</h1>
+    //     <svg width={500} height={400} style={{ border: "1px solid #ccc", backgroundColor: "white" }}>
+    //     {/* <h1>Silverthread Prodcuts Sold</h1> */}
+    //     {/* <div> */}
+    //     {/* <p>Silverthread Prodcuts Sold</p> */}
+    //       <VictoryLegend
+    //         standalone={false}
+    //         colorScale={["#78bfb5", "#f06292", "#b71c1c"]}
+    //         x={20}
+    //         y={40}
+    //         gutter={20}
+    //         title="Legend"
+    //         centerTitle
+    //         style={{ border: { stroke: "black" } }}
+    //         data={legendData}
+    //       />
+    //       <VictoryPie
+    //     //   titleComponent={"Silverthread Prodcuts Sold"}
+    //         // title="Silverthread Prodcuts Sold"
+    //         // name="Silverthread Prodcuts Sold"
+    //         standalone={false}
+    //         width={400}
+    //         height={300}
+    //         padding={{
+    //           left: 200,
+    //           bottom: 20,
+    //           top: 100
+    //         }}
+    //         colorScale={["#78bfb5", "#f06292", "#b71c1c"]}
+    //         data={data}
+    //         labels={() => null}
+    //       />
+    //       {/* </div> */}
+    //     </svg>
+    //     </div>
       );
 //     return (
 //         <div>
@@ -82,7 +109,7 @@ const Dashboard = () => {
     // )
 }
 
-export default Dashboard
+export default PieChart
 
 
 // import * as React from 'react';
