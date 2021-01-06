@@ -129,8 +129,8 @@ const Login = ({onLogin, getLoggedUser, user}) => {
     };
 
     const theme = {
-        background: "linear-gradient(45deg, green 30%, blue 90%)"
-      };
+
+    };
 
     return (
         <CssBaseline>
@@ -162,6 +162,7 @@ const Login = ({onLogin, getLoggedUser, user}) => {
                                             <div className="login-input"><TextField id="outlined-basic" label="Username" variant="outlined" name = "username" onChange = {setField}/></div>
                                             <div className="login-input"><TextField id="outlined-basic" label="Password" variant="outlined" type = "password" name = "password" onChange = {setField}/></div>
                                             <div>Not a user? <NavLink to="/register"> Register</NavLink> and get permission from a moderator!</div>
+                                            <div>Forgot password? Click <NavLink to="/forgotPassword"> Forgot Password</NavLink> to reset your password!</div>
                                             <div className = "button-container">
                                             <Button onClick = {()=>onLogin(fields)}className ="login-button"variant="outlined">Login</Button>
                                             {Object.keys(user).length>0 ? <Redirect to="/"/> : <div></div>}

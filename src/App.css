@@ -6,9 +6,9 @@
   font-style: normal;
 } */
 
-.App {
-  /* background-color: #eeeeee; */
-}
+/* .App {
+  background-color: #eeeeee;
+} */
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 600px) {
   .MuiTab.wrapper {
