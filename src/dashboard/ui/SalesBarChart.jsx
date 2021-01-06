@@ -70,10 +70,16 @@ const SalesBarChart = ({productSales, getSales}) => {
           duration: 500,
           onLoad: { duration: 200 }
         }}
-        domainPadding={{ x: 15 }}
+        domainPadding={{ x: 10 }}
         theme={VictoryTheme.material}
       >
-     
+      <VictoryAxis dependentAxis
+        //  fixLabelOverlap 
+        />
+        <VictoryAxis 
+         style={{tickLabels: { angle: 30 }}}
+        //  fixLabelOverlap 
+        />
         <VictoryBar
           barRatio={0.8}
           style={{ data: { fill: "#01579b" } }}

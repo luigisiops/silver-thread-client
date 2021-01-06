@@ -11,7 +11,6 @@ import Fade from '@material-ui/core/Fade';
 import { Container, AppBar, Grid, Card, CardMedia, ThemeProvider, CssBaseline } from '@material-ui/core';
 import LeagueSparatanBoldWoff2 from '../../fonts/leaguespartan-bold-webfont.woff2'
 
-
 import "./login.css"
 import { onLogin } from '../frameworks/actions';
 import { UserLogin } from '../use-cases/UserLogin'

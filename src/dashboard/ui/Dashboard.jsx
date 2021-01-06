@@ -56,22 +56,27 @@ const useStyles = makeStyles((theme) => ({
 const Dashboard = () => {
     const classes = useStyles();
     const theme = useTheme();
-
-  return (
-    <Container maxWidth="xlg">
-          <Container maxWidth="50%">
-              <Grid container className={classes.mainContainer} justify="space-evenly" alignItems="stretch" spacing={3}>
-                  <Grid container item xs={12} sm={5} lg={20}>
-                      <BarChart2/>
-                  </Grid>
+/* 
                   <Grid container item xs={12} sm={5} lg={20}>
                       <PieChart2/>
                   </Grid>
                   <Grid container item xs={12} sm={5} lg={20}>
                       <SalesBarChart/>
                   </Grid>
+*/
+  return (
+    <Container maxWidth="xlg">
+          <Container maxWidth="50%">
+              <Grid container className={classes.mainContainer} justify="space-evenly" alignItems="stretch" spacing={3}>
+
                   <Grid container item xs={12} sm={5} lg={20}>
                       <PtmSalesPieChart/>
+                  </Grid>
+                  <Grid container item xs={12} sm={5} lg={20}>
+                      <PieChart2/>
+                  </Grid>
+                  <Grid container item xs={12} sm={5} lg={20}>
+                      <SalesBarChart/>
                   </Grid>
               </Grid>
           </Container>
