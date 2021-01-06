@@ -95,8 +95,6 @@ const MaterialsTable = ({
          <h1>Silverthread Materials </h1>
          <Popover
             open={open}
-            anchorReference="anchorPosition"
-            anchorPosition={{ top: 200, left: 960 }}
             anchorOrigin={{
                vertical: "center",
                horizontal: "center",
@@ -111,8 +109,6 @@ const MaterialsTable = ({
 
          <Popover
             open={openEdit}
-            anchorReference="anchorPosition"
-            anchorPosition={{ top: 200, left: 960 }}
             anchorOrigin={{
                vertical: "center",
                horizontal: "center",
