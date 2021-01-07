@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 /* @import url('https://fonts.googleapis.com/css2?family=Spartan:wght@300;400;500;600;700;800;900&display=swap'); */
 html{
   background-color: #4db6ac;
 }
+=======
+:root {
+  background-color: '#4db6ac';
+}
+
+>>>>>>> 69d18ffeeafe46f99e50f7c2f6c065034f197c5e
 body {
   background-color: #eeeeee;
   /* background-color: '#4db6ac'; */

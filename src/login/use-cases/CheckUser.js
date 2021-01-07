@@ -19,7 +19,7 @@ export const CheckUser = (dispatch) => async(
          success.user = {}
       }
       
-      return dispatch(getLoggedUser(success.user))
+      return dispatch(getLoggedUser(success))
 }
 
 export default CheckUser
