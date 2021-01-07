@@ -97,6 +97,7 @@ const useStyles = makeStyles((theme) => ({
 const Login = ({onLogin, getLoggedUser, user}) => {
 
     const [fields, setFields] = useState({})
+    const [loginVal, setLoginVal] = useState(false)
 
     const setField = (evt) => {
         setFields({
@@ -108,7 +109,6 @@ const Login = ({onLogin, getLoggedUser, user}) => {
     useEffect(() => {
         getLoggedUser()
     },[])
-    console.log(fields)
 
     const classes = useStyles();
     
@@ -120,7 +120,13 @@ const Login = ({onLogin, getLoggedUser, user}) => {
   
     const handleClose = () => {
       setOpen(false);
+      setLoginVal(false)
     };
+    const onHandleLoginValidation = () => {
+      if(user.auth === false){
+        setLoginVal(true)        
+      }
+    }
 
     const theme = {
 
@@ -154,11 +160,19 @@ const Login = ({onLogin, getLoggedUser, user}) => {
                                         <div className="login-box">
                                             <div className="login-input"><TextField id="outlined-basic" label="Username" variant="outlined" name = "username" onChange = {setField}/></div>
                                             <div className="login-input"><TextField id="outlined-basic" label="Password" variant="outlined" type = "password" name = "password" onChange = {setField}/></div>
+                                            {loginVal === true ?
+                                              <div className = "login-error">{user.message}</div>
+                                              :
+                                              <div></div>
+                                            }
                                             <div>Not a user? <NavLink to="/register"> Register</NavLink> and get permission from a moderator!</div>
                                             <div>Forgot password? Click <NavLink to="/forgotPassword"> Forgot Password</NavLink> to reset your password!</div>
                                             <div className = "button-container">
-                                            <Button onClick = {()=>onLogin(fields)}className ="login-button"variant="outlined">Login</Button>
-                                            {Object.keys(user).length>0 ? <Redirect to="/"/> : <div></div>}
+                                            <Button onClick = {()=>
+                                              {
+                                              onHandleLoginValidation()
+                                              onLogin(fields)}} className ="login-button"variant="outlined">Login</Button>
+                                            {user.auth === true ? <Redirect to="/"/> : <div></div>}
                                             </div>
                                         </div>
                                     </div>

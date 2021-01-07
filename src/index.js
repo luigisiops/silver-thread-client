@@ -7,12 +7,13 @@ import Register from './login/ui/register';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from "react-redux"
 import store from "./common/redux/store"
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Redirect} from 'react-router-dom'
 import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
 // import Login from './login/ui/login';
 import './index.css';
 import LeagueSparatanBoldWoff2 from './fonts/leaguespartan-bold-webfont.woff2'
 import ForgotPassword from './login/ui/forgotPassword';
+import requireAuth from './login/use-cases/requireAuth'
 
 const league_spartanbold = {
   fontFamily: 'League Spartan',
@@ -61,6 +62,7 @@ const theme = createMuiTheme({
       },
 });
 
+const token = localStorage.getItem('token')
 
 ReactDOM.render(
   <React.StrictMode>
@@ -74,12 +76,10 @@ ReactDOM.render(
         <Route exact path = "/register">
           <Register/>
         </Route>
-        <Route exact path = "/forgotPassword">
+        <Route path = "/password-reset/:userId/:token">
           <ForgotPassword />
         </Route>
-        <Route exact path = "/">
-          <App className="App"/>
-        </Route>
+        <Route exact path = "/" component = {requireAuth(App)}/>
       </ThemeProvider>
     </Router>
     </Provider>

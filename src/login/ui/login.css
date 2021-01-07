@@ -52,6 +52,11 @@ body {
   background-color: white;
 }
 
+.login-error {
+  text-align: center;
+  color:red
+}
+
 .left-container {
   display: flex;
   flex-direction: column;
