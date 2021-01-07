@@ -52,7 +52,6 @@ const Dashboard = ({getLoggedUser}) => {
     const classes = useStyles();
     const theme = useTheme();
 
-<<<<<<< HEAD
     useEffect(() => {
       getLoggedUser()
       },[])
@@ -64,8 +63,6 @@ const Dashboard = ({getLoggedUser}) => {
                       <SalesBarChart/>
                   </Grid>
 */
-=======
->>>>>>> c87f5ac8e4e53eba3d9ee19fa017d82e71e7b3bb
   return (
     <Container maxWidth="xlg">
           <Container maxWidth="50%">
