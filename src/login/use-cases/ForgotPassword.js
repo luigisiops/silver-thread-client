@@ -20,7 +20,7 @@ export const ResetPassword = (dispatch) => async(
          password: fields.password
       }
       //need to await on parsing response to javascript objects from json
-      const response = await fetch(`http://localhost:8000/login`, {
+      const response = await fetch(`${url}login`, {
          method: "POST",
          headers: {
             "Content-Type": "application/json",

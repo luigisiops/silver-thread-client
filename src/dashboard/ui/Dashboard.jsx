@@ -16,24 +16,10 @@ import { CheckUser } from '../../login/use-cases/CheckUser'
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        // display: "flex",
-        // minHeight: 800,
-        // minWidth: 400,
-        // width: 500,
-    //   minWidth: 275,
       backgroundColor: "white",
-    //   justifyContent: "center"
-    maxWidth: 500,
-    minWidth: 300,
+      maxWidth: 500,
+      minWidth: 300,
     },
-    // bullet: {
-    //   display: 'inline-block',
-    //   margin: '0 2px',
-    //   transform: 'scale(0.8)',
-    // },
-    // title: {
-    //   fontSize: 14,
-    // },
     pos: {
       marginBottom: 12,
     },

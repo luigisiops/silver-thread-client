@@ -113,6 +113,14 @@ const MaterialsTable = ({
       content: {
          flex: '1 0 auto',
        },
+       overrides: {
+         '.MuiTypography-h3': {
+           [theme.breakpoints.down("sm")]: {
+             justifyItems: 'center',
+             fontSize: 10,
+           },
+         },
+      },
   }));
 
   const classes = useStyles();
@@ -124,7 +132,7 @@ const MaterialsTable = ({
          <Grid item xs={6} sm={3}>
             <Card className={classes.card} alignItems="center" justifyItems="center">
                <CardContent className={classes.content}>
-               <Typography overflow="hidden" variant="h3" align="center"><b>Materials</b></Typography>
+               <Typography overflow="hidden" variant="h3" align="center"><b className={classes.typo}>Materials</b></Typography>
                </CardContent>
             </Card>
             </Grid>

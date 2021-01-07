@@ -14,14 +14,6 @@ const useStyles = makeStyles({
       minWidth: 275,
       backgroundColor: "white"
     },
-    // bullet: {
-    //   display: 'inline-block',
-    //   margin: '0 2px',
-    //   transform: 'scale(0.8)',
-    // },
-    // title: {
-    //   fontSize: 14,
-    // },
     pos: {
       marginBottom: 12,
     },
@@ -45,7 +37,6 @@ const SalesBarChart = ({productSales, getSales}) => {
  })
 
     const classes = useStyles();
-    // const bull = <span className={classes.bullet}>•</span>;
     useEffect(() => {  
       getSales(selectedDate)
     }, [])
@@ -62,7 +53,6 @@ const SalesBarChart = ({productSales, getSales}) => {
         <CardContent>
         <Typography variant="h4" component="h2">
             Silverthread Designs Sales By Category (Last 90 Days)
-            {/* be{bull}nev{bull}o{bull}lent */}
           </Typography>
         <VictoryChart
         responsive={false}
@@ -86,24 +76,7 @@ const SalesBarChart = ({productSales, getSales}) => {
           data={data}
         />
       </VictoryChart>
-          {/* <Typography className={classes.title} color="textSecondary" gutterBottom>
-            Word of the Day
-          </Typography>
-          <Typography variant="h5" component="h2">
-            be{bull}nev{bull}o{bull}lent
-          </Typography>
-          <Typography className={classes.pos} color="textSecondary">
-            adjective
-          </Typography>
-          <Typography variant="body2" component="p">
-            well meaning and kindly.
-            <br />
-            {'"a benevolent smile"'}
-          </Typography> */}
         </CardContent>
-        {/* <CardActions>
-          <Button size="small">Learn More</Button>
-        </CardActions> */}
       </Card>
     )
       }

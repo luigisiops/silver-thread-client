@@ -10,31 +10,12 @@ import { GetSales } from '../../data-tables/use-cases/getSales'
 
 const useStyles = makeStyles({
     root: {
-        // display: "flex",
-        // minHeight: 800,
-        // minWidth: 400,
-        // width: 500,
-    //   minWidth: 275,
-    maxWidth: 500,
+      maxWidth: 500,
       backgroundColor: "white",
-    //   justifyContent: "center"
     },
-    // bullet: {
-    //   display: 'inline-block',
-    //   margin: '0 2px',
-    //   transform: 'scale(0.8)',
-    // },
-    // title: {
-    //   fontSize: 14,
-    // },
     pos: {
       marginBottom: 12,
     },
-    pita: {
-        // display: "flex",
-        // marginLeft: 35,
-        // margin: (0, 'auto'),
-    }
   });
 
   const data = [
@@ -79,7 +60,6 @@ const PtmSalesPieChart = ({getSales, ptmSales}) => {
             <CardContent>
                 <Typography variant="h4" component="h2">
                     Silverthread Designs PTM Sales vs Others (Past 90)
-                    {/* be{bull}nev{bull}o{bull}lent */}
                 </Typography>
                 <VictoryPie
                   data={data}
