@@ -1,9 +1,11 @@
 import { onUpdateWholesale } from "../framework/actions"
 
+const url = 'https://safe-wildwood-02569.herokuapp.com/'
+
 export const UpdateWholesale = (dispatch) => async (
     editedProduct
 ) => {
-    const response = await fetch('http://localhost:8000/update-wholesale', {
+    const response = await fetch(`${url}update-wholesale`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",

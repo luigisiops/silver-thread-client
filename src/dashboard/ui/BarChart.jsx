@@ -28,7 +28,7 @@ const BarChart = () => {
         <VictoryAxis />
         <VictoryBar
           barRatio={1}
-          cornerRadius={0} // Having this be a non-zero number looks good when it isn't transitioning, but looks like garbage when it is....
+          cornerRadius={0}
           style={{ data: { fill: "#6DB65B" } }}
           alignment="middle"
           labels={d => d.y}
@@ -42,15 +42,6 @@ const BarChart = () => {
         />
       </VictoryChart>
     </div>
-         /* <svg color={"white"} width={500} height={400} style={{ border: "1px solid #ccc", backgroundColor: "white" }}>
-         <VictoryChart>
-         <VictoryBar
-          data={data}
-          x="quarter"
-          y="earnings"
-        />
-      </VictoryChart>
-      </svg> */
     )
 }
 

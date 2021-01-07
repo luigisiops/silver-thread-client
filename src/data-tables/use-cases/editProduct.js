@@ -1,9 +1,12 @@
 import { onEditProduct } from "../framework/actions"
 
+const url = 'https://safe-wildwood-02569.herokuapp.com/'
+
+
 export const EditProductDetails = (dispatch) => async (
     editedProduct
 ) => {
-    const response = await fetch('http://localhost:8000/edit-product', {
+    const response = await fetch(`${url}edit-product`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",

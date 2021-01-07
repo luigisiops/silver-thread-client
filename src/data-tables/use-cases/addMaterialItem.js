@@ -1,9 +1,11 @@
 import {onAddNewMaterial} from "../framework/actions"
 
+const url = 'https://safe-wildwood-02569.herokuapp.com/'
+
 export const AddNewMaterial = (dispatch) => async(
     newMaterial,
 ) => {        
-    const response = await fetch(`http://localhost:8000/materialByProdNums/add-material`, {
+    const response = await fetch(`${url}materialByProdNums/add-material`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

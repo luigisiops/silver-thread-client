@@ -1,9 +1,12 @@
 import { onAddProduct } from "../framework/actions"
 
+const url = 'https://safe-wildwood-02569.herokuapp.com/'
+
+
 export const AddProduct = (dispatch) => async (
     newProduct
 ) => {
-    const response = await fetch(`http://localhost:8000/products`, {
+    const response = await fetch(`${url}products`, {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",
