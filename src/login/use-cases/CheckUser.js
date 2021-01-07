@@ -1,11 +1,13 @@
 import {getLoggedUser} from "../frameworks/actions"
 
+const url = 'https://safe-wildwood-02569.herokuapp.com/'
+
 export const CheckUser = (dispatch) => async(
     user
 ) => {
    // first we call a fetch request to update our backend because the backend is the source of truth for our global state
    
-      const response = await fetch(`http://localhost:8000/login/isUserAuth`, {
+      const response = await fetch(`${url}login/isUserAuth`, {
          method: "GET",
          headers: {
             "x-access-token": localStorage.getItem("token"),

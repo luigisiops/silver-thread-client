@@ -6,7 +6,7 @@ export const EditSale = (dispatch) => async(
 ) => {
     
     // first we call a fetch request to update our backend because the backend is the source of truth for our global state
-    const response = await fetch(`http://localhost:8000/sales/${saleEdits.original.id}/updateASale`, {
+    const response = await fetch(`${url}sales/${saleEdits.original.id}/updateASale`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',

@@ -1,10 +1,12 @@
 import { onLogin } from "../frameworks/actions"
 
+const url = 'https://safe-wildwood-02569.herokuapp.com/'
+
 export const ResetPassword = (dispatch) => async(
     fields
 ) => {
    // first we call a fetch request to update our backend because the backend is the source of truth for our global state
-      const user = await fetch(`http://localhost:8000/password-reset/update-password`, {
+      const user = await fetch(`${url}password-reset/update-password`, {
          method: "PUT",
          headers: {
             "Content-Type": "application/json",

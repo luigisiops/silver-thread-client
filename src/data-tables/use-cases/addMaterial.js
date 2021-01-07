@@ -1,6 +1,7 @@
 
 import {onAddMaterial} from "../framework/actions"
 
+const url = 'https://safe-wildwood-02569.herokuapp.com/'
 
 // This is a usecase for getting the list of materials
 export const AddMaterial = (dispatch) => async(
@@ -8,7 +9,7 @@ export const AddMaterial = (dispatch) => async(
 ) => {    
     const newMaterial = fields
     // first we call a fetch request to update our backend because the backend is the source of truth for our global state
-    const response = await fetch(`http://localhost:8000/materials`, {
+    const response = await fetch(`${url}materials`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

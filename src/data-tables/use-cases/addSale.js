@@ -1,6 +1,8 @@
 import { onAddSale } from "../framework/actions"
 import { Popover } from '@material-ui/core';
 
+const url = 'https://safe-wildwood-02569.herokuapp.com/'
+
 //This is a usecase for getting the list of sales
 export const AddSale = (dispatch) => async (fields) => {
    
@@ -23,7 +25,7 @@ export const AddSale = (dispatch) => async (fields) => {
    // first we call a fetch request to update our backend because the backend is the source of truth for our global state
    try {
       // console.log(newSale)
-      const response = await fetch(`http://localhost:8000/sales/addNewSale`, {
+      const response = await fetch(`${url}sales/addNewSale`, {
          method: "POST",
          headers: {
             "Content-Type": "application/json",

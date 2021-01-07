@@ -1,11 +1,14 @@
 import { onLogin } from "../frameworks/actions"
 
+const url = 'https://safe-wildwood-02569.herokuapp.com/'
+
+
 export const UserRegister = (dispatch) => async(
     user
 ) => {
    // first we call a fetch request to update our backend because the backend is the source of truth for our global state
    
-      const response = await fetch(`http://localhost:8000/register`, {
+      const response = await fetch(`${url}register`, {
          method: "POST",
          headers: {
             "Content-Type": "application/json",

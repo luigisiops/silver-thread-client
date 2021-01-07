@@ -1,11 +1,14 @@
 import { onGetProductByID } from "../framework/actions"
 
+const url = 'https://safe-wildwood-02569.herokuapp.com/'
+
+
 export const GetProductByID = (dispatch) => async (
     productID,
 ) => {
 
     // first we call a fetch request to update our backend because the backend is the source of truth for our global state
-    const response = await fetch(`http://localhost:8000/edit-product/${productID}`, {
+    const response = await fetch(`${url}edit-product/${productID}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
