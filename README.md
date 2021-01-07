@@ -56,8 +56,8 @@ Server Side:
 ```
 
 ## Github Links
-Client: https://github.com/luigisiops/silver-thread-client
-Server: https://github.com/luigisiops/silver-thread-api
+Client: https://github.com/luigisiops/silver-thread-client  
+Server: https://github.com/luigisiops/silver-thread-api  
 
 
 
