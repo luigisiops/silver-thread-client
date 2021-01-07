@@ -25,7 +25,7 @@ Silverthread Inventory Management uses a number of powerful JS libraries and too
 
 Client Side:
 ```sh
-* Deployed using Netlify
+* Deployed using Surge
 * React
 * Redux
 * React Router DOM 
@@ -33,11 +33,11 @@ Client Side:
 * Material UI
 * Material Table
 * Victory
-* DevExpress React Chart
 * Date-io
 * d3-scale-chromatic
 * File Saver
 * XLSX
+* JSON Web Token 
 ```
 
 Server Side:
