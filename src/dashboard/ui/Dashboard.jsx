@@ -7,8 +7,12 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 
 //Pages
-
+import PieChart from './PieChart'
+import BarChart from './BarChart'
+import BarChart2 from './BarChart2'
 import PieChart2 from './PieChart2'
+import LineGraph from './LineGraph';
+import SalesPieChart from './SalesPieChart'
 import PtmSalesPieChart from './PtmSalesPieChart'
 import SalesBarChart from './SalesBarChart'
 
@@ -48,17 +52,6 @@ const Dashboard = ({getLoggedUser}) => {
     const classes = useStyles();
     const theme = useTheme();
 
-    useEffect(() => {
-      getLoggedUser()
-      },[])
-/* 
-                  <Grid container item xs={12} sm={5} lg={20}>
-                      <PieChart2/>
-                  </Grid>
-                  <Grid container item xs={12} sm={5} lg={20}>
-                      <SalesBarChart/>
-                  </Grid>
-*/
   return (
     <Container maxWidth="xlg">
           <Container maxWidth="50%">
