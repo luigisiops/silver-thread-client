@@ -1,6 +1,6 @@
 
 
-# Silverthread Inventory and Sales Management 
+# Silverthread Designs Inventory and Sales Management System
 Silverthread Inventory Management solves the problems of Microsoft Excel. We attempted to make our app much easier to input, edit, delete, or just simply view information related to our client's silversmithing business. 
 
 ## Inspiration
