@@ -26,7 +26,6 @@ export const UserLogin = (dispatch) => async(
            }
   
         localStorage.setItem("token", success.token)
-        console.log(localUser)
   
         //pass into our action as a payload and we dispatch it
         return dispatch(onLogin(localUser))

@@ -11,7 +11,6 @@ export const ResetPassword = (dispatch) => async(
          },
          body: JSON.stringify(fields),
       })
-      console.log(user)
       const data = await user.json()
 
       const loginInfo = {
@@ -29,10 +28,8 @@ export const ResetPassword = (dispatch) => async(
 
       //need to await on parsing response to javascript objects from json
       const success = await response.json()
-      console.log(success)
 
       localStorage.setItem("token", success.token)
-      console.log(success)
 
       //pass into our action as a payload and we dispatch it
       return dispatch(onLogin(success))
