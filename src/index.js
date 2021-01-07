@@ -13,6 +13,7 @@ import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
 import './index.css';
 import LeagueSparatanBoldWoff2 from './fonts/leaguespartan-bold-webfont.woff2'
 import ForgotPassword from './login/ui/forgotPassword';
+import ForgotPasswordEmail from './login/ui/forgotPasswordEmail'
 import requireAuth from './login/use-cases/requireAuth'
 
 const league_spartanbold = {
@@ -75,6 +76,9 @@ ReactDOM.render(
         </Route>
         <Route exact path = "/register">
           <Register/>
+        </Route>
+        <Route path = "/password-reset/email">
+          <ForgotPasswordEmail />
         </Route>
         <Route path = "/password-reset/:userId/:token">
           <ForgotPassword />

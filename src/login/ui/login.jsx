@@ -166,7 +166,7 @@ const Login = ({onLogin, getLoggedUser, user}) => {
                                               <div></div>
                                             }
                                             <div>Not a user? <NavLink to="/register"> Register</NavLink> and get permission from a moderator!</div>
-                                            <div>Forgot password? Click <NavLink to="/forgotPassword"> Forgot Password</NavLink> to reset your password!</div>
+                                            <div>Forgot password? Click <NavLink to="/password-reset/email"> Forgot Password</NavLink> to reset your password!</div>
                                             <div className = "button-container">
                                             <Button onClick = {()=>
                                               {
