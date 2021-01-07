@@ -1,5 +1,8 @@
 import {onEditSale} from "../framework/actions"
 
+const url = 'https://safe-wildwood-02569.herokuapp.com/'
+
+
 //This is a usecase for getting the list of sales
 export const EditSale = (dispatch) => async(
     saleEdits, 
