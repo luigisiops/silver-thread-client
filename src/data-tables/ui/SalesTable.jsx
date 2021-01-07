@@ -15,6 +15,8 @@ import Button from "@material-ui/core/Button"
 import { makeStyles } from "@material-ui/core/styles"
 import HighlightOffIcon from "@material-ui/icons/HighlightOff"
 import IconButton from "@material-ui/core/IconButton"
+import { Container, AppBar, Card, CardMedia, CardContent } from '@material-ui/core';
+import { Typography } from "@material-ui/core"
 
 import "./SalesTable.css"
 import AddSales from "./AddSales"
@@ -30,6 +32,20 @@ const useStyles = makeStyles((theme) => ({
          margin: theme.spacing(1),
       },
    },
+   imageContainer: {
+      verticalAlign: 'middle',
+      alignItems: 'center',
+   },
+    card: {
+       marginBottom: 20,
+       display: 'flex',
+       alignItems: 'center',
+       backgroundColor: "#eeeeee",
+      width: 300,
+    },
+   content: {
+      flex: '1 0 auto',
+    },
 }))
 
 const SalesTable = ({
@@ -113,7 +129,7 @@ const SalesTable = ({
 
    const AddSalesModal = ({ closeAddModal }) => {
       return (
-         <div className="editSalesModal">
+         <div className="addSalesModal">
             <div className="closeIconButton">
                <IconButton variant="contained" onClick={() => closeAddModal()}>
                   <HighlightOffIcon />
@@ -152,10 +168,19 @@ const SalesTable = ({
 
    return (
       <div className="salesContainer">
-         <h1>Silverthread Sales </h1>
+         <div className="imageContainer" className={classes.imageContainer}>
+         <Grid container flexGrow={1} justify="space-between" alignItems="center" spacing={3} justify="center" flexDirection="row">
+         <Grid item xs={6} sm={3}>
+            <Card className={classes.card} alignItems="center" justifyItems="center">
+               <CardContent className={classes.content}>
+               <Typography overflow="hidden" variant="h3" align="center"><b>Sales</b></Typography>
+               </CardContent>
+            </Card>
+            </Grid>
+                 </Grid>
+         </div>
          <div className="datePickerContainer">
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
-               {/* <Grid container justify="space-around" style={{backgroundColor:'#FFFFFF'}}> */}
                <Grid
                   container
                   justify="space-evenly"
@@ -208,7 +233,7 @@ const SalesTable = ({
          <Popover
             open={openAdd}
             anchorOrigin={{
-               vertical: "center",
+               vertical: "top",
                horizontal: "center",
             }}
             transformOrigin={{
@@ -222,7 +247,7 @@ const SalesTable = ({
          <Popover
             open={openEdit}
             anchorOrigin={{
-               vertical: "center",
+               vertical: "top",
                horizontal: "center",
             }}
             transformOrigin={{
