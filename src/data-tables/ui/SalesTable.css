@@ -11,3 +11,10 @@
 span.MuiButtonBase-root.MuiTableSortLabel-root {
   color: white !important;
 }
+
+.addSalesModal {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 50px;
+}

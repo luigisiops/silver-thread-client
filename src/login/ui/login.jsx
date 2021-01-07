@@ -195,7 +195,7 @@ const Login = ({onLogin, getLoggedUser, user}) => {
                                 <CardMedia
                                 className={classes.media}
                                 image={ST_4}
-                                title="Drop Earrings"
+                                title="Reticulated Silver Bracelet"
                                 />
                             </Card>
                         </Grid>

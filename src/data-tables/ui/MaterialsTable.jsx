@@ -12,6 +12,14 @@ import Popover from "@material-ui/core/Popover"
 import HighlightOffIcon from "@material-ui/icons/HighlightOff"
 import IconButton from "@material-ui/core/IconButton"
 import { exportCsv } from "../use-cases/excelMaterialsReports"
+import { makeStyles } from '@material-ui/core/styles';
+import { Container, AppBar, Grid, Card, CardMedia, ThemeProvider, CssBaseline, CardContent } from '@material-ui/core';
+
+
+
+import logo from '../../login/images/logo.png'
+import { Typography } from "@material-ui/core"
+
 
 const AddMaterialModal = ({ closeModal }) => {
    return (
@@ -90,13 +98,42 @@ const MaterialsTable = ({
       { title: "Category", field: "category", align: "left" },
    ]
 
+   const useStyles = makeStyles((theme) => ({
+      imageContainer: {
+         verticalAlign: 'middle',
+         alignItems: 'center',
+      },
+       card: {
+          marginBottom: 20,
+          display: 'flex',
+          alignItems: 'center',
+          backgroundColor: "#eeeeee",
+         width: 300,
+       },
+      content: {
+         flex: '1 0 auto',
+       },
+  }));
+
+  const classes = useStyles();
+
    return (
       <div className="materialsContainer">
-         <h1>Silverthread Materials </h1>
+         <div className="imageContainer" className={classes.imageContainer}>
+         <Grid container flexGrow={1} justify="space-between" alignItems="center" spacing={3} justify="center" flexDirection="row">
+         <Grid item xs={6} sm={3}>
+            <Card className={classes.card} alignItems="center" justifyItems="center">
+               <CardContent className={classes.content}>
+               <Typography overflow="hidden" variant="h3" align="center"><b>Materials</b></Typography>
+               </CardContent>
+            </Card>
+            </Grid>
+                 </Grid>
+         </div>
          <Popover
             open={open}
             anchorOrigin={{
-               vertical: "center",
+               vertical: "top",
                horizontal: "center",
             }}
             transformOrigin={{
@@ -110,7 +147,7 @@ const MaterialsTable = ({
          <Popover
             open={openEdit}
             anchorOrigin={{
-               vertical: "center",
+               vertical: "top",
                horizontal: "center",
             }}
             transformOrigin={{
