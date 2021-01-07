@@ -1,4 +1,6 @@
-import React from 'react'
+import React, {useEffect} from 'react'
+import { connect } from "react-redux"
+
 import './Dashboard.css';
 import { Container, AppBar, Typography, Grow, Grid, GridList } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -14,6 +16,7 @@ import SalesPieChart from './SalesPieChart'
 import PtmSalesPieChart from './PtmSalesPieChart'
 import SalesBarChart from './SalesBarChart'
 
+import { CheckUser } from '../../login/use-cases/CheckUser' 
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -53,9 +56,13 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-const Dashboard = () => {
+const Dashboard = ({getLoggedUser}) => {
     const classes = useStyles();
     const theme = useTheme();
+
+    useEffect(() => {
+      getLoggedUser()
+      },[])
 /* 
                   <Grid container item xs={12} sm={5} lg={20}>
                       <PieChart2/>
@@ -84,4 +91,12 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+const mapStateToProps = (state) => ({
+  user: state.login.currentUser,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getLoggedUser: CheckUser(dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

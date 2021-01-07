@@ -7,7 +7,7 @@ import Register from './login/ui/register';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from "react-redux"
 import store from "./common/redux/store"
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Redirect} from 'react-router-dom'
 import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
 // import Login from './login/ui/login';
 import './index.css';
@@ -74,7 +74,7 @@ ReactDOM.render(
         <Route exact path = "/register">
           <Register/>
         </Route>
-        <Route exact path = "/forgotPassword">
+        <Route path = "/password-reset/:userId/:token">
           <ForgotPassword />
         </Route>
         <Route exact path = "/">

@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { connect } from "react-redux"
-import { NavLink } from "react-router-dom"
+import { NavLink, useParams } from "react-router-dom"
 import { makeStyles } from '@material-ui/core/styles';
 
 
 import "./login.css"
 import { onLogin } from '../frameworks/actions';
 import { UserLogin } from '../use-cases/UserLogin'
-import { UserRegister } from '../use-cases/UserRegister'
+import { CheckUser } from '../use-cases/CheckUser'
+import {ResetPassword} from '../use-cases/ForgotPassword'
 
 
 import logo from '../images/logo.png'
@@ -25,9 +26,9 @@ const useStyles = makeStyles((theme) => ({
       },
   }));
 
-const ForgotPassword = ({onRegister}) => {
-
-    const [fields, setFields] = useState({})
+const ForgotPassword = ({onLogin, getLoggedUser, user, onResetPassword}) => {
+    const userId = parseInt(useParams().userId)
+    const [fields, setFields] = useState({userId: userId})
 
     const setField = (evt) => {
         setFields({
@@ -35,6 +36,7 @@ const ForgotPassword = ({onRegister}) => {
             [evt.target.name]: evt.target.value
         })
     }
+    console.log(fields)
 
     const classes = useStyles();
 
@@ -49,14 +51,11 @@ const ForgotPassword = ({onRegister}) => {
             <div className="register-container">
                 <h2 className = "login-blurb">Reset Your Password</h2>
                 <div className="login-box">
-                    <div className="login-input"><TextField id="outlined-basic" label="First Name" variant="outlined" name = "firstname" onChange = {setField}/></div>
-                    <div className="login-input"><TextField id="outlined-basic" label="Last Name" variant="outlined" name = "lastname" onChange = {setField}/></div>
-                    <div className="login-input"><TextField id="outlined-basic" label="Username" variant="outlined" name = "username" onChange = {setField}/></div>
-                    <div className="login-input"><TextField id="outlined-basic" label="Password" variant="outlined" name = "password" type = "password" onChange = {setField}/></div>
-                    <div className="login-input"><TextField id="outlined-basic" label="Email" variant="outlined" name = "email" type = "email" onChange = {setField}/></div>
+                  
+                    <div className="login-input"><TextField id="outlined-basic" label="New Password" variant="outlined" name = "password" type = "password" onChange = {setField} required/></div>
                     <div className = "button-container">
-                        <NavLink to= "/login">
-                            <Button className ="login-button" variant="outlined" onClick = {() => {onRegister(fields)}}>Login</Button>
+                        <NavLink to= "/">
+                            <Button className ="login-button" variant="outlined" onClick = {() => {onResetPassword(fields)}}>Login</Button>
                         </NavLink>
                         
                     </div>
@@ -66,12 +65,14 @@ const ForgotPassword = ({onRegister}) => {
     )
 }
 
-const mapStateToProps = (state, {materials}) => ({
+const mapStateToProps = (state) => ({
     user: state.login.currentUser,
   })
   
   const mapDispatchToProps = (dispatch) => ({
-    onRegister: UserRegister(dispatch)
+    onLogin: UserLogin(dispatch),
+    onResetPassword: ResetPassword(dispatch),
+    getLoggedUser: CheckUser(dispatch),
   })
   
 export default connect(mapStateToProps, mapDispatchToProps)(ForgotPassword)

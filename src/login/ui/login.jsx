@@ -159,11 +159,16 @@ const Login = ({onLogin, getLoggedUser, user}) => {
                                         <div className="login-box">
                                             <div className="login-input"><TextField id="outlined-basic" label="Username" variant="outlined" name = "username" onChange = {setField}/></div>
                                             <div className="login-input"><TextField id="outlined-basic" label="Password" variant="outlined" type = "password" name = "password" onChange = {setField}/></div>
+                                            {user.auth === false ?
+                                              <div className = "login-error">{user.message}</div>
+                                              :
+                                              <div></div>
+                                            }
                                             <div>Not a user? <NavLink to="/register"> Register</NavLink> and get permission from a moderator!</div>
                                             <div>Forgot password? Click <NavLink to="/forgotPassword"> Forgot Password</NavLink> to reset your password!</div>
                                             <div className = "button-container">
-                                            <Button onClick = {()=>onLogin(fields)}className ="login-button"variant="outlined">Login</Button>
-                                            {Object.keys(user).length>0 ? <Redirect to="/"/> : <div></div>}
+                                            <Button onClick = {()=>onLogin(fields)} className ="login-button"variant="outlined">Login</Button>
+                                            {user.auth === true ? <Redirect to="/"/> : <div></div>}
                                             </div>
                                         </div>
                                     </div>
