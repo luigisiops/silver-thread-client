@@ -46,9 +46,6 @@ const league_spartanbold = {
 
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        background: theme.background,
-    },
     modal: {
         display: 'flex',
         alignItems: 'center',
@@ -62,7 +59,6 @@ const useStyles = makeStyles((theme) => ({
       },
       appBar: {
         borderRadius: 15,
-        // marginTop: '-25px',
         marginTop: '5px',
         marginBottom: '30px',
         display: 'flex',
@@ -138,7 +134,6 @@ const Login = ({onLogin, getLoggedUser, user}) => {
                     <Toolbar>
                     <img className={classes.image} src={logo} alt="logo" height="60" />
                     <Button color="inherit" onClick={handleOpen}>Login</Button>
-                    <Button color="inherit" onClick={handleClose}>Logout</Button>
                     </Toolbar>
                         <Modal
                             aria-labelledby="transition-modal-title"

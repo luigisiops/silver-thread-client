@@ -41,18 +41,10 @@ const useStyles = makeStyles((theme) => ({
     pos: {
       marginBottom: 12,
     },
-    pita: {
-        // display: "flex",
-        // marginLeft: 35,
-        // margin: (0, 'auto'),
-    },
     [theme.breakpoints.down('sm')]: {
       mainContainer: {
         flexDirection: 'column-reverse',
       },
-    //   heading: {
-    //     fontSize: '40px',
-    //   }
     }
   }));
 
@@ -60,6 +52,7 @@ const Dashboard = ({getLoggedUser}) => {
     const classes = useStyles();
     const theme = useTheme();
 
+<<<<<<< HEAD
     useEffect(() => {
       getLoggedUser()
       },[])
@@ -71,19 +64,20 @@ const Dashboard = ({getLoggedUser}) => {
                       <SalesBarChart/>
                   </Grid>
 */
+=======
+>>>>>>> c87f5ac8e4e53eba3d9ee19fa017d82e71e7b3bb
   return (
     <Container maxWidth="xlg">
           <Container maxWidth="50%">
               <Grid container className={classes.mainContainer} justify="space-evenly" alignItems="stretch" spacing={3}>
-
                   <Grid container item xs={12} sm={5} lg={20}>
                       <PtmSalesPieChart/>
                   </Grid>
                   <Grid container item xs={12} sm={5} lg={20}>
-                      <PieChart2/>
+                      <SalesBarChart/>
                   </Grid>
                   <Grid container item xs={12} sm={5} lg={20}>
-                      <SalesBarChart/>
+                      <PieChart2/>
                   </Grid>
               </Grid>
           </Container>
