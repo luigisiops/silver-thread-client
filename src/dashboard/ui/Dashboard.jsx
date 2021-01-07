@@ -7,12 +7,8 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 
 //Pages
-import PieChart from './PieChart'
-import BarChart from './BarChart'
-import BarChart2 from './BarChart2'
+
 import PieChart2 from './PieChart2'
-import LineGraph from './LineGraph';
-import SalesPieChart from './SalesPieChart'
 import PtmSalesPieChart from './PtmSalesPieChart'
 import SalesBarChart from './SalesBarChart'
 
