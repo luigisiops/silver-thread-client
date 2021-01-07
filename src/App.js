@@ -112,7 +112,7 @@ const NavTabs = ({onUserSignOut})=> {
           <LinkTab label={<span className={classes.label}>Materials</span>} href="/materials" {...a11yProps(1)} />
           <LinkTab label={<span className={classes.label}>Products</span>} href="/products" {...a11yProps(2)} />
           <LinkTab label={<span className={classes.label}>Sales</span>} href="/sales" {...a11yProps(3)} />
-          <LinkTab label={<span className={classes.label}>Logout</span>} href="/login" onClick = {()=>{onUserSignOut()}} {...a11yProps(4)} />
+          <LinkTab label={<span className={classes.label}>Logout</span>} href="/" onClick = {()=>{onUserSignOut()}} {...a11yProps(4)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>

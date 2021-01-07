@@ -56,7 +56,7 @@ const ForgotPasswordEmail = ({onLogin, getLoggedUser, user, onResetPassword}) =>
                     <div className="login-input"><TextField id="outlined-basic" label="email" variant="outlined" name = "email" type = "email" onChange = {setField} required/></div>
                     <div className = "button-container-email">
                         <NavLink to= "/">
-                            <Button className ="login-button" variant="outlined" onClick = {() => {SendEmail(fields)}}>Send Email</Button>
+                            <Button className ="login-button" variant="outlined" onClick = {() => {SendEmail(fields)}}>Send</Button>
                         </NavLink>
                         <div><NavLink to="/login"> Return to Login Page</NavLink></div>
                     </div>
