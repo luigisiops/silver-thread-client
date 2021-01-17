@@ -34,7 +34,6 @@ const PtmSalesPieChart = ({getSales, ptmSales}) => {
 
  let end_date = new Date()
  let start_date = getStartDate()
- console.log(start_date)
 
  const [selectedDate, setSelectedDate] = useState({
     start: start_date,
@@ -54,7 +53,7 @@ const PtmSalesPieChart = ({getSales, ptmSales}) => {
         let field = { x: `${category}: ${ptmSales[category].length} `, y: ptmSales[category].length}
         data.push(field)
       }
-      console.log(data)
+
       return (
         <Card className={classes.root}>
             <CardContent>

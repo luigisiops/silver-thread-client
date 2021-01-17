@@ -29,7 +29,6 @@ const SalesBarChart = ({productSales, getSales}) => {
 
  let end_date = new Date()
  let start_date = getStartDate()
- console.log(start_date)
 
  const [selectedDate, setSelectedDate] = useState({
     start: start_date,
