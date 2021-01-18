@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 import EditProduct from './EditProduct'
 import AddProducts from './AddProducts'
+import CopyProduct from './CopyProduct'
 import { GetProducts } from '../use-cases/getProducts'
 import { DeleteProduct } from '../use-cases/deleteProduct'
 import { exportCsv} from '../use-cases/excelProductsReports'
@@ -56,11 +57,23 @@ const EditProductModal = ({ closeEditModal, rowData }) => {
     )
 }
 
+const CopyProductModal = ({ closeCopyModal, rowData }) => {
+    return (
+        <div className="addProductModal">
+            <div className='closeIconButton'>
+                <IconButton variant="contained" onClick={() => closeCopyModal()}><HighlightOffIcon /></IconButton>
+            </div>
+            <CopyProduct productData={rowData} closeCopyModal={closeCopyModal}/>
+        </div>
+    )
+}
+
 
 const ProductsTable = ({ onGetProducts, products, onDeleteProduct, productDelete, productAdd, productEdit }) => {
 
     const [open, setOpen] = useState(false)
     const [openEdit, setOpenEdit] = useState(false)
+    const [openCopy, setOpenCopy] = useState(false)
     const [rowData, setRowData] = useState('')
 
     var tableData
@@ -94,6 +107,11 @@ const ProductsTable = ({ onGetProducts, products, onDeleteProduct, productDelete
 
     const closeEditModal = () => {
         setOpenEdit(false)
+    }
+
+
+    const closeCopyModal = () => {
+        setOpenCopy(false)
     }
 
     const classes = useStyles();
@@ -139,6 +157,20 @@ const ProductsTable = ({ onGetProducts, products, onDeleteProduct, productDelete
                 <EditProductModal className="modal" closeEditModal={closeEditModal} rowData={rowData} />
             </Popover>
 
+            <Popover
+                open={openCopy}
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                }}
+            >
+                <CopyProductModal className="modal" closeCopyModal={closeCopyModal} rowData={rowData} />
+            </Popover>
+
             <div className='productsMaterialTable'>
                 <MaterialTable
                     style={{ backgroundColor: '#FFFFFF' }}
@@ -171,7 +203,17 @@ const ProductsTable = ({ onGetProducts, products, onDeleteProduct, productDelete
                                 setRowData(rowData)
                                 setOpenEdit(true)                                
                             }
+                        },
+                        {
+                            icon: 'library_add',
+                            tooltip: 'Duplicate Product',
+                            onClick: (event, rowData) => {                        
+                                setRowData(rowData)
+                                // setOpenEdit(true)
+                                setOpenCopy(true)                                   
+                            }
                         }
+
                     ]}
                     editable={{
                         onRowDelete: oldData =>
